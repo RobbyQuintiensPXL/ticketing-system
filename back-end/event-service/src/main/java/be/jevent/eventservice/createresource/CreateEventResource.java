@@ -22,4 +22,12 @@ public class CreateEventResource {
     public String getEventType() {
         return eventType.toUpperCase();
     }
+
+    @Override
+    public String toString() {
+        return "CreateEventResource{" +
+                "eventName='" + eventName + '\'' +
+                ", eventType='" + eventType + '\'' +
+                '}';
+    }
 }

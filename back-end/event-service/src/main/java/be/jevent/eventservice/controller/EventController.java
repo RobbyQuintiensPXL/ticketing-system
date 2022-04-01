@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Locale;
 
 @RestController
 @RequestMapping(value = "events")
@@ -20,15 +21,15 @@ public class EventController {
     private EventService eventService;
 
     @GetMapping
-    public ResponseEntity<List<EventDTO>> getAllEvents(){
+    public ResponseEntity<List<EventDTO>> getAllEvents() {
         List<EventDTO> eventDTOList = eventService.getAllEvents();
         return new ResponseEntity<>(eventDTOList, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<Void> addEvent(@RequestBody @Valid CreateEventResource eventResource){
-        eventService.addEvent(eventResource);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    public ResponseEntity<String> createEvent(@RequestBody @Valid CreateEventResource eventResource,
+                                              @RequestHeader(value = "Accept-Language", required = false) Locale locale) {
+        return ResponseEntity.ok(eventService.createEvent(eventResource, locale));
     }
 
 }
