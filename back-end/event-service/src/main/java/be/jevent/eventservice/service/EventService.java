@@ -32,7 +32,7 @@ public class EventService {
     }
 
     public String createEvent(CreateEventResource eventResource, Locale locale){
-        String responseMessage = null;
+        String responseMessage;
         if(EventType.forName(eventResource.getEventType()) == null){
             throw new EventException("Event type " + eventResource.getEventType() + " not found");
         }

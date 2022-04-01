@@ -22,8 +22,7 @@ public class EventController {
 
     @GetMapping
     public ResponseEntity<List<EventDTO>> getAllEvents() {
-        List<EventDTO> eventDTOList = eventService.getAllEvents();
-        return new ResponseEntity<>(eventDTOList, HttpStatus.OK);
+        return new ResponseEntity<>(eventService.getAllEvents(), HttpStatus.OK);
     }
 
     @PostMapping

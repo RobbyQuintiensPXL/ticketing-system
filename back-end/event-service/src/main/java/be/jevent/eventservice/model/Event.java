@@ -1,6 +1,7 @@
 package be.jevent.eventservice.model;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Table(name = "events")
 @Entity
@@ -16,6 +17,17 @@ public class Event {
     @Column(name = "event_type")
     @Enumerated(EnumType.STRING)
     private EventType eventType;
+
+    @Column(name = "short_description")
+    private String shortDescription;
+
+    private String description;
+
+    @Column(name = "event_date")
+    private Date eventDate;
+
+    @ManyToOne
+    private Location location;
 
     public Event(){
         //Empty constructor
