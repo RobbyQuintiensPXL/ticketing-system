@@ -1,0 +1,34 @@
+package be.jevent.eventservice.controller;
+
+import be.jevent.eventservice.createresource.CreateEventResource;
+import be.jevent.eventservice.dto.EventDTO;
+import be.jevent.eventservice.service.EventService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.List;
+
+@RestController
+@RequestMapping(value = "events")
+public class EventController {
+
+    @Autowired
+    private EventService eventService;
+
+    @GetMapping
+    public ResponseEntity<List<EventDTO>> getAllEvents(){
+        List<EventDTO> eventDTOList = eventService.getAllEvents();
+        return new ResponseEntity<>(eventDTOList, HttpStatus.OK);
+    }
+
+    @PostMapping
+    public ResponseEntity<Void> addEvent(@RequestBody @Valid CreateEventResource eventResource){
+        eventService.addEvent(eventResource);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+}
