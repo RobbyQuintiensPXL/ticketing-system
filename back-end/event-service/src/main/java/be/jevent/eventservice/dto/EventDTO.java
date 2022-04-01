@@ -1,17 +1,20 @@
 package be.jevent.eventservice.dto;
 
 import be.jevent.eventservice.model.Event;
+import be.jevent.eventservice.model.Location;
 
 public class EventDTO {
 
     private final Long id;
     private final String eventName;
     private final String eventType;
+    private final Location location;
 
     public EventDTO(Event event){
         this.id = event.getId();
         this.eventName = event.getEventName();
         this.eventType = event.getEventType().getType();
+        this.location = event.getLocation();
     }
 
     public Long getId() {
@@ -24,5 +27,9 @@ public class EventDTO {
 
     public String getEventType() {
         return eventType;
+    }
+
+    public Location getLocation() {
+        return location;
     }
 }
