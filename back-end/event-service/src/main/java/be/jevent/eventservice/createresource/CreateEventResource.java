@@ -10,6 +10,7 @@ public class CreateEventResource {
     @NotNull
     private final String eventType;
 
+
     public CreateEventResource(@NotNull String eventName, @NotNull String eventType){
         this.eventName = eventName;
         this.eventType = eventType;
