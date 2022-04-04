@@ -31,6 +31,23 @@ public class EventService {
         return eventDTOList;
     }
 
+    public List<EventDTO> getAllEventsByType(EventType type){
+        List<EventDTO> eventDTOList = eventRepository.findAllByEventType(type).stream().map(EventDTO::new).collect(Collectors.toList());
+        if(eventDTOList.isEmpty()){
+            throw new EventException("No events found for " + type.getType());
+        }
+        return eventDTOList;
+    }
+
+    public List<EventDTO> getAllEventsByTypeAndCity(EventType type, String city){
+        List<EventDTO> eventDTOList = eventRepository.findAllByEventType_AndLocation_City(type, city)
+                .stream().map(EventDTO::new).collect(Collectors.toList());
+        if(eventDTOList.isEmpty()){
+            throw new EventException("No events found for " + type.getType() + " in " + city);
+        }
+        return eventDTOList;
+    }
+
     public String createEvent(CreateEventResource eventResource, Locale locale){
         String responseMessage;
         if(EventType.forName(eventResource.getEventType()) == null){

@@ -4,5 +4,6 @@ spring:
   profiles:
     active: dev
   cloud:
-    config:
-      uri: http://configserver:8071
+    consul:
+      host: localhost
+      port: 8500
