@@ -1,6 +1,11 @@
 package be.jevent.eventservice.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Date;
 
 @Table(name = "events")
@@ -24,7 +29,10 @@ public class Event {
     private String description;
 
     @Column(name = "event_date")
-    private Date eventDate;
+    private LocalDate eventDate;
+
+    @Column(name = "event_time")
+    private LocalTime eventTime;
 
     @ManyToOne
     private Location location;
@@ -73,12 +81,20 @@ public class Event {
         this.description = description;
     }
 
-    public Date getEventDate() {
+    public LocalDate getEventDate() {
         return eventDate;
     }
 
-    public void setEventDate(Date eventDate) {
+    public void setEventDate(LocalDate eventDate) {
         this.eventDate = eventDate;
+    }
+
+    public LocalTime getEventTime() {
+        return eventTime;
+    }
+
+    public void setEventTime(LocalTime eventTime) {
+        this.eventTime = eventTime;
     }
 
     public Location getLocation() {
