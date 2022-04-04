@@ -1,6 +1,9 @@
 package be.jevent.eventservice.dto;
 
 import be.jevent.eventservice.model.Location;
+import be.jevent.eventservice.model.TicketOffice;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 public class LocationDTO {
 
@@ -10,6 +13,7 @@ public class LocationDTO {
     private final String city;
     private final String address;
     private final String country;
+    //private final TicketOffice ticketOffice;
 
     public LocationDTO(Location location){
         this.id = location.getId();
@@ -18,6 +22,7 @@ public class LocationDTO {
         this.city = location.getCity();
         this.address = location.getAddress();
         this.country = location.getCountry();
+        //this.ticketOffice = location.getTicketOffice();
     }
 
     public Long getId() {
@@ -43,4 +48,8 @@ public class LocationDTO {
     public String getCountry() {
         return country;
     }
+
+//    public TicketOffice getTicketOffice() {
+//        return ticketOffice;
+//    }
 }

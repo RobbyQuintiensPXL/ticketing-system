@@ -2,6 +2,7 @@ package be.jevent.eventservice.dto;
 
 import be.jevent.eventservice.model.Event;
 import be.jevent.eventservice.model.Location;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 public class EventDTO {
 

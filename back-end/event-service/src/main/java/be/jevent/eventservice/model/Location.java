@@ -26,6 +26,9 @@ public class Location {
 
     private String country;
 
+    @ManyToOne
+    private TicketOffice ticketOffice;
+
     public Location() {
         //Empty Contstructor
     }
@@ -76,5 +79,13 @@ public class Location {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public TicketOffice getTicketOffice() {
+        return ticketOffice;
+    }
+
+    public void setTicketOffice(TicketOffice ticketOffice) {
+        this.ticketOffice = ticketOffice;
     }
 }
