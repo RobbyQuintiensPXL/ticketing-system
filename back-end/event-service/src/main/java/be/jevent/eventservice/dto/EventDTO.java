@@ -2,20 +2,23 @@ package be.jevent.eventservice.dto;
 
 import be.jevent.eventservice.model.Event;
 import be.jevent.eventservice.model.Location;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 public class EventDTO {
 
     private final Long id;
     private final String eventName;
     private final String eventType;
-    private final Location location;
+    private final LocationDTO location;
+
+    public LocationDTO getLocationDTO(Location location){
+        return new LocationDTO(location);
+    }
 
     public EventDTO(Event event){
         this.id = event.getId();
         this.eventName = event.getEventName();
         this.eventType = event.getEventType().getType();
-        this.location = event.getLocation();
+        this.location = getLocationDTO(event.getLocation());
     }
 
     public Long getId() {
@@ -30,7 +33,7 @@ public class EventDTO {
         return eventType;
     }
 
-    public Location getLocation() {
+    public LocationDTO getLocation() {
         return location;
     }
 }
