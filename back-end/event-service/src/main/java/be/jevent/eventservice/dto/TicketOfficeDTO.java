@@ -11,7 +11,6 @@ public class TicketOfficeDTO {
 
     private final Long id;
     private final String organisation;
-    //@JsonBackReference
     private final Set<LocationDTO> locations;
 
     public TicketOfficeDTO(TicketOffice ticketOffice){

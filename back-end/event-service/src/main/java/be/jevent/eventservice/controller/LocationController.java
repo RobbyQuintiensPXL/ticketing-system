@@ -24,10 +24,16 @@ public class LocationController {
         return new ResponseEntity<>(locationService.getAllLocations(), HttpStatus.OK);
     }
 
-    @PostMapping
+    @PostMapping(value = "{id}/add_location")
     public ResponseEntity<String> createLocation(@RequestBody @Valid CreateLocationResource locationResource,
+                                                 @PathVariable("id") Long id,
                                                  @RequestHeader(value = "Accept-Language", required = false) Locale locale){
-        return ResponseEntity.ok(locationService.createLocation(locationResource, locale));
+        return ResponseEntity.ok(locationService.createLocation(locationResource, locale, id));
+    }
+
+    @GetMapping(value = "{id}")
+    public ResponseEntity<List<LocationDTO>> getLocationsByTicketOffice(@PathVariable("id") Long id){
+        return new ResponseEntity<>(locationService.getLocationsByTicketOffice(id), HttpStatus.OK);
     }
 
 }

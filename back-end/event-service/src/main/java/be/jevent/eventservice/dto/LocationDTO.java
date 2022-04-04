@@ -13,7 +13,7 @@ public class LocationDTO {
     private final String city;
     private final String address;
     private final String country;
-    //private final TicketOffice ticketOffice;
+    private final String ticketOffice;
 
     public LocationDTO(Location location){
         this.id = location.getId();
@@ -22,7 +22,7 @@ public class LocationDTO {
         this.city = location.getCity();
         this.address = location.getAddress();
         this.country = location.getCountry();
-        //this.ticketOffice = location.getTicketOffice();
+        this.ticketOffice = location.getTicketOffice().getOrganisation();
     }
 
     public Long getId() {
@@ -49,7 +49,7 @@ public class LocationDTO {
         return country;
     }
 
-//    public TicketOffice getTicketOffice() {
-//        return ticketOffice;
-//    }
+    public String getTicketOffice() {
+        return ticketOffice;
+    }
 }
