@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    password: mysql
+    username: root
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/jevent_event_dev
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update

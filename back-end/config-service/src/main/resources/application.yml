@@ -5,3 +5,12 @@ spring:
     config:
       server:
         git:
+          uri: https://github.com/RobbyQuintiensPXL/ticketing-system/tree/main/back-end/configuration/
+          default-label: main
+          search-paths: '{application}'
+      enabled: false
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
