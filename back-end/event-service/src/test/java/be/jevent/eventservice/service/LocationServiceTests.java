@@ -97,6 +97,4 @@ public class LocationServiceTests {
         assertEquals("No locations found for id " + id, thrown.getMessage());
     }
 
-
-
 }

@@ -17,6 +17,8 @@ public class EventDTO {
     private final LocalDate eventDate;
     @JsonFormat(pattern = "HH:mm:ss")
     private final LocalTime eventTime;
+    private final String description;
+    private final String shortDescription;
 
     public LocationDTO getLocationDTO(Location location) {
         return new LocationDTO(location);
@@ -29,6 +31,8 @@ public class EventDTO {
         this.location = getLocationDTO(event.getLocation());
         this.eventDate = event.getEventDate();
         this.eventTime = event.getEventTime();
+        this.description = event.getDescription();
+        this.shortDescription = event.getShortDescription();
     }
 
     public Long getId() {
@@ -53,5 +57,13 @@ public class EventDTO {
 
     public LocalTime getEventTime() {
         return eventTime;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getShortDescription() {
+        return shortDescription;
     }
 }
