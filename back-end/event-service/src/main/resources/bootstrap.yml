@@ -2,7 +2,7 @@ spring:
   application:
     name: event-service
   config:
-    import: optional:configserver:http://localhost:8071
+    import: optional:configserver:http://config:8071
   profiles:
     active: dev
 

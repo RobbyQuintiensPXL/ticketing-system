@@ -1,0 +1,13 @@
+version: '3.7'
+services:
+  config:
+    image: config-service:0.0.1-SNAPSHOT
+    ports:
+    - 8071:8071
+  discovery:
+    image: consul
+  event-service:
+    image: event-service:0.0.1-SNAPSHOT
+    ports:
+    - 8081:8081
+
