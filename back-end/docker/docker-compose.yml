@@ -2,19 +2,15 @@ version: '3.7'
 services:
   db:
     image: mysql:latest
-    ports:
-      - "3306:3306"
-    restart: always
+    command: ["--default-authentication-plugin=mysql_native_password"]
     environment:
-      MYSQL_DATABASE: 'jevent_event_dev'
-      MYSQL_USER: 'root'
-      MYSQL_PASSWORD: 'mysql'
-      MYSQL_ROOT_PASSWORD: 'mysql'
-    ports:
-      - '3306:3306'
+    - MYSQL_ROOT_PASSWORD=mysql
+    - MYSQL_PASSWORD=mysql
+    - MYSQL_DATABASE=jevent_event_dev
     volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-      - ./data.sql:/docker-entrypoint-initdb.d/data.sql
+        - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    expose:
+        - 3306
   config:
     image: config-service:0.0.1-SNAPSHOT
     ports:
@@ -26,7 +22,8 @@ services:
     image: event-service:0.0.1-SNAPSHOT
     ports:
     - 8081:8081
-
 volumes:
-    db:
-        driver: local
+  container-volume:
+networks:
+  backend:
+    driver: bridge
