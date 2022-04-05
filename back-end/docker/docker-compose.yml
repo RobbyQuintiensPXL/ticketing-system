@@ -1,13 +1,32 @@
 version: '3.7'
 services:
+  db:
+    image: mysql:latest
+    ports:
+      - "3306:3306"
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'jevent_event_dev'
+      MYSQL_USER: 'root'
+      MYSQL_PASSWORD: 'mysql'
+      MYSQL_ROOT_PASSWORD: 'mysql'
+    ports:
+      - '3306:3306'
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./data.sql:/docker-entrypoint-initdb.d/data.sql
   config:
     image: config-service:0.0.1-SNAPSHOT
     ports:
     - 8071:8071
-  discovery:
-    image: consul
+  consul:
+    image: consul:1.7
+    network_mode: host
   event-service:
     image: event-service:0.0.1-SNAPSHOT
     ports:
     - 8081:8081
 
+volumes:
+    db:
+        driver: local
