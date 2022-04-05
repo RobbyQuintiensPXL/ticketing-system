@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: event-service
+  config:
+    import: optional:configserver:http://localhost:8071
+  profiles:
+    active: dev
+server:
+  port: 8081

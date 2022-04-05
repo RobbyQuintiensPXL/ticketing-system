@@ -4,14 +4,14 @@ spring:
   application:
     name: configserver
   profiles:
-    active: native, git
+    active: git
   cloud:
     config:
       server:
-        native:
-          search-locations: classpath:/config
+#        native:
+#          search-locations: classpath:/config
         git:
-          uri: https://github.com/RobbyQuintiensPXL/ticketing-system/tree/main/back-end/configuration
+          uri: https://github.com/RobbyQuintiensPXL/ticket-system-config.git
           search-paths: event-service
 #Enable all Spring Boot Actuator endpoints.
 management:
