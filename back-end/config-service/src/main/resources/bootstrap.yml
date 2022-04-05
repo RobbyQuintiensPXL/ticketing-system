@@ -12,7 +12,7 @@ spring:
 #          search-locations: classpath:/config
         git:
           uri: https://github.com/RobbyQuintiensPXL/ticket-system-config.git
-          search-paths: event-service
+          search-paths: event-service, ticket-service
 #Enable all Spring Boot Actuator endpoints.
 management:
   endpoints:
