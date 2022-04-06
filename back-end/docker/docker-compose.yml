@@ -26,8 +26,7 @@ services:
     environment:
         PROFILE: "dev"
         CONFIG_URI: "http://config:8888"
-        CONFIG_PORT:   "8888"
-        DATABASESERVER_PORT: "3306"
+        CONFIG_PORT: "8888"
     depends_on:
         config:
             condition: service_started
