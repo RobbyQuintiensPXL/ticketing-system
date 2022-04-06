@@ -1,16 +1,10 @@
 spring:
   application:
     name: event-service
-  config:
-    import: optional:configserver:http://localhost:8071
   profiles:
     active: dev
   cloud:
-    consul:
-      host: 172.17.0.1
-      discovery:
-        prefer-ip-address: true
-        instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
-
+    config:
+      uri: http://config:8888
 server:
-  port: 0
+  port: 8081

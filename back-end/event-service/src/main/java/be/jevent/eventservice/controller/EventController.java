@@ -35,7 +35,7 @@ public class EventController {
     @PostMapping
     public ResponseEntity<String> createEvent(@RequestBody @Valid CreateEventResource eventResource,
                                               @RequestHeader(value = "Accept-Language", required = false) Locale locale) {
-        return ResponseEntity.ok(eventService.createEvent(eventResource, locale));
+        return new ResponseEntity<>(eventService.createEvent(eventResource, locale), HttpStatus.CREATED);
     }
 
 }

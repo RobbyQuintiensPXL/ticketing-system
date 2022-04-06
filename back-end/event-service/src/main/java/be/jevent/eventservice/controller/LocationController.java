@@ -28,7 +28,7 @@ public class LocationController {
     public ResponseEntity<String> createLocation(@RequestBody @Valid CreateLocationResource locationResource,
                                                  @PathVariable("id") Long id,
                                                  @RequestHeader(value = "Accept-Language", required = false) Locale locale){
-        return ResponseEntity.ok(locationService.createLocation(locationResource, locale, id));
+        return new ResponseEntity<>(locationService.createLocation(locationResource, locale, id), HttpStatus.CREATED);
     }
 
     @GetMapping(value = "{id}")

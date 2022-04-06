@@ -1,5 +1,5 @@
 server:
-  port: 8071
+  port: 8888
 spring:
   application:
     name: configserver
@@ -8,11 +8,11 @@ spring:
   cloud:
     config:
       server:
-#        native:
-#          search-locations: classpath:/config
+        #        native:
+        #          search-locations: classpath:/config
         git:
-          uri: https://github.com/RobbyQuintiensPXL/ticket-system-config.git
-          search-paths: event-service, ticket-service
+          uri: https://github.com/RobbyQuintiensPXL/ticket-system-config
+          search-paths: '{application}'
 #Enable all Spring Boot Actuator endpoints.
 management:
   endpoints:
