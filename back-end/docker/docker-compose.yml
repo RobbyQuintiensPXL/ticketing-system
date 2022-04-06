@@ -10,6 +10,7 @@ services:
       - '3307:3307'
     volumes:
         - ./init.sql:/docker-entrypoint-initdb.d/1-init.sql
+        - ./data.sql:/docker-entrypoint-initdb.d/1-data.sql
   config:
     image: config-service:0.0.1-SNAPSHOT
     ports:
@@ -28,6 +29,8 @@ services:
         CONFIG_URI: "http://config:8888"
         CONFIG_PORT: "8888"
     depends_on:
+        database:
+            condition: service_completed_successfully
         config:
             condition: service_started
     networks:
