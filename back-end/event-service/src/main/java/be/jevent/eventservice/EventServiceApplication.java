@@ -12,6 +12,7 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import java.util.Locale;
 
 @SpringBootApplication
+@RefreshScope
 public class EventServiceApplication {
 
     public static void main(String[] args) {

@@ -14,6 +14,12 @@ COPY ${JAR_FILE} application.jar
 
 RUN java -Djarmode=layertools -jar application.jar extract
 
+
+# Wait Tool
+ENV WAIT_VERSION 2.7.2
+ADD https://github.com/ufoscout/docker-compose-wait/releases/download/$WAIT_VERSION/wait /wait
+RUN chmod +x /wait
+
 # STAGE 2
 FROM openjdk:11-slim
 WORKDIR application

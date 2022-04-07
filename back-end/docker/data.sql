@@ -1,5 +1,5 @@
-insert into ticket_offices (id, organisation)
-values  (1, 'Test');
+INSERT INTO TICKET_OFFICES (id, organisation)
+VALUES (1, 'Test');
 
 insert into locations (id, address, building_name, city, country, zip_code, ticket_office_id)
 values  (1, 'Adres1', 'Building1', 'Hasselt', 'Belgium', 3500, 1),

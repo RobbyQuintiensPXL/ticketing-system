@@ -6,6 +6,7 @@ spring:
   cloud:
     config:
       uri: http://config:8888
+      fail-fast: true
       retry:
         initialInterval: 3000
         multiplier: 1.3

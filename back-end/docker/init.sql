@@ -1,3 +1,5 @@
+CREATE DATABASE if not exists jevent_event_dev;
+
 USE jevent_event_dev;
 
 create table ticket_offices
@@ -32,4 +34,6 @@ create table events
     constraint FK7a9tiyl3gaugxrtjc2m97awui
         foreign key (location_id) references locations (id)
 );
+
+INSERT INTO ticket_offices (id, organisation) VALUES (1, 'Test');
 
