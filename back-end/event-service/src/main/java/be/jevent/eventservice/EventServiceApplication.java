@@ -13,6 +13,7 @@ import java.util.Locale;
 
 @SpringBootApplication
 @RefreshScope
+@EnableDiscoveryClient
 public class EventServiceApplication {
 
     public static void main(String[] args) {

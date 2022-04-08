@@ -8,14 +8,19 @@ spring:
   cloud:
     config:
       server:
-        #        native:
-        #          search-locations: classpath:/config
         git:
           uri: https://github.com/RobbyQuintiensPXL/ticket-system-config
           search-paths: '{application}'
+    consul:
+      discovery:
+        prefer-ip-address: true
+        instance-id: "${spring.cloud.client.hostname}:${spring.application.name}:${random.int[1,99999]}"
+
 #Enable all Spring Boot Actuator endpoints.
 management:
   endpoints:
     web:
       exposure:
-        include: "*"
+        include: refresh,health
+
+

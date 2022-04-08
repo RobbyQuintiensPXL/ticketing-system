@@ -35,5 +35,9 @@ create table events
         foreign key (location_id) references locations (id)
 );
 
-INSERT INTO ticket_offices (id, organisation) VALUES (1, 'Test');
+INSERT INTO TICKET_OFFICES (id, organisation)
+VALUES (1, 'Test');
+
+
+
 
