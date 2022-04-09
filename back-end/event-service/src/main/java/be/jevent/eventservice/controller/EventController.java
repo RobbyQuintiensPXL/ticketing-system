@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.integration.annotation.Publisher;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -20,6 +21,7 @@ public class EventController {
 
     @Autowired
     private EventService eventService;
+
 
     @GetMapping
     public ResponseEntity<List<EventDTO>> getAllEvents() {
@@ -36,6 +38,11 @@ public class EventController {
     public ResponseEntity<String> createEvent(@RequestBody @Valid CreateEventResource eventResource,
                                               @RequestHeader(value = "Accept-Language", required = false) Locale locale) {
         return new ResponseEntity<>(eventService.createEvent(eventResource, locale), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/archive")
+    public void sendMessageToKafkaTopic(@RequestParam("message") String message){
+        eventService.sendMessage(message);
     }
 
 }

@@ -9,8 +9,11 @@ import be.jevent.eventservice.model.EventType;
 import be.jevent.eventservice.model.Location;
 import be.jevent.eventservice.repository.EventRepository;
 import be.jevent.eventservice.repository.LocationRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +24,9 @@ import java.util.stream.Collectors;
 @Service
 public class EventService {
 
+    private final static Logger LOGGER = LoggerFactory.getLogger(EventService.class);
+    private static final String TOPIC = "test";
+
     @Autowired
     private EventRepository eventRepository;
 
@@ -30,48 +36,51 @@ public class EventService {
     @Autowired
     private MessageSource messageSource;
 
-    public List<EventDTO> getAllEvents(){
+    @Autowired
+    private KafkaTemplate<String, String> kafkaTemplate;
+
+    public List<EventDTO> getAllEvents() {
         List<EventDTO> eventDTOList = eventRepository.findAll().stream().map(EventDTO::new).collect(Collectors.toList());
-        if(eventDTOList.isEmpty()){
+        if (eventDTOList.isEmpty()) {
             throw new EventException("No events found");
         }
         return eventDTOList;
     }
 
-    public List<EventDTO> getAllEventsByType(EventType type){
+    public List<EventDTO> getAllEventsByType(EventType type) {
         List<EventDTO> eventDTOList = eventRepository.findAllByEventType(type).stream().map(EventDTO::new).collect(Collectors.toList());
-        if(eventDTOList.isEmpty()){
+        if (eventDTOList.isEmpty()) {
             throw new EventException("No events found for " + type.getType());
         }
         return eventDTOList;
     }
 
-    public List<EventDTO> getAllEventsByTypeAndCity(EventType type, String city){
+    public List<EventDTO> getAllEventsByTypeAndCity(EventType type, String city) {
         List<EventDTO> eventDTOList = eventRepository.findAllByEventType_AndLocation_City(type, city)
                 .stream().map(EventDTO::new).collect(Collectors.toList());
-        if(eventDTOList.isEmpty()){
+        if (eventDTOList.isEmpty()) {
             throw new EventException("No events found for " + type.getType() + " in " + city);
         }
         return eventDTOList;
     }
 
-    public EventDTO getEventById(Long id){
+    public EventDTO getEventById(Long id) {
         Optional<EventDTO> eventDTO = eventRepository.findById(id).map(EventDTO::new);
-        if(eventDTO.isEmpty()){
+        if (eventDTO.isEmpty()) {
             throw new EventException("Event not found");
         }
         return eventDTO.get();
     }
 
-    public String createEvent(CreateEventResource eventResource, Locale locale){
+    public String createEvent(CreateEventResource eventResource, Locale locale) {
         String responseMessage;
 
-        if(EventType.forName(eventResource.getEventType()) == null){
+        if (EventType.forName(eventResource.getEventType()) == null) {
             throw new EventException("Event type " + eventResource.getEventType() + " not found");
         }
 
         Optional<Location> location = locationRepository.findById((long) eventResource.getLocationId());
-        if(location.isEmpty()){
+        if (location.isEmpty()) {
             throw new LocationException("Location not found");
         }
 
@@ -91,6 +100,11 @@ public class EventService {
         eventRepository.save(event);
 
         return responseMessage;
+    }
+
+    public void sendMessage(String message) {
+        LOGGER.info(String.format("$$ -> Producing message --> %s", message));
+        this.kafkaTemplate.send(TOPIC,message);
     }
 
 }

@@ -1,10 +1,16 @@
 spring:
   application:
     name: ticket-service
-  config:
-    import: optional:configserver:http://localhost:8071
   profiles:
     active: dev
-
+  cloud:
+    config:
+      uri: http://localhost:8888
+      fail-fast: true
+      retry:
+        initialInterval: 3000
+        multiplier: 1.3
+        maxInterval: 10000
+        maxAttempts: 20
 server:
   port: 8082
