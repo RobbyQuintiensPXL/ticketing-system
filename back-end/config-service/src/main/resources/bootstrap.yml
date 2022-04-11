@@ -14,7 +14,7 @@ spring:
     consul:
       discovery:
         prefer-ip-address: true
-        instance-id: "${spring.cloud.client.hostname}:${spring.application.name}:${random.int[1,99999]}"
+        instance-id: "${spring.application.name}:${random.int[1,99999]}"
 
 #Enable all Spring Boot Actuator endpoints.
 management:

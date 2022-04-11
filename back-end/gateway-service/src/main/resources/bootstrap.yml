@@ -1,8 +1,10 @@
 spring:
+  application:
+    name: api-gateway
   cloud:
     consul:
       discovery:
-        instance-id: "${spring.cloud.client.hostname}:${spring.application.name}:${random.int[1,99999]}"
+        instance-id: "${spring.application.name}:${random.int[1,99999]}"
         register: false
         register-health-check: false
         tags: api-gateway
