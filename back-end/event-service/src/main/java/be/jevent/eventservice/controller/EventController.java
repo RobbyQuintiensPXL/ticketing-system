@@ -28,6 +28,11 @@ public class EventController {
         return new ResponseEntity<>(eventService.getAllEvents(), HttpStatus.OK);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<EventDTO> getEventById(@PathVariable("id") Long id){
+        return new ResponseEntity<>(eventService.getEventById(id), HttpStatus.OK);
+    }
+
     @GetMapping("/search/{type}")
     public ResponseEntity<List<EventDTO>> getEventsByType(@PathVariable("type") String type){
         return new ResponseEntity<>(eventService.getAllEventsByType(EventType.valueOf(type.toUpperCase())), HttpStatus.OK);

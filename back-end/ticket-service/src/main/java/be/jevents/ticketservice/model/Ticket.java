@@ -16,5 +16,23 @@ public class Ticket {
 
     //paymentStatus
 
+    public Ticket(){
+        //Empty Constructor
+    }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public int getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(int eventId) {
+        this.eventId = eventId;
+    }
 }
