@@ -8,10 +8,10 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.kafka.annotation.EnableKafka;
 
 @SpringBootApplication
-@EnableKafka
+//@EnableKafka
 @RefreshScope
 @EnableDiscoveryClient
-@EnableFeignClients
+//@EnableFeignClients
 public class TicketServiceApplication {
 
     public static void main(String[] args) {

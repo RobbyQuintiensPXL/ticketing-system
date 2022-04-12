@@ -22,21 +22,21 @@ public class TicketService {
     @Autowired
     private EventDiscoveryClient eventDiscoveryClient;
 
-    @Autowired
-    private EventFeignClient feignClient;
+//    @Autowired
+//    private EventFeignClient feignClient;
 
     private Event event;
 
     public Event getEventInfo(Long eventId){
-        event = feignClient.getEvent(eventId);
+        event = eventDiscoveryClient.getEvent(eventId);
         return event;
     }
-
-
-    @KafkaListener(topics = "test", groupId = "archived")
-    public void consume(String message){
-        LOGGER.info(String.format("$$ -> Consumed message -> %s", message));
-    }
+//
+//
+//    @KafkaListener(topics = "test", groupId = "archived")
+//    public void consume(String message){
+//        LOGGER.info(String.format("$$ -> Consumed message -> %s", message));
+//    }
 
 
 }

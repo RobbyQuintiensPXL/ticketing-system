@@ -1,6 +1,6 @@
-CREATE DATABASE if not exists jevent_event_dev;
+CREATE DATABASE if not exists jevents_event_dev;
 
-USE jevent_event_dev;
+USE jevents_event_dev;
 
 create table ticket_offices
 (

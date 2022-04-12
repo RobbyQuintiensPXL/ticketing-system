@@ -2,11 +2,9 @@ package be.jevents.ticketservice.model;
 
 import org.springframework.hateoas.RepresentationModel;
 
-import javax.persistence.Id;
 
 public class Event extends RepresentationModel<Event> {
 
-    @Id
     private Long id;
     private String eventName;
 

@@ -12,8 +12,3 @@ spring:
         multiplier: 1.3
         maxInterval: 10000
         maxAttempts: 20
-  kafka:
-    producer:
-      bootstrap-servers: localhost:9092
-      key-serializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-serializer: org.springframework.kafka.support.serializer.JsonDeserializer
