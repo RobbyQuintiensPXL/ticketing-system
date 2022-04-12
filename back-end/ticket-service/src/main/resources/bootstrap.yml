@@ -4,9 +4,6 @@ spring:
   profiles:
     active: dev
   cloud:
-    consul:
-      host: consul
-      port: 8500
     config:
       uri: http://config:8888
       fail-fast: true
