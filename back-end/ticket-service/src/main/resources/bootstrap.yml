@@ -4,8 +4,11 @@ spring:
   profiles:
     active: dev
   cloud:
+    consul:
+      host: consul
+      port: 8500
     config:
-      uri: http://localhost:8888
+      uri: http://config:8888
       fail-fast: true
       retry:
         initialInterval: 3000

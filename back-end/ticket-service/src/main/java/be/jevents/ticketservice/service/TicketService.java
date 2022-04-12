@@ -2,6 +2,7 @@ package be.jevents.ticketservice.service;
 
 import be.jevents.ticketservice.model.Event;
 import be.jevents.ticketservice.repository.TicketRepository;
+import be.jevents.ticketservice.service.client.EventDiscoveryClient;
 import be.jevents.ticketservice.service.client.EventFeignClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,12 +20,15 @@ public class TicketService {
     private TicketRepository ticketRepository;
 
     @Autowired
-    private EventFeignClient eventFeignClient;
+    private EventDiscoveryClient eventDiscoveryClient;
+
+    @Autowired
+    private EventFeignClient feignClient;
 
     private Event event;
 
     public Event getEventInfo(Long eventId){
-        event = eventFeignClient.getEvent(eventId);
+        event = feignClient.getEvent(eventId);
         return event;
     }
 

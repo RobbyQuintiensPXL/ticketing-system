@@ -18,7 +18,6 @@ import java.util.Locale;
 @SpringBootApplication
 @RefreshScope
 @EnableDiscoveryClient
-@EnableAsync
 public class EventServiceApplication {
 
     public static void main(String[] args) {

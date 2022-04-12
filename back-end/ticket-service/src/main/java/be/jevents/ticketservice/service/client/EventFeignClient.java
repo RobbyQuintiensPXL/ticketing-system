@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-@FeignClient("localhost:51602")
+@FeignClient("event-service:8081")
 public interface EventFeignClient {
 
     @RequestMapping(

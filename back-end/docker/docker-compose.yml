@@ -4,11 +4,26 @@ services:
         image: config-service:0.0.1-SNAPSHOT
         restart: always
         ports:
-            - "8888:8888"  
+            - "8888:8888"
+        depends_on:
+            - consul
+    gateway:
+        image: gateway-service:0.0.1-SNAPSHOT
+        restart: always
+        ports:
+            - "9080:9080"
+        depends_on:
+            - consul
     event-service:
         image: event-service:0.0.1-SNAPSHOT
         ports:
             - "8081:8081"
+        depends_on:
+            - consul
+    ticket-service:
+        image: ticket-service:0.0.1-SNAPSHOT
+        ports:
+            - "8082:8082"
         depends_on:
             - consul
     database:
@@ -21,4 +36,4 @@ services:
         image: consul:latest
         ports:
             - "8500:8500"
-        command: "agent -retry-join consul-server-bootstrap -client 0.0.0.0"
+        command: agent -server -ui -node=server1 -bootstrap-expect=1 -client=0.0.0.0

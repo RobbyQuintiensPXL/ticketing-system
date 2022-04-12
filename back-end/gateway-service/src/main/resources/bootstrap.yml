@@ -8,6 +8,7 @@ spring:
         register: false
         register-health-check: false
         tags: api-gateway
+      host: consul
       port: 8500
     gateway:
       discovery:
@@ -20,11 +21,18 @@ spring:
             - Path=/event/**
           filters:
             - RewritePath=/event/(?<path>.*), /$\{path}
-#        - id: ticket-service
-#          uri: lb://ticket-service
-#          predicates:
-#            - Path=/ticket/**
-#          filters:
-#            - RewritePath=/ticket/(?<path>.*), /$\{path}
+        - id: ticket-service
+          uri: lb://ticket-service
+          predicates:
+            - Path=/ticket/**
+          filters:
+            - RewritePath=/ticket/(?<path>.*), /$\{path}
+            - RemoveRequestHeader= Cookie,Set-Cookie
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
 server:
-  port: ${PORT:9080}
+  port: 9080

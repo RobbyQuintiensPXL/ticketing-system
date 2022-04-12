@@ -13,8 +13,9 @@ spring:
           search-paths: '{application}'
     consul:
       discovery:
-        prefer-ip-address: true
         instance-id: "${spring.application.name}:${random.int[1,99999]}"
+      host: consul
+      port: 8500
 
 #Enable all Spring Boot Actuator endpoints.
 management:
@@ -22,5 +23,3 @@ management:
     web:
       exposure:
         include: refresh,health
-
-
