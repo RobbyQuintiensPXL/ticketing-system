@@ -1,0 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Oxygen&display=swap');
+
+mat-toolbar{
+  background-color: #EF991B;
+  height: 150px;
+}
+
+
+mat-toolbar h1{
+  margin-left: 20px;
+  font-family: "Annie Use Your Telescope", sans-serif;
+}

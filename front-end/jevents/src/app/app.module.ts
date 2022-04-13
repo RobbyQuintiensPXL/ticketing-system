@@ -15,13 +15,15 @@ import {RouterModule} from '@angular/router';
 import {MatIconModule} from '@angular/material/icon';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {MatGridListModule} from '@angular/material/grid-list';
+import { FilterTypeComponent } from './components/filter-type/filter-type.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     HeaderComponent,
-    EventCardComponent
+    EventCardComponent,
+    FilterTypeComponent
   ],
   imports: [
     BrowserModule,

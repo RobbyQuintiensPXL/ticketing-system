@@ -1,6 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Oxygen&display=swap');
 
-
+#cardViews{
+  position: relative;
+}
 
 fa-icon{
   float: left;
@@ -8,6 +10,7 @@ fa-icon{
 }
 
 .example-card {
+  min-width: 170px;
   max-width: 170px;
   box-shadow: none;
   margin: 1rem;
@@ -36,7 +39,7 @@ fa-icon{
 }
 
 .tag{
-  background-color: orange;
+  background-color: #EF991B;
   border-radius: 10px;
   position: absolute;
   margin-top: -170px;
