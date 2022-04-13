@@ -1,7 +1,7 @@
 <div id="cardViews">
   <mat-grid-list cols="4" rowHeight="1:1">
     <mat-grid-tile *ngFor="let event of events" class="test">
-      <mat-card class="example-card">
+      <mat-card class="example-card" [routerLink]="['/events/', event.id]">
         <img mat-card-image class="eventThumb" src="https://material.angular.io/assets/img/examples/shiba2.jpg"
              alt="Photo of a Shiba Inu">
         <div class="tag">{{event.eventType}}</div>

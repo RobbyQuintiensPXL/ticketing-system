@@ -3,6 +3,7 @@ import {Event} from '../../entities/event/event';
 import {EventService} from '../../services/event.service';
 import {faSearchLocation} from '@fortawesome/free-solid-svg-icons';
 import {faCalendarAlt} from '@fortawesome/free-regular-svg-icons';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-event-card',
@@ -22,6 +23,10 @@ export class EventCardComponent implements OnInit {
       console.log(event);
       this.events = event;
     });
+  }
+
+  getEventById(id: number): Observable<Event>{
+    return this.eventService.getEventById(id);
   }
 
   ngOnInit(): void {

@@ -16,6 +16,8 @@ import {MatIconModule} from '@angular/material/icon';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {MatGridListModule} from '@angular/material/grid-list';
 import { FilterTypeComponent } from './components/filter-type/filter-type.component';
+import { EventDetailComponent } from './components/event-detail/event-detail.component';
+import {AppRoutes} from './app.routes';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,8 @@ import { FilterTypeComponent } from './components/filter-type/filter-type.compon
     HomeComponent,
     HeaderComponent,
     EventCardComponent,
-    FilterTypeComponent
+    FilterTypeComponent,
+    EventDetailComponent
   ],
   imports: [
     BrowserModule,
@@ -37,6 +40,8 @@ import { FilterTypeComponent } from './components/filter-type/filter-type.compon
     MatIconModule,
     FontAwesomeModule,
     MatGridListModule,
+    RouterModule,
+    AppRoutes
   ],
   providers: [EventService],
   bootstrap: [AppComponent]

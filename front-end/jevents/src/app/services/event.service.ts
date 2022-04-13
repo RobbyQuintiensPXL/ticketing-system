@@ -21,10 +21,10 @@ export class EventService {
     headers: new HttpHeaders({'Content-Type': 'application/json'})
   };
 
-  // public getEventById(id: number): Subscription {
-  //   const endpoint =  this.eventUrl + '/' + id;
-  //   return this.http.get<Event>(endpoint).subscribe(x => this.event = new Event(x));
-  // }
+  public getEventById(id: number): Observable<Event> {
+    const endpoint =  this.eventUrl + '/' + id;
+    return this.http.get<Event>(endpoint);
+  }
 
   public getEvents() {
     return this.http.get<Event[]>(this.eventUrl).pipe(
