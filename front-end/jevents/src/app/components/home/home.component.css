@@ -1,8 +1,11 @@
-.grid{
+.container {
   display: grid;
-  grid-template-rows: 50px 1fr;
-
-  grid-gap: 10px;
-  height: 100vh;
-  margin: 0;
+  grid-template-columns: 0.5fr 2fr;
+  grid-template-rows: 0.5fr 10fr;
+  gap: 0px 0px;
+  grid-template-areas:
+    ". filter filter"
+    ". cardview cardview";
 }
+.filter { grid-area: filter; }
+.cardview { grid-area: cardview;}

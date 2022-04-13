@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Oxygen&display=swap');
 
 #cardViews{
-  position: relative;
+  padding-top: 20px;
 }
 
 fa-icon{
@@ -9,12 +9,17 @@ fa-icon{
   margin-right: 0.7rem;
 }
 
+mat-grid-tile{
+  min-width: 170px;
+  padding: 0.5rem;
+}
+
 .example-card {
   min-width: 170px;
   max-width: 170px;
   box-shadow: none;
-  margin: 1rem;
   border-radius: 20px;
+  top:0;
 }
 
 .content {
