@@ -38,6 +38,10 @@ public class Event implements Serializable {
     @ManyToOne
     private Location location;
 
+    private double price;
+
+    private boolean accepted;
+
     public Event(){
         //Empty constructor
     }
@@ -104,5 +108,21 @@ public class Event implements Serializable {
 
     public void setLocation(Location location) {
         this.location = location;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public boolean isAccepted() {
+        return accepted;
+    }
+
+    public void setAccepted(boolean accepted) {
+        this.accepted = accepted;
     }
 }

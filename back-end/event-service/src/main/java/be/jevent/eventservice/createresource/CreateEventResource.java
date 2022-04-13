@@ -34,10 +34,13 @@ public class CreateEventResource {
     @NotNull
     private final int locationId;
 
+    @NotNull
+    private final double price;
+
 
     public CreateEventResource(@NotNull String eventName, @NotNull String eventType, @NotNull String shortDescription,
                                @NotNull String description, @NotNull LocalDate eventDate, @NotNull LocalTime eventTime,
-                               @NotNull int locationId){
+                               @NotNull int locationId, @NotNull double price){
         this.eventName = eventName;
         this.eventType = eventType;
         this.shortDescription = shortDescription;
@@ -45,6 +48,7 @@ public class CreateEventResource {
         this.eventDate = eventDate;
         this.eventTime = eventTime;
         this.locationId = locationId;
+        this.price = price;
     }
 
     public String getEventName() {
@@ -83,6 +87,7 @@ public class CreateEventResource {
                 ", eventDate=" + eventDate +
                 ", eventTime=" + eventTime +
                 ", location='" + locationId + '\'' +
+                ", price='" + price + '\'' +
                 '}';
     }
 }

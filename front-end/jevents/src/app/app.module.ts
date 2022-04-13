@@ -8,6 +8,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatCardModule} from '@angular/material/card';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { EventCardComponent } from './components/event-card/event-card.component';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {EventService} from './services/event.service';
+import {HttpClientModule} from '@angular/common/http';
+import {RouterModule} from '@angular/router';
+import {MatIconModule} from '@angular/material/icon';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import {MatGridListModule} from '@angular/material/grid-list';
 
 @NgModule({
   declarations: [
@@ -20,9 +27,16 @@ import { EventCardComponent } from './components/event-card/event-card.component
     BrowserModule,
     BrowserAnimationsModule,
     MatCardModule,
-    MatToolbarModule
+    MatToolbarModule,
+    FormsModule,
+    HttpClientModule,
+    RouterModule,
+    ReactiveFormsModule,
+    MatIconModule,
+    FontAwesomeModule,
+    MatGridListModule,
   ],
-  providers: [],
+  providers: [EventService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

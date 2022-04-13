@@ -1,9 +1,13 @@
-<mat-card class="example-card">
-  <img mat-card-image class="eventThumb" src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
-  <div class="tag">Concert</div>
-  <mat-card-content>
-    <p>
-      The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
-    </p>
-  </mat-card-content>
-</mat-card>
+<mat-grid-list  cols="4" rowHeight="1:1">
+  <mat-grid-tile *ngFor="let event of events" class="test">
+    <mat-card class="example-card">
+      <img mat-card-image class="eventThumb" src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+      <div class="tag">{{event.eventType}}</div>
+      <mat-card-content class="content">
+        <h2>{{event.eventName}}</h2>
+        <fa-icon [icon]="faSearchLocation"></fa-icon><p>{{event.location.buildingName}}</p>
+        <fa-icon [icon]="faCalenderAlt"></fa-icon><p>{{event.eventDate}}</p>
+      </mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+</mat-grid-list>

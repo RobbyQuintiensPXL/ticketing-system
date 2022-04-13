@@ -1,26 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Oxygen&display=swap');
+
+
+
+fa-icon{
+  float: left;
+  margin-right: 0.7rem;
+}
+
 .example-card {
-  max-width: 175px;
+  max-width: 170px;
   box-shadow: none;
   margin: 1rem;
   border-radius: 20px;
 }
 
+.content {
+  margin-top: -20px;
+  margin-left: -10px;
+  color: #5E5E5E;
+}
+
+.content h2{
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  color: #000;
+}
+
+.content p{
+  font-family: "Poppins", sans-serif;
+  margin: 0.1rem 0 0 0 ;
+}
+
+.location{
+  height: 5px;
+}
+
 .tag{
   background-color: orange;
-  border-radius: 20px;
-  padding-left: 10px;
+  border-radius: 10px;
   position: absolute;
   margin-top: -170px;
   width: 75px;
+  text-align: center;
+  padding: 0.15rem 0 0.15rem 0 ;
+  color: #fff;
 }
 
 .eventThumb{
   border-radius: 20px 20px;
   overflow: hidden;
-  image-resolution: initial;
+  height: 170px;
 }
 
 .example-header-image {
   background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
-  background-size: cover;
+  background-size: auto;
 }

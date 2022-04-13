@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+import java.util.Objects;
 
 @Component
 public class EventDiscoveryClient {
@@ -36,7 +37,8 @@ public class EventDiscoveryClient {
                         serviceUri,
                         HttpMethod.GET,
                         null, Event.class, eventId);
-
+        Event event = new Event();
+        event.setEventName(Objects.requireNonNull(restExchange.getBody()).getEventName());
         return restExchange.getBody();
     }
 }
