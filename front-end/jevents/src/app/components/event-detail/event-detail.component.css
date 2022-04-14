@@ -5,6 +5,17 @@
   position: relative;
 }
 
+#tag{
+  background-color: #EF991B;
+  border-radius: 10px;
+  position: absolute;
+  width: 75px;
+  margin: 3.5rem 0 0 5rem;
+  text-align: center;
+  padding: 0.15rem 0 0.15rem 0 ;
+  color: #fff;
+}
+
 #header-image img{
   overflow: hidden;
   object-fit: none;
@@ -44,12 +55,11 @@ h3 {
   padding-left: 5rem;
   padding-top: 2rem;
   background-color: #F3F3F3;
-  height: auto;
   padding-bottom: 3rem;
+  height: 40%;
 }
 
 #content-description, #content-date{
-  width: 55%;
   margin-bottom: 3rem;
 }
 
@@ -59,5 +69,19 @@ h3 {
   font-weight: bold;
   font-size: 18px;
   margin-bottom: 1rem;
+}
+
+#content-tickets, #content-location{
+  float: right;
+  width: 35%;
+}
+
+#content-location, #content-date p {
+  line-height: 10px;
+}
+
+.content-container{
+  width: 55%;
+  float: left;
 }
 

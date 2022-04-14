@@ -1,7 +1,7 @@
 <div class="filterByType">
   <ul>
 
-      <li>All</li>
+      <li [routerLink]="['../search']" [queryParams]="{type: 'all'}">All</li>
 
       <li [routerLink]="['../search']" [queryParams]="{type: 'concert'}">Concerts</li>
 
