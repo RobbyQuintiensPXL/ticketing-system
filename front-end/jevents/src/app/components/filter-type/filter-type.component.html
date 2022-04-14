@@ -1,16 +1,16 @@
 <div class="filterByType">
   <ul>
-    <a>
-      <li>All</li>
-    </a>
-      <li >Concerts</li>
 
-      <li>Sports</li>
+      <li>All</li>
+
+      <li [routerLink]="['../search']" [queryParams]="{type: 'concert'}">Concerts</li>
+
+      <li [routerLink]="['../search']" [queryParams]="{type: 'sports'}">Sports</li>
 
       <li>Gaming</li>
 
       <li>Culture</li>
 
-      <li>Nightlife</li>
+      <li [routerLink]="['../search']" [queryParams]="{type: 'nightlife'}">Nightlife</li>
   </ul>
 </div>

@@ -11,8 +11,21 @@ const routes: Routes = [
   },
   {
     path: 'events/:id',
-    component: EventDetailComponent,
+    component: EventDetailComponent
+  },
+  {
+    path: 'search',
+    component: HomeComponent
   }
+  // {
+  //   path: 'events',
+  //   component: HomeComponent,
+  //   children: [
+  //     {path: 'search', component: HomeComponent},
+  //     {path: ':id', component: EventDetailComponent}
+  //   ]
+  // }
+
 ];
 
 export const AppRoutes = RouterModule.forRoot(routes, {relativeLinkResolution: 'legacy'});

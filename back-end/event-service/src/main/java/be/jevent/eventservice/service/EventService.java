@@ -102,6 +102,14 @@ public class EventService {
         return responseMessage;
     }
 
+    public String deleteEvent(Long id){
+        String responseMessage;
+
+        eventRepository.deleteById(id);
+
+        return "event deleted";
+    }
+
     public void sendMessage(String message) {
         LOGGER.info(String.format("$$ -> Producing message --> %s", message));
         this.kafkaTemplate.send(TOPIC,message);

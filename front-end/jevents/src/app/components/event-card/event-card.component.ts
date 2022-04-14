@@ -17,10 +17,15 @@ export class EventCardComponent implements OnChanges {
   faSearchLocation = faSearchLocation;
   faCalenderAlt = faCalendarAlt;
   @Input() type!: string;
+  typeString: string;
 
   constructor(private activatedRoute: ActivatedRoute,
               private eventService: EventService,
-              private router: Router) {
+              public router: Router) {
+    this.typeString = this.activatedRoute.snapshot.queryParamMap.get('type');
+    this.router.routeReuseStrategy.shouldReuseRoute = function() {
+      return false;
+    };
   }
 
   getEvents(): void {
@@ -32,15 +37,13 @@ export class EventCardComponent implements OnChanges {
   getEventsByType(type: string): void {
     this.eventService.getEventsByType(type).subscribe( event => {
       this.events = event;
-      console.log(this.type);
     });
   }
 
   ngOnChanges(): void {
-    this.getEvents();
-    // this.getEventsByType(this.type);
-
-
+    // this.getEvents();
+    this.typeString = this.activatedRoute.snapshot.queryParamMap.get('type');
+    this.getEventsByType(this.typeString);
   }
 
 }
