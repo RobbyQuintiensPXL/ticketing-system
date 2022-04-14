@@ -14,10 +14,15 @@ mat-grid-tile{
   overflow: visible;
 }
 
+mat-grid-list{
+  column-rule-style: inherit;
+}
+
 
 .example-card {
   min-width: 170px;
   max-width: 170px;
+  min-height: 200px;
   box-shadow: none;
   border-radius: 20px;
 }

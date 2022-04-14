@@ -24,7 +24,7 @@ export class EventDetailComponent implements OnInit {
   getEventById(id: number): Subscription{
     return this.eventService.getEventById(id).subscribe(event => {
       this.event = event;
-    })
+    });
   }
 
   ngOnInit(): void {

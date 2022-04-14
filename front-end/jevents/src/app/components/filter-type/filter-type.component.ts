@@ -1,7 +1,4 @@
-import {Component, OnInit, Output} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
-import {Event} from '../../entities/event/event';
-import {EventService} from '../../services/event.service';
+import {Component, Input, Output, EventEmitter, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-filter-type',
@@ -9,13 +6,19 @@ import {EventService} from '../../services/event.service';
   styleUrls: ['./filter-type.component.css']
 })
 export class FilterTypeComponent implements OnInit {
+  @Output() typeOutput = new EventEmitter<any>();
+  typeInput = '';
 
-  @Output() type: string;
 
   constructor() {
   }
 
+  msgType(type: string) {
+    this.typeOutput.emit(this.typeInput = type);
+  }
+
   ngOnInit(): void {
+
   }
 
 }

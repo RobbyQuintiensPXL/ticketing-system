@@ -5,6 +5,13 @@
   position: relative;
 }
 
+#header-image img{
+  overflow: hidden;
+  object-fit: none;
+  height: inherit;
+  width: 100%;
+}
+
 #header-info{
   position: absolute;
   margin-left: 5rem;
@@ -37,7 +44,8 @@ h3 {
   padding-left: 5rem;
   padding-top: 2rem;
   background-color: #F3F3F3;
-  height: 100%;
+  height: auto;
+  padding-bottom: 3rem;
 }
 
 #content-description, #content-date{
