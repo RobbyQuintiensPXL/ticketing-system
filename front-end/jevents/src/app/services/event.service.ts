@@ -14,7 +14,7 @@ export class EventService {
   event: Event;
 
   constructor(private http: HttpClient) {
-    this.eventUrl = 'http://localhost:8081/events';
+    this.eventUrl = 'http://localhost:9080/event/events';
   }
 
   httpOptions = {
@@ -24,6 +24,11 @@ export class EventService {
   public getEventById(id: number): Observable<Event> {
     const endpoint =  this.eventUrl + '/' + id;
     return this.http.get<Event>(endpoint);
+  }
+
+  public getEventsByType(type: string) {
+    const endpoint = this.eventUrl + '/search?type=' + type;
+    return this.http.get<Event[]>(endpoint);
   }
 
   public getEvents() {

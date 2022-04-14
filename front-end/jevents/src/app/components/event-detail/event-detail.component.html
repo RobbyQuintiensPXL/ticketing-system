@@ -1,1 +1,22 @@
-<p>event-detail works!</p>
+<div id="header-image">
+  <div id="header-info">
+    <h2>{{event.eventName}}</h2>
+    <h3>{{event.location.buildingName}} | {{event.location.city}}</h3>
+  </div>
+  <div id="header-date">
+    <h3>{{event.eventDate}}</h3>
+    <h4>{{event.eventTime}}</h4>
+  </div>
+</div>
+<div id="content">
+  <div id="content-description">
+    <h4>Description</h4>
+    <p>{{event.description}}</p>
+  </div>
+  <div id="content-date">
+    <h4>Date</h4>
+    <p>{{event.eventDate}}</p>
+    <p>{{event.eventTime}}</p>
+  </div>
+</div>
+

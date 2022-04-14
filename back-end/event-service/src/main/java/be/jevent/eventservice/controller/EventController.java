@@ -33,8 +33,8 @@ public class EventController {
         return new ResponseEntity<>(eventService.getEventById(id), HttpStatus.OK);
     }
 
-    @GetMapping("/search/{type}")
-    public ResponseEntity<List<EventDTO>> getEventsByType(@PathVariable("type") String type){
+    @GetMapping("/search")
+    public ResponseEntity<List<EventDTO>> getEventsByType(@RequestParam String type){
         return new ResponseEntity<>(eventService.getAllEventsByType(EventType.valueOf(type.toUpperCase())), HttpStatus.OK);
     }
 

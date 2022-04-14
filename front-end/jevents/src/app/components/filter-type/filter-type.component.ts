@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, Output} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {Event} from '../../entities/event/event';
+import {EventService} from '../../services/event.service';
 
 @Component({
   selector: 'app-filter-type',
@@ -7,7 +10,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FilterTypeComponent implements OnInit {
 
-  constructor() { }
+  @Output() type: string;
+
+  constructor() {
+  }
 
   ngOnInit(): void {
   }

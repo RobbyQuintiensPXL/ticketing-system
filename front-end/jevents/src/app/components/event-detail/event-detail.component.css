@@ -1,0 +1,55 @@
+#header-image{
+  background-color: black;
+  height: 12rem;
+  color: #fff;
+  position: relative;
+}
+
+#header-info{
+  position: absolute;
+  margin-left: 5rem;
+  bottom: 0;
+  float: left;
+  padding-bottom: 1rem;
+}
+
+#header-date{
+  position: absolute;
+  bottom: 0;
+  right: 5rem;
+  float: right;
+  padding-bottom: 1rem;
+}
+
+h2{
+  font-size: 30px;
+}
+
+h3 {
+  font-size: 20px;
+}
+
+#header-image h3, h4{
+  margin: 0;
+}
+
+#content{
+  padding-left: 5rem;
+  padding-top: 2rem;
+  background-color: #F3F3F3;
+  height: 100%;
+}
+
+#content-description, #content-date{
+  width: 55%;
+  margin-bottom: 3rem;
+}
+
+
+#content h4{
+  color: #250BCE;
+  font-weight: bold;
+  font-size: 18px;
+  margin-bottom: 1rem;
+}
+
