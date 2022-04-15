@@ -22,13 +22,13 @@ public class TicketService {
     @Autowired
     private EventDiscoveryClient eventDiscoveryClient;
 
-//    @Autowired
-//    private EventFeignClient feignClient;
+    @Autowired
+    private EventFeignClient feignClient;
 
     private Event event;
 
     public Event getEventInfo(Long eventId){
-        event = eventDiscoveryClient.getEvent(eventId);
+        event = feignClient.getEvent(eventId);
         return event;
     }
 //

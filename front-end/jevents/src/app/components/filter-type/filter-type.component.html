@@ -1,8 +1,11 @@
 <div class="filterByType">
   <ul>
-
-      <li [routerLink]="['../search']" [queryParams]="{type: 'all'}">All</li>
-
+      <div class="test">
+      <li [routerLink]="['../search']" [queryParams]="{type: 'all'}">
+        <input type="checkbox" id="cb">
+        <label for="cb">All</label>
+      </li>
+      </div>
       <li [routerLink]="['../search']" [queryParams]="{type: 'concert'}">Concerts</li>
 
       <li [routerLink]="['../search']" [queryParams]="{type: 'sports'}">Sports</li>

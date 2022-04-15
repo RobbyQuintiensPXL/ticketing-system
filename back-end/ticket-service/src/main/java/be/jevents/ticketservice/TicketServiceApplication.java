@@ -11,7 +11,7 @@ import org.springframework.kafka.annotation.EnableKafka;
 //@EnableKafka
 @RefreshScope
 @EnableDiscoveryClient
-//@EnableFeignClients
+@EnableFeignClients
 public class TicketServiceApplication {
 
     public static void main(String[] args) {

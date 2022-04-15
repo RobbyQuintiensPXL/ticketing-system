@@ -2,6 +2,11 @@
   position: relative;
 }
 
+.filterByType li{
+  cursor: default;
+  user-select: none;
+}
+
 .filterByType ul li{
   font-size: 17px;
   display: inline-block;
@@ -19,5 +24,16 @@
 a{
   text-decoration: none;
   color: #000;
+}
+
+input{
+  display: none;
+}
+
+input:checked  test{
+  background-color: rgba(37, 11, 206, 0.7);
+  border-radius: 20px;
+  width: auto;
+  color: #fff;
 }
 
