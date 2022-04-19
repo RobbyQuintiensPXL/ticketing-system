@@ -14,7 +14,8 @@ export class EventService {
   event: Event;
 
   constructor(private http: HttpClient) {
-    this.eventUrl = 'http://localhost:9080/event/events';
+    // this.eventUrl = 'http://localhost:9080/event/events';
+    this.eventUrl = 'http://localhost:8081/events';
   }
 
   httpOptions = {

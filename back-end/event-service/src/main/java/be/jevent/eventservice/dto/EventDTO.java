@@ -21,6 +21,7 @@ public class EventDTO {
     private final String description;
     private final String shortDescription;
     private final double price;
+    private final int ticketsLeft;
     @JsonIgnore
     private final boolean accepted;
 
@@ -39,6 +40,7 @@ public class EventDTO {
         this.shortDescription = event.getShortDescription();
         this.price = event.getPrice();
         this.accepted = event.isAccepted();
+        this.ticketsLeft = event.getTicketsLeft();
     }
 
     public Long getId() {
@@ -79,5 +81,9 @@ public class EventDTO {
 
     public boolean isAccepted() {
         return accepted;
+    }
+
+    public int getTicketsLeft() {
+        return ticketsLeft;
     }
 }

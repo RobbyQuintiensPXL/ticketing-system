@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: resource-server
+  cloud:
+    consul:
+      discovery:
+        instance-id: "${spring.application.name}:${random.int[1,99999]}"
+        register: false
+        register-health-check: false
+        tags: resource-server
+      host: localhost
+      port: 8500
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://dev-7mgwq79y.eu.auth0.com/
+
+  main:
+    allow-bean-definition-overriding: true
+
+auth0:
+  audience: https://jevents.be
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+server:
+  port: 9090

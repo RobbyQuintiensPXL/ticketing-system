@@ -14,7 +14,7 @@ spring:
     consul:
       discovery:
         instance-id: "${spring.application.name}:${random.int[1,99999]}"
-      host: consul
+      host: localhost
       port: 8500
 
 #Enable all Spring Boot Actuator endpoints.

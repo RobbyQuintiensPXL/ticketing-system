@@ -12,6 +12,7 @@ export class Event {
   description: string;
   shortDescription?: any;
   price?: number;
+  ticketsLeft: number;
 
 
   constructor(args: Event) {
@@ -24,5 +25,6 @@ export class Event {
     this.description = args.description;
     this.shortDescription = args.shortDescription;
     this.price = args.price;
+    this.ticketsLeft = args.ticketsLeft;
   }
 }

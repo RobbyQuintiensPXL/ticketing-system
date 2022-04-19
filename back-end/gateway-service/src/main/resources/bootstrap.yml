@@ -8,7 +8,7 @@ spring:
         register: false
         register-health-check: false
         tags: api-gateway
-      host: consul
+      host: localhost
       port: 8500
     gateway:
       discovery:
@@ -39,6 +39,17 @@ spring:
 
 auth0:
   audience: https://jevents.be
+
+#  security:
+#    oauth2:
+#      client:
+#        registration:
+#          auth0:
+#            client-id: EC1rs2wwDd6xUgIN1m1x2cyLuIXTArgz
+#            client-secret: ayfNd4-bHWELr50WXsE7x1w_C1U8jQ-zRVy-5o10x31a9huV3YY0lnYWpZzLB3vl
+#        provider:
+#          auth0:
+#            issuer-uri: https://dev-7mgwq79y.eu.auth0.com/
 
 management:
   endpoints:

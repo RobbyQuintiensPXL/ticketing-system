@@ -1,6 +1,8 @@
 package be.jevents.ticketservice.controller;
 
+import be.jevents.ticketservice.dto.TicketDTO;
 import be.jevents.ticketservice.model.Event;
+import be.jevents.ticketservice.model.Ticket;
 import be.jevents.ticketservice.service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,7 +24,9 @@ public class TicketController {
         return new ResponseEntity<>(ticketService.getEventInfo(id), HttpStatus.OK);
     }
 
-
-
+    @GetMapping("/ticket/{ticketId}")
+    public ResponseEntity<Ticket> getTicketInfo(@PathVariable("ticketId") Long id){
+        return new ResponseEntity<>(ticketService.getTicketInfo(id), HttpStatus.OK);
+    }
 
 }

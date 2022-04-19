@@ -74,6 +74,7 @@ h3 {
 #content-tickets, #content-location{
   float: right;
   width: 35%;
+  margin-right: 1rem;
 }
 
 #content-location, #content-date p {
@@ -83,5 +84,46 @@ h3 {
 .content-container{
   width: 55%;
   float: left;
+}
+
+.tickets-left{
+  background-color: #EF991B;
+  position: relative;
+  border-radius: 15px;
+  max-width: 200px;
+  text-align: center;
+  color: #fff;
+}
+
+.tickets-left p{
+  font-size: 10pt;
+  font-weight: bold;
+  padding: 0.25rem;
+}
+
+.tickets-buy{
+  background-color: #250BCE;
+  position: relative;
+  border-radius: 15px;
+  max-width: 200px;
+  text-align: center;
+  color: #fff;
+}
+
+.tickets-buy p{
+  font-weight: bold;
+  padding: 0.5rem;
+}
+
+.tickets-price{
+  max-width: 200px;
+  text-align: right;
+  margin: -0.1rem;
+  padding: 0;
+}
+
+.tickets-price .price{
+  font-weight: bold;
+  font-size: 15pt;
 }
 

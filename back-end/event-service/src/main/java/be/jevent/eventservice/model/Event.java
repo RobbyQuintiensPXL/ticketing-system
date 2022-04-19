@@ -40,6 +40,9 @@ public class Event implements Serializable {
 
     private double price;
 
+    @Column(name = "tickets_left")
+    private int ticketsLeft;
+
     private boolean accepted;
 
     public Event(){
@@ -116,6 +119,14 @@ public class Event implements Serializable {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public int getTicketsLeft() {
+        return ticketsLeft;
+    }
+
+    public void setTicketsLeft(int ticketsLeft) {
+        this.ticketsLeft = ticketsLeft;
     }
 
     public boolean isAccepted() {

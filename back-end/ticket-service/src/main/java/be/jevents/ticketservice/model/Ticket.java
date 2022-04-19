@@ -12,6 +12,9 @@ public class Ticket {
     @Column(name = "event_id")
     private int eventId;
 
+    @Transient
+    private Event event;
+
     //userId
 
     //paymentStatus
@@ -34,5 +37,13 @@ public class Ticket {
 
     public void setEventId(int eventId) {
         this.eventId = eventId;
+    }
+
+    public Event getEvent() {
+        return event;
+    }
+
+    public void setEvent(Event event) {
+        this.event = event;
     }
 }

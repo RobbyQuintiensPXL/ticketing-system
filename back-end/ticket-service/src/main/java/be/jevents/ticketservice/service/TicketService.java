@@ -1,14 +1,16 @@
 package be.jevents.ticketservice.service;
 
+import be.jevents.ticketservice.exception.TicketException;
 import be.jevents.ticketservice.model.Event;
+import be.jevents.ticketservice.model.Ticket;
 import be.jevents.ticketservice.repository.TicketRepository;
-import be.jevents.ticketservice.service.client.EventDiscoveryClient;
 import be.jevents.ticketservice.service.client.EventFeignClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 
 @Service
@@ -20,9 +22,6 @@ public class TicketService {
     private TicketRepository ticketRepository;
 
     @Autowired
-    private EventDiscoveryClient eventDiscoveryClient;
-
-    @Autowired
     private EventFeignClient feignClient;
 
     private Event event;
@@ -30,6 +29,21 @@ public class TicketService {
     public Event getEventInfo(Long eventId){
         event = feignClient.getEvent(eventId);
         return event;
+    }
+
+    public Ticket getTicketInfo(Long ticketId){
+        Optional<Ticket> foundTicket = ticketRepository.findById(ticketId);
+        if (foundTicket.isEmpty()){
+            throw new TicketException("Ticket not found");
+        }
+
+        Long id = foundTicket.get().getId();
+
+        Event event = feignClient.getEvent(id);
+
+        foundTicket.get().setEvent(event);
+
+        return foundTicket.get();
     }
 //
 //
