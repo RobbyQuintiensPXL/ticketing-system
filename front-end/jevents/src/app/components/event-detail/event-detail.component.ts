@@ -29,7 +29,6 @@ export class EventDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.getEventById(this.id);
-    console.log(this.id);
   }
 
 }

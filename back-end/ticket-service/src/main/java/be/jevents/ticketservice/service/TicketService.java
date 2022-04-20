@@ -1,5 +1,8 @@
 package be.jevents.ticketservice.service;
 
+import be.jevents.ticketservice.createresource.CreateTicketResource;
+import be.jevents.ticketservice.dto.TicketDTO;
+import be.jevents.ticketservice.events.source.SimpleSourceBean;
 import be.jevents.ticketservice.exception.TicketException;
 import be.jevents.ticketservice.model.Event;
 import be.jevents.ticketservice.model.Ticket;
@@ -24,6 +27,9 @@ public class TicketService {
     @Autowired
     private EventFeignClient feignClient;
 
+    @Autowired
+    SimpleSourceBean simpleSourceBean;
+
     private Event event;
 
     public Event getEventInfo(Long eventId){
@@ -45,11 +51,14 @@ public class TicketService {
 
         return foundTicket.get();
     }
+
+//    public Ticket create(CreateTicketResource ticketResource){
+//        Ticket ticket = new Ticket();
+//        ticket.setEventId(ticketResource.getEventId());
 //
+//        simpleSourceBean.publishTicketChange("Created", ticket.getId());
 //
-//    @KafkaListener(topics = "test", groupId = "archived")
-//    public void consume(String message){
-//        LOGGER.info(String.format("$$ -> Consumed message -> %s", message));
+//        return ticket;
 //    }
 
 

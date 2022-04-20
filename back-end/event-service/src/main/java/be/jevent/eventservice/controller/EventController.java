@@ -2,12 +2,14 @@ package be.jevent.eventservice.controller;
 
 import be.jevent.eventservice.createresource.CreateEventResource;
 import be.jevent.eventservice.dto.EventDTO;
+import be.jevent.eventservice.model.Event;
 import be.jevent.eventservice.model.EventType;
 import be.jevent.eventservice.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -20,7 +22,19 @@ import java.util.Locale;
 public class EventController {
 
     @Autowired
+    private KafkaTemplate<String, EventDTO> kafkaTemplate;
+
+    private static final String TOPIC = "events";
+
+    @Autowired
     private EventService eventService;
+
+    @GetMapping("/publish/{id}")
+    public String postMessage(@PathVariable("id") Long id){
+        EventDTO eventDTO = eventService.getEventById(id);
+        kafkaTemplate.send(TOPIC, eventDTO);
+        return "sended Message";
+    }
 
 
     @GetMapping
@@ -43,11 +57,6 @@ public class EventController {
     public ResponseEntity<String> createEvent(@RequestBody @Valid CreateEventResource eventResource,
                                               @RequestHeader(value = "Accept-Language", required = false) Locale locale) {
         return new ResponseEntity<>(eventService.createEvent(eventResource, locale), HttpStatus.CREATED);
-    }
-
-    @GetMapping("/archive")
-    public void sendMessageToKafkaTopic(@RequestParam("message") String message){
-        eventService.sendMessage(message);
     }
 
     @DeleteMapping("/delete/{id}")

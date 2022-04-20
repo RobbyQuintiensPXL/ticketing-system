@@ -13,7 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,9 +34,6 @@ public class EventService {
 
     @Autowired
     private MessageSource messageSource;
-
-    @Autowired
-    private KafkaTemplate<String, String> kafkaTemplate;
 
     public List<EventDTO> getAllEvents(){
         List<EventDTO> eventDTOList = eventRepository.findAll().stream().map(EventDTO::new).collect(Collectors.toList());
@@ -109,10 +105,4 @@ public class EventService {
 
         return "event deleted";
     }
-
-    public void sendMessage(String message) {
-        LOGGER.info(String.format("$$ -> Producing message --> %s", message));
-        this.kafkaTemplate.send(TOPIC,message);
-    }
-
 }
