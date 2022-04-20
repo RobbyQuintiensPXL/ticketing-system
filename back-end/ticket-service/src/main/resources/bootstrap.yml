@@ -13,7 +13,6 @@ spring:
         maxInterval: 10000
         maxAttempts: 20
 
-#  kafka:
 #    bootstrap-servers: localhost:9092
 #    producer:
 #      key-serializer: org.apache.kafka.common.serialization.StringSerializer
