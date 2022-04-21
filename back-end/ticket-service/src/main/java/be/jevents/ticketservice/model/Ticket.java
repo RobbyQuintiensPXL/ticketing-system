@@ -15,7 +15,8 @@ public class Ticket {
     @Transient
     private Event event;
 
-    //userId
+    @ManyToOne
+    private TicketUser ticketUser;
 
     private String status;
 
@@ -53,5 +54,13 @@ public class Ticket {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public TicketUser getTicketUser() {
+        return ticketUser;
+    }
+
+    public void setTicketUser(TicketUser ticketUser) {
+        this.ticketUser = ticketUser;
     }
 }

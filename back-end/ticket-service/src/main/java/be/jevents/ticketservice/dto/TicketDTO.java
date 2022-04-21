@@ -8,13 +8,13 @@ public class TicketDTO {
     private final Long id;
     private final Long eventId;
     private final Event event;
-    private final String status;
+    private final String ticketUserName;
 
     public TicketDTO(Ticket ticket){
         this.id = ticket.getId();
         this.eventId = ticket.getEventId();
         this.event = ticket.getEvent();
-        this.status = ticket.getStatus();
+        this.ticketUserName = ticket.getTicketUser().getName() + " " + ticket.getTicketUser().getFirstName();
     }
 
     public Long getId() {
@@ -29,7 +29,7 @@ public class TicketDTO {
         return event;
     }
 
-    public String getStatus() {
-        return status;
+    public String getTicketUserName() {
+        return ticketUserName;
     }
 }

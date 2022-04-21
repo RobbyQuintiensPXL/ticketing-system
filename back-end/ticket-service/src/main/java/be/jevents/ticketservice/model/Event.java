@@ -19,10 +19,6 @@ public class Event {
     private LocalTime eventTime;
     private double price;
     private Location location;
-    private String description;
-    private String shortDescription;
-    private boolean accepted;
-    private int ticketsLeft;
 
 
     public Event(){
@@ -85,38 +81,6 @@ public class Event {
         this.location = location;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getShortDescription() {
-        return shortDescription;
-    }
-
-    public void setShortDescription(String shortDescription) {
-        this.shortDescription = shortDescription;
-    }
-
-    public boolean isAccepted() {
-        return accepted;
-    }
-
-    public void setAccepted(boolean accepted) {
-        this.accepted = accepted;
-    }
-
-    public int getTicketsLeft() {
-        return ticketsLeft;
-    }
-
-    public void setTicketsLeft(int ticketsLeft) {
-        this.ticketsLeft = ticketsLeft;
-    }
-
 
     @Override
     public String toString() {
@@ -128,8 +92,6 @@ public class Event {
                 ", eventTime=" + eventTime +
                 ", price=" + price +
                 ", location=" + location.getBuildingName() +
-                ", accepted=" + accepted +
-                ", ticketsLeft=" + ticketsLeft +
                 '}';
     }
 }

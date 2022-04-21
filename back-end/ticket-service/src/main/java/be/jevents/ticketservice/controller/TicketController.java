@@ -23,7 +23,7 @@ public class TicketController {
     }
 
     @GetMapping("/ticket/{ticketId}")
-    public ResponseEntity<Ticket> getTicketInfo(@PathVariable("ticketId") Long id){
+    public ResponseEntity<TicketDTO> getTicketInfo(@PathVariable("ticketId") Long id){
         return new ResponseEntity<>(ticketService.getTicketInfo(id), HttpStatus.OK);
     }
 

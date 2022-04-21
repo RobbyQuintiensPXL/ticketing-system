@@ -37,7 +37,7 @@ public class TicketService {
         return event;
     }
 
-    public Ticket getTicketInfo(Long ticketId){
+    public TicketDTO getTicketInfo(Long ticketId){
         Optional<Ticket> foundTicket = ticketRepository.findById(ticketId);
         if (foundTicket.isEmpty()){
             throw new TicketException("Ticket not found");
@@ -46,6 +46,10 @@ public class TicketService {
         Long id = foundTicket.get().getId();
         Event event = feignClient.getEvent(id);
         foundTicket.get().setEvent(event);
-        return foundTicket.get();
+        return foundTicket.map(TicketDTO::new).get();
+    }
+
+    public void createTicket(){
+        
     }
 }

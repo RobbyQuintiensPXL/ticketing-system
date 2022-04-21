@@ -24,41 +24,71 @@ import java.net.URI;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
-@Configuration
+//@Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+//
+//    private final String issuer;
+//    private final String clientId;
+//
+//    public SecurityConfig(@Value("${spring.security.oauth2.client.provider.auth0.issuer-uri}") String issuer,
+//                          @Value("${spring.security.oauth2.client.registration.auth0.client-id}") String clientId) {
+//        this.issuer = issuer;
+//        this.clientId = clientId;
+//    }
+//
+//    @Bean
+//    public SecurityWebFilterChain configure(ServerHttpSecurity http) throws Exception {
+//        return http.authorizeExchange()
+//                .pathMatchers("/test", "/images/**").permitAll()
+//                .anyExchange().authenticated()
+//                .and().oauth2Login()
+//                .and().logout().logoutSuccessHandler(logoutSuccessHandler())
+//                .and().build();
+//    }
+//
+//    @Bean
+//    public ServerLogoutSuccessHandler logoutSuccessHandler() {
+//        String returnTo = "http://localhost:4200";
+//
+//        String logoutUrl = UriComponentsBuilder
+//                .fromHttpUrl(issuer + "/logout?client_id={clientId}&returnTo={returnTo}")
+//                .encode()
+//                .buildAndExpand(clientId, returnTo)
+//                .toUriString();
+//
+//        RedirectServerLogoutSuccessHandler handler = new RedirectServerLogoutSuccessHandler();
+//        handler.setLogoutSuccessUrl(URI.create(logoutUrl));
+//        return handler;
+//    }
 
-    private final String issuer;
-    private final String clientId;
+    @Value( "${auth0.audience}" )
+    private String audience;
 
-    public SecurityConfig(@Value("${spring.security.oauth2.client.provider.auth0.issuer-uri}") String issuer,
-                          @Value("${spring.security.oauth2.client.registration.auth0.client-id}") String clientId) {
-        this.issuer = issuer;
-        this.clientId = clientId;
+    @Value("${spring.security.oauth2.resourceserver.jwt.issuer-uri}")
+    private String issuer;
+
+    @Override
+    public void configure(HttpSecurity http) throws Exception {
+        http
+                .authorizeRequests()
+                .mvcMatchers("/test").permitAll()
+                .anyRequest().authenticated()
+                .and().cors()
+                .and().oauth2ResourceServer().jwt();
     }
 
     @Bean
-    public SecurityWebFilterChain configure(ServerHttpSecurity http) throws Exception {
-        return http.authorizeExchange()
-                .pathMatchers("/test", "/images/**").permitAll()
-                .anyExchange().authenticated()
-                .and().oauth2Login()
-                .and().logout().logoutSuccessHandler(logoutSuccessHandler())
-                .and().build();
-    }
+    JwtDecoder jwtDecoder() {
+        NimbusJwtDecoder jwtDecoder = (NimbusJwtDecoder)
+                JwtDecoders.fromOidcIssuerLocation(issuer);
 
-    @Bean
-    public ServerLogoutSuccessHandler logoutSuccessHandler() {
-        String returnTo = "http://localhost:4200";
+        OAuth2TokenValidator<Jwt> audienceValidator = new AudienceValidator(audience);
+        OAuth2TokenValidator<Jwt> withIssuer = JwtValidators.createDefaultWithIssuer(issuer);
+        OAuth2TokenValidator<Jwt> withAudience = new DelegatingOAuth2TokenValidator<>(withIssuer, audienceValidator);
 
-        String logoutUrl = UriComponentsBuilder
-                .fromHttpUrl(issuer + "/logout?client_id={clientId}&returnTo={returnTo}")
-                .encode()
-                .buildAndExpand(clientId, returnTo)
-                .toUriString();
+        jwtDecoder.setJwtValidator(withAudience);
 
-        RedirectServerLogoutSuccessHandler handler = new RedirectServerLogoutSuccessHandler();
-        handler.setLogoutSuccessUrl(URI.create(logoutUrl));
-        return handler;
+        return jwtDecoder;
     }
 }
