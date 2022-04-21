@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class KafkaConsumer {
 
-    @KafkaListener(topics = "events", containerFactory = "userKafkaListenerFactory")
+    @KafkaListener(topics = "events", containerFactory = "eventKafkaListenerFactory")
     public void consumeJson(@Payload Event event) {
-        System.out.println("Consumed JSON Message: " + event.getEventName());
+        System.out.println("Consumed JSON Message: " + event.toString());
     }
 }

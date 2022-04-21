@@ -44,22 +44,8 @@ public class TicketService {
         }
 
         Long id = foundTicket.get().getId();
-
         Event event = feignClient.getEvent(id);
-
         foundTicket.get().setEvent(event);
-
         return foundTicket.get();
     }
-
-//    public Ticket create(CreateTicketResource ticketResource){
-//        Ticket ticket = new Ticket();
-//        ticket.setEventId(ticketResource.getEventId());
-//
-//        simpleSourceBean.publishTicketChange("Created", ticket.getId());
-//
-//        return ticket;
-//    }
-
-
 }

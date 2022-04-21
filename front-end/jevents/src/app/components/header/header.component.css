@@ -3,11 +3,22 @@
 mat-toolbar{
   background-color: #EF991B;
   height: 120px;
+  display: flex;
+  justify-content: space-between;
+}
 
+.user-links{
+  display: flex;
 }
 
 mat-toolbar h1{
   margin-left: 3rem;
+  font-family: "Annie Use Your Telescope", sans-serif;
+}
+
+mat-toolbar h2{
+  margin-right: 3rem;
+  font-size: 12pt;
   font-family: "Annie Use Your Telescope", sans-serif;
 }
 

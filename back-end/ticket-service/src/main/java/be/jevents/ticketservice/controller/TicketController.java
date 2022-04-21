@@ -27,9 +27,4 @@ public class TicketController {
         return new ResponseEntity<>(ticketService.getTicketInfo(id), HttpStatus.OK);
     }
 
-//    @PostMapping
-//    public ResponseEntity<Ticket> createTicket(@RequestBody CreateTicketResource ticketResource){
-//        return ResponseEntity.ok(ticketService.create(ticketResource));
-//    }
-
 }

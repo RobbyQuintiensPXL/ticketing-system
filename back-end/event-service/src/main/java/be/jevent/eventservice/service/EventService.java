@@ -105,4 +105,9 @@ public class EventService {
 
         return "event deleted";
     }
+
+    public void updateEvent(Event event){
+        eventRepository.save(event);
+
+    }
 }

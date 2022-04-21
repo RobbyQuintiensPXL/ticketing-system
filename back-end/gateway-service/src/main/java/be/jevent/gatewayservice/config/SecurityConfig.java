@@ -3,53 +3,62 @@ package be.jevent.gatewayservice.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.oauth2.core.DelegatingOAuth2TokenValidator;
 import org.springframework.security.oauth2.core.OAuth2TokenValidator;
 import org.springframework.security.oauth2.jwt.*;
+import org.springframework.security.web.server.SecurityWebFilterChain;
+import org.springframework.security.web.server.authentication.logout.RedirectServerLogoutSuccessHandler;
+import org.springframework.security.web.server.authentication.logout.ServerLogoutSuccessHandler;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.net.URI;
+
+import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Value("${auth0.audience}")
-    private String audience;
+    private final String issuer;
+    private final String clientId;
 
-    @Value("${spring.security.oauth2.resourceserver.jwt.issuer-uri}")
-    private String issuer;
-
-    @Override
-    @Bean
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
+    public SecurityConfig(@Value("${spring.security.oauth2.client.provider.auth0.issuer-uri}") String issuer,
+                          @Value("${spring.security.oauth2.client.registration.auth0.client-id}") String clientId) {
+        this.issuer = issuer;
+        this.clientId = clientId;
     }
 
     @Bean
-    JwtDecoder jwtDecoder() {
-        NimbusJwtDecoder jwtDecoder = (NimbusJwtDecoder)
-                JwtDecoders.fromOidcIssuerLocation(issuer);
-
-        OAuth2TokenValidator<Jwt> audienceValidator = new AudienceValidator(audience);
-        OAuth2TokenValidator<Jwt> withIssuer = JwtValidators.createDefaultWithIssuer(issuer);
-        OAuth2TokenValidator<Jwt> withAudience = new DelegatingOAuth2TokenValidator<>(withIssuer, audienceValidator);
-
-        jwtDecoder.setJwtValidator(withAudience);
-
-        return jwtDecoder;
+    public SecurityWebFilterChain configure(ServerHttpSecurity http) throws Exception {
+        return http.authorizeExchange()
+                .pathMatchers("/test", "/images/**").permitAll()
+                .anyExchange().authenticated()
+                .and().oauth2Login()
+                .and().logout().logoutSuccessHandler(logoutSuccessHandler())
+                .and().build();
     }
 
-    @Override
-    public void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/**").anonymous()
-                // .antMatchers("/ticket/tickets/{id}").anonymous()
-                //.anyRequest()
-                //.authenticated()
-                // .antMatchers("/event/events/{id}/order").hasAuthority("User")
-                .and().cors()
-                .and().oauth2ResourceServer().jwt();
+    @Bean
+    public ServerLogoutSuccessHandler logoutSuccessHandler() {
+        String returnTo = "http://localhost:4200";
+
+        String logoutUrl = UriComponentsBuilder
+                .fromHttpUrl(issuer + "/logout?client_id={clientId}&returnTo={returnTo}")
+                .encode()
+                .buildAndExpand(clientId, returnTo)
+                .toUriString();
+
+        RedirectServerLogoutSuccessHandler handler = new RedirectServerLogoutSuccessHandler();
+        handler.setLogoutSuccessUrl(URI.create(logoutUrl));
+        return handler;
     }
 }

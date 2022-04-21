@@ -30,26 +30,32 @@ spring:
             - RemoveRequestHeader= Cookie,Set-Cookie
   security:
     oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: https://dev-7mgwq79y.eu.auth0.com/
-
-  main:
-    allow-bean-definition-overriding: true
-
-auth0:
-  audience: https://jevents.be
-
+      client:
+        registration:
+          auth0:
+            provider: auth0
+            client-id: Ny5lpiTnQWBa7OKC3GHEquZdupRm4pjt
+            client-secret: DPSUU2UPyTORrUTO9kizc7x-6_3gVKsGXBCQXjp0Fa__LexCSp4vqVvTOO-8JFKf
+            #redirect-uri: http://localhost:9080/test
+            scope:
+              - openid
+              - profile
+              - email
+        provider:
+          auth0:
+            issuer-uri: https://dev-7mgwq79y.eu.auth0.com/
 #  security:
 #    oauth2:
-#      client:
-#        registration:
-#          auth0:
-#            client-id: EC1rs2wwDd6xUgIN1m1x2cyLuIXTArgz
-#            client-secret: ayfNd4-bHWELr50WXsE7x1w_C1U8jQ-zRVy-5o10x31a9huV3YY0lnYWpZzLB3vl
-#        provider:
-#          auth0:
-#            issuer-uri: https://dev-7mgwq79y.eu.auth0.com/
+#      resourceserver:
+#        jwt:
+#          issuer-uri: https://dev-7mgwq79y.eu.auth0.com/
+#
+  main:
+    allow-bean-definition-overriding: true
+#
+#auth0:
+#  audience: https://jevents.be
+
 
 management:
   endpoints:

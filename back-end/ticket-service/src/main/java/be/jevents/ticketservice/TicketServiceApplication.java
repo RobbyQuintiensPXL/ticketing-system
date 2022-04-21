@@ -17,19 +17,4 @@ public class TicketServiceApplication {
         SpringApplication.run(TicketServiceApplication.class, args);
     }
 
-//    @Bean
-//    public Supplier<Message<Ticket>> orderBuySupplier() {
-//        return () -> {
-//            if (buyOrders.peek() != null) {
-//                Message<Order> o = MessageBuilder
-//                        .withPayload(buyOrders.peek())
-//                        .setHeader(KafkaHeaders.MESSAGE_KEY, Objects.requireNonNull(buyOrders.poll()).getId())
-//                        .build();
-//                log.info("Order: {}", o.getPayload());
-//                return o;
-//            } else {
-//                return null;
-//            }
-//        };
-//    }
 }

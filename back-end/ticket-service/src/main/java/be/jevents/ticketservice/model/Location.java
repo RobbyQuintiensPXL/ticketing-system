@@ -2,7 +2,7 @@ package be.jevents.ticketservice.model;
 
 import org.springframework.hateoas.RepresentationModel;
 
-public class Location extends RepresentationModel<Location> {
+public class Location{
 
     private Long id;
     private String buildingName;

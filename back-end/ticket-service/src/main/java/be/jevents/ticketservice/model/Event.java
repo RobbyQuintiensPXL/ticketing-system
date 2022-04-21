@@ -18,7 +18,7 @@ public class Event {
     @JsonFormat(pattern = "HH:mm:ss")
     private LocalTime eventTime;
     private double price;
-//    private Location location;
+    private Location location;
     private String description;
     private String shortDescription;
     private boolean accepted;
@@ -77,13 +77,13 @@ public class Event {
         this.price = price;
     }
 
-//    public Location getLocation() {
-//        return location;
-//    }
-//
-//    public void setLocation(Location location) {
-//        this.location = location;
-//    }
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
 
     public String getDescription() {
         return description;
@@ -115,6 +115,22 @@ public class Event {
 
     public void setTicketsLeft(int ticketsLeft) {
         this.ticketsLeft = ticketsLeft;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Event{" +
+                "id=" + id +
+                ", eventName='" + eventName +
+                ", eventType='" + eventType +
+                ", eventDate=" + eventDate +
+                ", eventTime=" + eventTime +
+                ", price=" + price +
+                ", location=" + location.getBuildingName() +
+                ", accepted=" + accepted +
+                ", ticketsLeft=" + ticketsLeft +
+                '}';
     }
 }
 
