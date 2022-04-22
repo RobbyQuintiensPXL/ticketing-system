@@ -5,6 +5,8 @@
   grid-template-areas:
     ". filter filter"
     ". cardview cardview";
+  top: -4rem;
+  position: relative;
 }
 
 .filter {
