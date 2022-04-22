@@ -19,6 +19,8 @@ import { FilterTypeComponent } from './components/filter-type/filter-type.compon
 import { EventDetailComponent } from './components/event-detail/event-detail.component';
 import {AppRoutes} from './app.routes';
 import {AuthHttpInterceptor, AuthModule} from '@auth0/auth0-angular';
+import {LoginComponent} from './components/login.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 
 @NgModule({
@@ -28,7 +30,8 @@ import {AuthHttpInterceptor, AuthModule} from '@auth0/auth0-angular';
     HeaderComponent,
     EventCardComponent,
     FilterTypeComponent,
-    EventDetailComponent
+    EventDetailComponent,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,
@@ -46,22 +49,24 @@ import {AuthHttpInterceptor, AuthModule} from '@auth0/auth0-angular';
     AppRoutes,
     AuthModule.forRoot({
       domain: 'dev-7mgwq79y.eu.auth0.com',
-      clientId: 'Ny5lpiTnQWBa7OKC3GHEquZdupRm4pjt',
-      issuer: 'https://dev-7mgwq79y.eu.auth0.com/',
+      useRefreshTokens: true,
+      clientId: 'zOARFayGVdXOpJjGzKEepwt7PxrZa2Qb',
       audience: 'https://jevents.be',
-      scope: 'openid profile email user',
       httpInterceptor: {
         allowedList: [
-          '/*',
+          {
+            uri: '/*',
+          }
         ],
       },
     }),
   ],
-  providers: [{
-    provide: HTTP_INTERCEPTORS,
-    useClass: AuthHttpInterceptor,
-    multi: true,
-  },
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthHttpInterceptor,
+      multi: true,
+    },
     EventService],
   bootstrap: [AppComponent]
 })

@@ -1,90 +1,50 @@
 package be.jevent.gatewayservice.config;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.oauth2.core.DelegatingOAuth2TokenValidator;
 import org.springframework.security.oauth2.core.OAuth2TokenValidator;
 import org.springframework.security.oauth2.jwt.*;
-import org.springframework.security.web.server.SecurityWebFilterChain;
-import org.springframework.security.web.server.authentication.logout.RedirectServerLogoutSuccessHandler;
-import org.springframework.security.web.server.authentication.logout.ServerLogoutSuccessHandler;
-import org.springframework.web.util.UriComponentsBuilder;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.net.URI;
+import java.util.List;
 
-import static org.springframework.security.config.Customizer.withDefaults;
 
-//@Configuration
+@Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-//
-//    private final String issuer;
-//    private final String clientId;
-//
-//    public SecurityConfig(@Value("${spring.security.oauth2.client.provider.auth0.issuer-uri}") String issuer,
-//                          @Value("${spring.security.oauth2.client.registration.auth0.client-id}") String clientId) {
-//        this.issuer = issuer;
-//        this.clientId = clientId;
-//    }
-//
-//    @Bean
-//    public SecurityWebFilterChain configure(ServerHttpSecurity http) throws Exception {
-//        return http.authorizeExchange()
-//                .pathMatchers("/test", "/images/**").permitAll()
-//                .anyExchange().authenticated()
-//                .and().oauth2Login()
-//                .and().logout().logoutSuccessHandler(logoutSuccessHandler())
-//                .and().build();
-//    }
-//
-//    @Bean
-//    public ServerLogoutSuccessHandler logoutSuccessHandler() {
-//        String returnTo = "http://localhost:4200";
-//
-//        String logoutUrl = UriComponentsBuilder
-//                .fromHttpUrl(issuer + "/logout?client_id={clientId}&returnTo={returnTo}")
-//                .encode()
-//                .buildAndExpand(clientId, returnTo)
-//                .toUriString();
-//
-//        RedirectServerLogoutSuccessHandler handler = new RedirectServerLogoutSuccessHandler();
-//        handler.setLogoutSuccessUrl(URI.create(logoutUrl));
-//        return handler;
-//    }
 
-    @Value( "${auth0.audience}" )
-    private String audience;
-
-    @Value("${spring.security.oauth2.resourceserver.jwt.issuer-uri}")
-    private String issuer;
 
     @Override
-    public void configure(HttpSecurity http) throws Exception {
+    protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .mvcMatchers("/test").permitAll()
-                .anyRequest().authenticated()
-                .and().cors()
-                .and().oauth2ResourceServer().jwt();
+                .antMatchers(HttpMethod.OPTIONS).permitAll()
+                .anyRequest()
+                .authenticated()
+                .and()
+                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
     }
 
     @Bean
-    JwtDecoder jwtDecoder() {
-        NimbusJwtDecoder jwtDecoder = (NimbusJwtDecoder)
-                JwtDecoders.fromOidcIssuerLocation(issuer);
+    JwtDecoder jwtDecoder(OAuth2ResourceServerProperties properties, @Value("${auth0.audience}") String audience) {
+        String issuerUri = properties.getJwt().getIssuerUri();
+        NimbusJwtDecoder jwtDecoder = (NimbusJwtDecoder) JwtDecoders.fromOidcIssuerLocation(issuerUri);
 
         OAuth2TokenValidator<Jwt> audienceValidator = new AudienceValidator(audience);
-        OAuth2TokenValidator<Jwt> withIssuer = JwtValidators.createDefaultWithIssuer(issuer);
+        OAuth2TokenValidator<Jwt> withIssuer = JwtValidators.createDefaultWithIssuer(issuerUri);
         OAuth2TokenValidator<Jwt> withAudience = new DelegatingOAuth2TokenValidator<>(withIssuer, audienceValidator);
 
         jwtDecoder.setJwtValidator(withAudience);

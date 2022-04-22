@@ -2,8 +2,8 @@
   <h1><a [routerLink]="['']">JEvents</a></h1>
   <div class="user-links">
     <h2><a href="#">Customer Service</a></h2>
-    <h2><a href="#" (click)="loginWithRedirect()">Login</a></h2>
-    <h2><a href="#" (click)="request()">call</a></h2>
+    <h2><a [routerLink]="['/login']">Login</a></h2>
+    <h2><a [routerLink]="['/profile']">Account</a></h2>
     <p>{{publicString}}</p>
   </div>
 </mat-toolbar>

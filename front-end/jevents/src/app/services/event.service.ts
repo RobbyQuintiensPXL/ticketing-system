@@ -3,6 +3,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable, Subscription, throwError} from 'rxjs';
 import {Event} from '../entities/event/event';
 import {catchError, map} from 'rxjs/operators';
+import {AuthService} from '@auth0/auth0-angular';
 
 @Injectable({
   providedIn: 'root'
@@ -14,13 +15,9 @@ export class EventService {
   event: Event;
 
   constructor(private http: HttpClient) {
-    this.eventUrl = 'http://localhost:9080/event/events';
+    this.eventUrl = '/event/events';
     // this.eventUrl = 'http://localhost:8081/events';
   }
-
-  httpOptions = {
-    headers: new HttpHeaders({'Content-Type': 'application/json'})
-  };
 
   public getEventById(id: number): Observable<Event> {
     const endpoint =  this.eventUrl + '/' + id;
