@@ -27,4 +27,9 @@ public class TicketController {
         return new ResponseEntity<>(ticketService.getTicketInfo(id), HttpStatus.OK);
     }
 
+    @GetMapping("/ticket/{eventId}/ticketsleft")
+    public ResponseEntity<Integer> getAmountOfTicketsLeft(@PathVariable("eventId") Long id){
+        return new ResponseEntity<>(ticketService.getSoldTicketsAmountForEvent(id), HttpStatus.OK);
+    }
+
 }

@@ -15,6 +15,7 @@ mat-toolbar{
 
 mat-toolbar input{
   width: 25%;
+  min-width: 200px;
   height: 30px;
   border-radius: 10px;
   border: 1px solid #AAA;

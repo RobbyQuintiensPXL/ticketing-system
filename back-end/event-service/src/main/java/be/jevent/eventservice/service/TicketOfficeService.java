@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -33,23 +34,23 @@ public class TicketOfficeService {
 
     public List<TicketOfficeDTO> getAllTicketOffices() {
         List<TicketOfficeDTO> ticketOfficeDTOList = ticketOfficeRepository.findAll().stream().map(TicketOfficeDTO::new).collect(Collectors.toList());
-        if (ticketOfficeDTOList.isEmpty()){
+        if (ticketOfficeDTOList.isEmpty()) {
             throw new TicketOfficeException("No ticket offices found");
         }
         return ticketOfficeDTOList;
     }
 
-    public String createTicketOffice(CreateTicketOfficeResource ticketOfficeResource, Locale locale){
+    public String createTicketOffice(CreateTicketOfficeResource ticketOfficeResource, Locale locale) {
         Optional<Location> location = locationRepository.findById((long) ticketOfficeResource.getLocationId());
 
-        if(location.isEmpty()){
+        if (location.isEmpty()) {
             throw new LocationException("No locations found");
         }
 
         String responseMessage;
 
         responseMessage = String.format(messageSource.getMessage(
-                "ticketoffice.create.message", null, locale),
+                        "ticketoffice.create.message", null, locale),
                 ticketOfficeResource.toString());
 
         TicketOffice ticketOffice = new TicketOffice();
@@ -59,6 +60,14 @@ public class TicketOfficeService {
         ticketOfficeRepository.save(ticketOffice);
 
         return responseMessage;
+    }
+
+    public TicketOfficeDTO getTicketOfficeByEmail(String email) {
+        Optional<TicketOfficeDTO> ticketOfficeDTO = ticketOfficeRepository.findByEmail(email).map(TicketOfficeDTO::new);
+        if (ticketOfficeDTO.isEmpty()) {
+            throw new TicketOfficeException("No Ticket Office found.");
+        }
+        return ticketOfficeDTO.get();
     }
 
 

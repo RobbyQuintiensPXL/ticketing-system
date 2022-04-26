@@ -9,12 +9,14 @@ public class TicketDTO {
     private final Long eventId;
     private final Event event;
     private final String ticketUserName;
+    private final int ticketNumber;
 
     public TicketDTO(Ticket ticket){
         this.id = ticket.getId();
         this.eventId = ticket.getEventId();
         this.event = ticket.getEvent();
         this.ticketUserName = ticket.getTicketUser().getName() + " " + ticket.getTicketUser().getFirstName();
+        this.ticketNumber = ticket.getTicketNumber();
     }
 
     public Long getId() {
@@ -32,4 +34,9 @@ public class TicketDTO {
     public String getTicketUserName() {
         return ticketUserName;
     }
+
+    public int getTicketNumber() {
+        return ticketNumber;
+    }
+
 }

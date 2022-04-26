@@ -21,10 +21,9 @@ public class EventDTO {
     private final String description;
     private final String shortDescription;
     private final double price;
-    private final int ticketsLeft;
+    private int ticketsLeft;
     @JsonIgnore
     private final boolean accepted;
-
     private LocationDTO getLocationDTO(Location location) {
         return new LocationDTO(location);
     }
@@ -85,5 +84,9 @@ public class EventDTO {
 
     public int getTicketsLeft() {
         return ticketsLeft;
+    }
+
+    public void setTicketsLeft(int ticketsLeft) {
+        this.ticketsLeft = ticketsLeft;
     }
 }

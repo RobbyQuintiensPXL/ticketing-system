@@ -18,6 +18,9 @@ public class Ticket {
     @ManyToOne
     private TicketUser ticketUser;
 
+    @Column(name = "ticket_number")
+    private int ticketNumber;
+
     private String status;
 
     public Ticket(){
@@ -62,5 +65,13 @@ public class Ticket {
 
     public void setTicketUser(TicketUser ticketUser) {
         this.ticketUser = ticketUser;
+    }
+
+    public int getTicketNumber() {
+        return ticketNumber;
+    }
+
+    public void setTicketNumber() {
+        this.ticketNumber++;
     }
 }

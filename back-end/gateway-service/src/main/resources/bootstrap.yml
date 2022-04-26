@@ -32,8 +32,10 @@ spring:
   security:
     oauth2:
       resourceserver:
+        user-info-uri: https://dev-7mgwq79y.eu.auth0.com/userinfo
         jwt:
           issuer-uri: https://dev-7mgwq79y.eu.auth0.com/
+
 
   main:
     allow-bean-definition-overriding: true

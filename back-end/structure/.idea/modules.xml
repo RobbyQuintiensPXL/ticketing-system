@@ -5,7 +5,6 @@
       <module fileurl="file://$PROJECT_DIR$/../config-service/config-service.iml" filepath="$PROJECT_DIR$/../config-service/config-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/../event-service/event-service.iml" filepath="$PROJECT_DIR$/../event-service/event-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/../gateway-service/gateway-service.iml" filepath="$PROJECT_DIR$/../gateway-service/gateway-service.iml" />
-      <module fileurl="file://$PROJECT_DIR$/auth-server/resource-server/resource-server.iml" filepath="$PROJECT_DIR$/auth-server/resource-server/resource-server.iml" />
       <module fileurl="file://$PROJECT_DIR$/../ticket-service/ticket-service.iml" filepath="$PROJECT_DIR$/../ticket-service/ticket-service.iml" />
     </modules>
   </component>

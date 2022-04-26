@@ -5,6 +5,7 @@ import {EventCardComponent} from './components/event-card/event-card.component';
 import {AuthGuard} from '@auth0/auth0-angular';
 import {LoginComponent} from './components/login.component';
 import {ProfileComponent} from './components/profile/profile.component';
+import {AddEventComponent} from './components/add-event/add-event.component';
 
 
 const routes: Routes = [
@@ -29,6 +30,10 @@ const routes: Routes = [
   {
     path: 'profile',
     component: ProfileComponent,
+  },
+  {
+    path: 'add-event',
+    component: AddEventComponent,
   },
 ];
 

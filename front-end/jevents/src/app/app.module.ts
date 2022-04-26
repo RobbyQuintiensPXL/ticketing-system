@@ -21,6 +21,8 @@ import {AppRoutes} from './app.routes';
 import {AuthHttpInterceptor, AuthModule} from '@auth0/auth0-angular';
 import {LoginComponent} from './components/login.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { AddEventComponent } from './components/add-event/add-event.component';
+import {MatFormFieldModule} from '@angular/material/form-field';
 
 
 @NgModule({
@@ -32,6 +34,7 @@ import { ProfileComponent } from './components/profile/profile.component';
     FilterTypeComponent,
     EventDetailComponent,
     ProfileComponent,
+    AddEventComponent,
   ],
   imports: [
     BrowserModule,
@@ -47,11 +50,12 @@ import { ProfileComponent } from './components/profile/profile.component';
     MatGridListModule,
     RouterModule,
     AppRoutes,
+    ReactiveFormsModule,
     AuthModule.forRoot({
       domain: 'dev-7mgwq79y.eu.auth0.com',
-      useRefreshTokens: true,
       clientId: 'zOARFayGVdXOpJjGzKEepwt7PxrZa2Qb',
       audience: 'https://jevents.be',
+      scope: 'email',
       httpInterceptor: {
         allowedList: [
           {
@@ -60,6 +64,7 @@ import { ProfileComponent } from './components/profile/profile.component';
         ],
       },
     }),
+    MatFormFieldModule,
   ],
   providers: [
     {

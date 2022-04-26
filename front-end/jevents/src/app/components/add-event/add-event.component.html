@@ -1,0 +1,57 @@
+<div class="content">
+  <div class="title"><h4>Add Event</h4></div>
+  <form [formGroup]="eventInfoForm" class="flex-container" (ngSubmit)="onSubmit(eventInfoForm)">
+    <div class="content-info">
+
+      <label for="event-name">Event name: </label>
+      <input id="event-name" type="text" formControlName="nameEvent">
+
+      <label for="short-description">Short description: </label>
+
+      <textarea rows="7" id="short-description" type="text" formControlName="shortDescription"></textarea>
+
+      <label for="full-description">Full description: </label>
+
+      <textarea rows="18" id="full-description" type="text" formControlName="fullDescription"></textarea>
+    </div>
+    <div class="content-location">
+      <label for="banner-image">Banner: </label>
+      <label class="btn-image">
+        <i class="fa fa-image"></i>Add Banner Image<input id="banner-image" type="file" style="display: none;"
+                                                          name="banner">
+      </label>
+
+      <label for="thumb-image">Thumbnail: </label>
+
+      <label class="btn-image">
+        <i class="fa fa-image"></i>Add Thumbnail Image<input id="thumb-image" type="file" style="display: none;"
+                                                             name="banner">
+      </label>
+
+
+      <label for="full-description">Location: </label>
+      <select formControlName="fullDescription"></select>
+
+      <div class="or-text">OR</div>
+
+      <label class="btn-image">
+        <i class="fa fa-image"></i>Add New Location<input id="location" type="file" style="display: none;"
+                                                          name="banner">
+      </label>
+
+      <label for="event-type">Event Type: </label>
+      <select id="event-type" formControlName="fullDescription"></select>
+
+      <label for="total-tickets">Total # of Tickets: </label>
+      <input id="total-tickets" type="text" formControlName="amountOfTickets">
+
+      <label for="max-tickets">Max Order: </label>
+      <input id="max-tickets" type="text" formControlName="maxOrderTickets">
+
+      <div class="form-buttons">
+        <input type="submit" value="Cancel">
+        <input type="submit" value="Next" class="button-next" (click)="addEvent()">
+      </div>
+    </div>
+  </form>
+</div>

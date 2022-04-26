@@ -13,7 +13,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -47,6 +49,14 @@ public class TicketService {
         Event event = feignClient.getEvent(id);
         foundTicket.get().setEvent(event);
         return foundTicket.map(TicketDTO::new).get();
+    }
+
+    public int getSoldTicketsAmountForEvent(Long eventId){
+        List<TicketDTO> ticketList = ticketRepository.findTicketsByEventId(eventId).stream().map(TicketDTO::new).collect(Collectors.toList());
+        if (ticketList.isEmpty()){
+            return 0;
+        }
+        return ticketList.size();
     }
 
     public void createTicket(){

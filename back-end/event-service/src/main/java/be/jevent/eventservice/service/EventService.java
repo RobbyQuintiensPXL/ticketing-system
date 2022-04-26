@@ -2,6 +2,7 @@ package be.jevent.eventservice.service;
 
 import be.jevent.eventservice.createresource.CreateEventResource;
 import be.jevent.eventservice.dto.EventDTO;
+import be.jevent.eventservice.dto.TicketDTO;
 import be.jevent.eventservice.exception.EventException;
 import be.jevent.eventservice.exception.LocationException;
 import be.jevent.eventservice.model.Event;
@@ -9,6 +10,7 @@ import be.jevent.eventservice.model.EventType;
 import be.jevent.eventservice.model.Location;
 import be.jevent.eventservice.repository.EventRepository;
 import be.jevent.eventservice.repository.LocationRepository;
+import be.jevent.eventservice.service.client.TicketFeignClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,9 @@ public class EventService {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(EventService.class);
     private static final String TOPIC = "test";
+
+    @Autowired
+    private TicketFeignClient ticketFeignClient;
 
     @Autowired
     private EventRepository eventRepository;
@@ -65,6 +70,7 @@ public class EventService {
         if(eventDTO.isEmpty()){
             throw new EventException("Event not found");
         }
+        eventDTO.get().setTicketsLeft(eventDTO.get().getTicketsLeft() - retrieveTicketsSold(id));
         return eventDTO.get();
     }
 
@@ -83,6 +89,8 @@ public class EventService {
         responseMessage = String.format(messageSource.getMessage(
                 "event.create.message", null, locale),
                 eventResource.toString());
+
+
 
         Event event = new Event();
         event.setEventName(eventResource.getEventName());
@@ -109,5 +117,9 @@ public class EventService {
     public void updateEvent(Event event){
         eventRepository.save(event);
 
+    }
+
+    public int retrieveTicketsSold(Long eventId){
+        return ticketFeignClient.getTicketsSold(eventId);
     }
 }

@@ -14,9 +14,12 @@ export class EventService {
   events: Event[];
   event: Event;
 
+  httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  };
+
   constructor(private http: HttpClient) {
     this.eventUrl = '/event/events';
-    // this.eventUrl = 'http://localhost:8081/events';
   }
 
   public getEventById(id: number): Observable<Event> {
@@ -33,8 +36,14 @@ export class EventService {
     return this.http.get<Event[]>(this.eventUrl).pipe(
       map(events => events.map(eventJson => new Event(eventJson))),
       catchError(error => {
-        return throwError('Capital not found!');
+        return throwError('No Events Found');
       })
     );
+  }
+
+  public createEvent(event: Event): Observable<Event>{
+    const endpoint = this.eventUrl;
+    const body = JSON.stringify(event);
+    return this.http.post<Event>(endpoint, body, this.httpOptions);
   }
 }

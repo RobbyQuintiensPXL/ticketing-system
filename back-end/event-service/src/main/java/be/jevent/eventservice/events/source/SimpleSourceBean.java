@@ -1,7 +1,6 @@
 package be.jevent.eventservice.events.source;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.stereotype.Component;
 
 @Component
