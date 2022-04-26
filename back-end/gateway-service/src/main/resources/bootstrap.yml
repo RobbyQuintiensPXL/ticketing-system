@@ -14,6 +14,8 @@ spring:
       discovery:
         locator:
           enabled: true
+#      default-filters:
+#        - TokenRelay
       routes:
         - id: event-service
           uri: lb://event-service
@@ -29,12 +31,27 @@ spring:
             - RewritePath=/ticket/(?<path>.*), /$\{path}
             - RemoveRequestHeader= Cookie,Set-Cookie
 
+#  security:
+#    oauth2:
+#      resourceserver:
+#        jwt:
+#          issuer-uri: https://dev-7mgwq79y.eu.auth0.com/
   security:
     oauth2:
       resourceserver:
-        user-info-uri: https://dev-7mgwq79y.eu.auth0.com/userinfo
         jwt:
           issuer-uri: https://dev-7mgwq79y.eu.auth0.com/
+#      client:
+#        registration:
+#          auth0:
+#            client-id: Ny5lpiTnQWBa7OKC3GHEquZdupRm4pjt
+#            client-secret: DPSUU2UPyTORrUTO9kizc7x-6_3gVKsGXBCQXjp0Fa__LexCSp4vqVvTOO-8JFKf
+#            authorization-grant-type: authorization_code
+#            redirect-uri: 'http://localhost:9080/login/oauth2/code/auth0'
+#            scope: openid,profile,email,user,office
+#        provider:
+#          auth0:
+#            issuer-uri: https://dev-7mgwq79y.eu.auth0.com/
 
 
   main:
