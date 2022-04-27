@@ -17,10 +17,11 @@ public class GateWayController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GateWayController.class);
     private final static String EMAIL_CLAIM = "https://example.com/email";
+    private final static String SCOPE_CLAIM = "https://example.com/roles";
 
     @GetMapping(value = "/token")
     public Mono<String> getHome(@AuthenticationPrincipal Jwt principal){
-        return Mono.just(principal.getClaims().get(EMAIL_CLAIM).toString() + " " + principal.getClaims().get("scope").toString());
+        return Mono.just(principal.getClaims().toString());
     }
 
     @GetMapping("/whoami")

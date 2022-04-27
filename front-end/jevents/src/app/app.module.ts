@@ -55,7 +55,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
       domain: 'dev-7mgwq79y.eu.auth0.com',
       clientId: 'Ny5lpiTnQWBa7OKC3GHEquZdupRm4pjt',
       audience: 'https://jevents.be',
-      scope: 'email, user, office, admin',
+      scope: 'openid profile email user office admin',
       httpInterceptor: {
         allowedList: [
            '/*',

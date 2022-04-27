@@ -35,7 +35,6 @@ public class EventController {
         return "sended Message";
     }
 
-
     @GetMapping
     public ResponseEntity<List<EventDTO>> getAllEvents() {
         return new ResponseEntity<>(eventService.getAllEvents(), HttpStatus.OK);
