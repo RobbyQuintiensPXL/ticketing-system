@@ -20,7 +20,7 @@ public class GateWayController {
 
     @GetMapping(value = "/token")
     public Mono<String> getHome(@AuthenticationPrincipal Jwt principal){
-        return Mono.just(principal.getClaims().get(EMAIL_CLAIM).toString());
+        return Mono.just(principal.getClaims().get(EMAIL_CLAIM).toString() + " " + principal.getClaims().get("scope").toString());
     }
 
     @GetMapping("/whoami")

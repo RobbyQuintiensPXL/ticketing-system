@@ -16,7 +16,6 @@ const routes: Routes = [
   {
     path: 'events/:id',
     component: EventDetailComponent,
-    canActivate: [AuthGuard]
   },
   {
     path: 'search',

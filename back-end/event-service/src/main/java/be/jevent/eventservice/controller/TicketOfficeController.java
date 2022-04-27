@@ -43,9 +43,8 @@ public class TicketOfficeController {
     }
 
     @GetMapping("/whoami")
-    @ResponseBody
     public String index(@AuthenticationPrincipal Jwt principal) {
-        return "email " +  principal.getClaims().get(EMAIL_CLAIM);
+        return "email " +  principal.getClaims().get(EMAIL_CLAIM) + " " + principal.getClaims().get("scope").toString();
     }
 
     @GetMapping("/account")

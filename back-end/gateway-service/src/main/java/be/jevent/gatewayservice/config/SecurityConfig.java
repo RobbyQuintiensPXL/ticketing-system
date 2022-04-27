@@ -28,30 +28,31 @@ import static org.springframework.security.config.Customizer.withDefaults;
 //@EnableWebFluxSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
-//    @Bean
-//    public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
-//        http.authorizeExchange(exchanges -> exchanges.anyExchange().authenticated());
-//               // .oauth2Login(withDefaults());
-//        http.csrf().disable();
-//        return http.build();
-//    }
-//
-
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    @Bean
+    SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
         http
-                .cors().and()
-                .csrf().disable()
-                .authorizeRequests()
-                .antMatchers(HttpMethod.OPTIONS).permitAll()
-                .antMatchers("/test").permitAll()
-                .antMatchers(HttpMethod.POST,"/event/events").hasRole("ROLE_Office")
-                .anyRequest()
-                .authenticated()
-                .and()
-                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
-                .oauth2Client(withDefaults());
+                .authorizeExchange(exchange -> exchange
+                        .pathMatchers("/event/events/*").permitAll()
+                        .pathMatchers(HttpMethod.POST,"/event/events").hasAuthority("SCOPE_office")
+                        .pathMatchers("/event/ticketoffices/whoami").hasAuthority("SCOPE_office")
+                        .anyExchange().authenticated()
+                )
+                .oauth2ResourceServer(ServerHttpSecurity.OAuth2ResourceServerSpec::jwt);
+        return http.build();
     }
+
+
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//        http
+//                .cors().and()
+//                .csrf().disable()
+//                .authorizeRequests()
+//                .anyRequest()
+//                .authenticated()
+//                .and()
+//                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
+//    }
 
     @Bean
     JwtDecoder jwtDecoder(OAuth2ResourceServerProperties properties, @Value("${auth0.audience}") String audience) {

@@ -53,7 +53,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
     ReactiveFormsModule,
     AuthModule.forRoot({
       domain: 'dev-7mgwq79y.eu.auth0.com',
-      clientId: 'zOARFayGVdXOpJjGzKEepwt7PxrZa2Qb',
+      clientId: 'Ny5lpiTnQWBa7OKC3GHEquZdupRm4pjt',
       audience: 'https://jevents.be',
       scope: 'email',
       httpInterceptor: {
