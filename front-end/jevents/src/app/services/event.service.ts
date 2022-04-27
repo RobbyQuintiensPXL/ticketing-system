@@ -27,12 +27,12 @@ export class EventService {
     return this.http.get<Event>(endpoint);
   }
 
-  public getEventsByType(type: string) {
+  public getEventsByType(type: string): Observable<Event[]> {
     const endpoint = this.eventUrl + '/search?type=' + type;
     return this.http.get<Event[]>(endpoint);
   }
 
-  public getEvents() {
+  public getEvents(): Observable<Event[]> {
     return this.http.get<Event[]>(this.eventUrl).pipe(
       map(events => events.map(eventJson => new Event(eventJson))),
       catchError(error => {
@@ -42,7 +42,7 @@ export class EventService {
   }
 
   public createEvent(event: Event): Observable<Event>{
-    const endpoint = this.eventUrl;
+    const endpoint = this.eventUrl + '/post';
     const body = JSON.stringify(event);
     return this.http.post<Event>(endpoint, body, this.httpOptions);
   }

@@ -51,16 +51,4 @@ public class EventController {
         return new ResponseEntity<>(eventService.getAllEventsByType(EventType.valueOf(type.toUpperCase())), HttpStatus.OK);
     }
 
-
-    @PostMapping
-    public ResponseEntity<String> createEvent(@RequestBody @Valid CreateEventResource eventResource,
-                                              @RequestHeader(value = "Accept-Language", required = false) Locale locale) {
-        return new ResponseEntity<>(eventService.createEvent(eventResource, locale), HttpStatus.CREATED);
-    }
-
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteEvent(@PathVariable("id") Long id){
-        return new ResponseEntity<>(eventService.deleteEvent(id), HttpStatus.OK);
-    }
-
 }

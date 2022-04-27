@@ -55,12 +55,17 @@ import {MatFormFieldModule} from '@angular/material/form-field';
       domain: 'dev-7mgwq79y.eu.auth0.com',
       clientId: 'Ny5lpiTnQWBa7OKC3GHEquZdupRm4pjt',
       audience: 'https://jevents.be',
-      scope: 'email',
+      scope: 'email, user, office, admin',
       httpInterceptor: {
         allowedList: [
+           '/*',
           {
-            uri: '/*',
-          }
+            uri: '/event/add-event',
+            tokenOptions: {
+              audience: 'https://jevents.be',
+              scope: 'office',
+            },
+          },
         ],
       },
     }),

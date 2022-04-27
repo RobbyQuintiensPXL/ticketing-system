@@ -25,34 +25,20 @@ import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
-//@EnableWebFluxSecurity
-public class SecurityConfig extends WebSecurityConfigurerAdapter{
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
         http
                 .authorizeExchange(exchange -> exchange
-                        .pathMatchers("/event/events/*").permitAll()
-                        .pathMatchers(HttpMethod.POST,"/event/events").hasAuthority("SCOPE_office")
+                        .pathMatchers(HttpMethod.GET, "/event/events/**").permitAll()
+                        .pathMatchers("/event/office/**").hasAuthority("SCOPE_office")
                         .pathMatchers("/event/ticketoffices/whoami").hasAuthority("SCOPE_office")
                         .anyExchange().authenticated()
                 )
                 .oauth2ResourceServer(ServerHttpSecurity.OAuth2ResourceServerSpec::jwt);
         return http.build();
     }
-
-
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//        http
-//                .cors().and()
-//                .csrf().disable()
-//                .authorizeRequests()
-//                .anyRequest()
-//                .authenticated()
-//                .and()
-//                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
-//    }
 
     @Bean
     JwtDecoder jwtDecoder(OAuth2ResourceServerProperties properties, @Value("${auth0.audience}") String audience) {
