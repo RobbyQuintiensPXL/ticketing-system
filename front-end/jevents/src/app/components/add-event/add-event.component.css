@@ -103,3 +103,7 @@ select{
   background-color: #250BCE;
   color: #fff;
 }
+
+textarea {
+  resize: vertical;
+}

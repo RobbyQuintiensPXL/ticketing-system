@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.Locale;
 
 @RestController
@@ -17,10 +19,12 @@ public class EventOfficeController {
     @Autowired
     private EventService eventService;
 
-    @PostMapping("/event/post")
+    @PostMapping(value = "/event/post", consumes = { "multipart/form-data" })
     public ResponseEntity<String> createEvent(@RequestBody @Valid CreateEventResource eventResource,
-                                              @RequestHeader(value = "Accept-Language", required = false) Locale locale) {
-        return new ResponseEntity<>(eventService.createEvent(eventResource, locale), HttpStatus.CREATED);
+                                              @RequestHeader(value = "Accept-Language", required = false) Locale locale,
+                                              @RequestParam("banner") MultipartFile banner,
+                                              @RequestParam("thumb") MultipartFile thumb) throws IOException {
+        return new ResponseEntity<>(eventService.createEvent(eventResource, locale, banner, thumb), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/event/{id}")

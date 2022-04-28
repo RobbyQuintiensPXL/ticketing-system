@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable, Subscription, throwError} from 'rxjs';
-import {Event} from '../entities/event/event';
+import {Event} from '../../entities/event/event';
 import {catchError, map} from 'rxjs/operators';
 import {AuthService} from '@auth0/auth0-angular';
 

@@ -33,7 +33,7 @@ const routes: Routes = [
   {
     path: 'add-event',
     component: AddEventComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
 ];
 

@@ -31,9 +31,13 @@ public class LocationController {
         return new ResponseEntity<>(locationService.createLocation(locationResource, locale, id), HttpStatus.CREATED);
     }
 
-    @GetMapping(value = "{id}")
-    public ResponseEntity<List<LocationDTO>> getLocationsByTicketOffice(@PathVariable("id") Long id){
-        return new ResponseEntity<>(locationService.getLocationsByTicketOffice(id), HttpStatus.OK);
-    }
+//    @GetMapping(value = "{id}")
+//    public ResponseEntity<List<LocationDTO>> getLocationsByTicketOffice(@PathVariable("id") Long id){
+//        return new ResponseEntity<>(locationService.getLocationsByTicketOffice(id), HttpStatus.OK);
+//    }
 
+    @GetMapping(value = "{email}")
+    public ResponseEntity<List<LocationDTO>> getLocationsByTicketOffice(@PathVariable("email") String email){
+        return new ResponseEntity<>(locationService.getLocationsByTicketOfficeEmail(email), HttpStatus.OK);
+    }
 }

@@ -27,6 +27,8 @@ public class EventDTO {
     private LocationDTO getLocationDTO(Location location) {
         return new LocationDTO(location);
     }
+    private final String thumbnail;
+    private final String banner;
 
     public EventDTO(Event event) {
         this.id = event.getId();
@@ -40,6 +42,8 @@ public class EventDTO {
         this.price = event.getPrice();
         this.accepted = event.isAccepted();
         this.ticketsLeft = event.getTicketsLeft();
+        this.thumbnail = event.getThumbnail();
+        this.banner = event.getBanner();
     }
 
     public Long getId() {
@@ -88,5 +92,13 @@ public class EventDTO {
 
     public void setTicketsLeft(int ticketsLeft) {
         this.ticketsLeft = ticketsLeft;
+    }
+
+    public String getThumbnail() {
+        return thumbnail;
+    }
+
+    public String getBanner() {
+        return banner;
     }
 }

@@ -37,10 +37,18 @@ public class CreateEventResource {
     @NotNull
     private final double price;
 
+    @NotNull
+    private final int amountOfTickets;
+
+    private final String thumbnail;
+
+    private final String banner;
+
 
     public CreateEventResource(@NotNull String eventName, @NotNull String eventType, @NotNull String shortDescription,
                                @NotNull String description, @NotNull LocalDate eventDate, @NotNull LocalTime eventTime,
-                               @NotNull int locationId, @NotNull double price){
+                               @NotNull int locationId, @NotNull double price, @NotNull int amountOfTickets,
+                               String thumbnail, String banner){
         this.eventName = eventName;
         this.eventType = eventType;
         this.shortDescription = shortDescription;
@@ -49,6 +57,9 @@ public class CreateEventResource {
         this.eventTime = eventTime;
         this.locationId = locationId;
         this.price = price;
+        this.amountOfTickets = amountOfTickets;
+        this.thumbnail = thumbnail;
+        this.banner = banner;
     }
 
     public String getEventName() {
@@ -77,6 +88,22 @@ public class CreateEventResource {
 
     public int getLocationId() {
         return locationId;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public int getAmountOfTickets() {
+        return amountOfTickets;
+    }
+
+    public String getThumbnail() {
+        return thumbnail;
+    }
+
+    public String getBanner() {
+        return banner;
     }
 
     @Override

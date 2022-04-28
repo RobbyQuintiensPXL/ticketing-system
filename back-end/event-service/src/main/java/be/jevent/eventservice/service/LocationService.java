@@ -46,6 +46,14 @@ public class LocationService {
         return locationDTOList;
     }
 
+    public List<LocationDTO> getLocationsByTicketOfficeEmail(String email){
+        List<LocationDTO> locationDTOList = locationRepository.findAllByTicketOffice_Email(email).stream().map(LocationDTO::new).collect(Collectors.toList());
+        if(locationDTOList.isEmpty()){
+            throw new LocationException("No locations found");
+        }
+        return locationDTOList;
+    }
+
     public String createLocation(CreateLocationResource locationResource, Locale locale, Long id){
         Optional<TicketOffice> ticketOffice = ticketOfficeRepository.findById(id);
         if(ticketOffice.isEmpty()){

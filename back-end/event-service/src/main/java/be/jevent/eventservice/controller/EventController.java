@@ -5,6 +5,7 @@ import be.jevent.eventservice.dto.EventDTO;
 import be.jevent.eventservice.model.Event;
 import be.jevent.eventservice.model.EventType;
 import be.jevent.eventservice.service.EventService;
+import be.jevent.eventservice.service.EventTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -27,6 +28,14 @@ public class EventController {
 
     @Autowired
     private EventService eventService;
+
+    @Autowired
+    private EventTypeService eventTypeService;
+
+    @GetMapping("/types")
+    public ResponseEntity<List<String>> getAllEventTypes(){
+        return new ResponseEntity<>(eventTypeService.getAllEventTypes(), HttpStatus.OK);
+    }
 
     @GetMapping("/publish/{id}")
     public String postMessage(@PathVariable("id") Long id){

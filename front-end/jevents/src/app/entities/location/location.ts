@@ -9,13 +9,13 @@ export class Location {
   ticketOffice: string;
 
 
-  constructor(id: number, buildingName: string, zipCode: number, city: string, address: string, country: string, ticketOffice: string) {
-    this.id = id;
-    this.buildingName = buildingName;
-    this.zipCode = zipCode;
-    this.city = city;
-    this.address = address;
-    this.country = country;
-    this.ticketOffice = ticketOffice;
+  constructor(args: Location) {
+    this.id = args.id;
+    this.buildingName = args.buildingName;
+    this.zipCode = args.zipCode;
+    this.city = args.city;
+    this.address = args.address;
+    this.country = args.country;
+    this.ticketOffice = args.ticketOffice;
   }
 }

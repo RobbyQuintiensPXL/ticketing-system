@@ -9,7 +9,7 @@ import {MatCardModule} from '@angular/material/card';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { EventCardComponent } from './components/event-card/event-card.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {EventService} from './services/event.service';
+import {EventService} from './services/event-service/event.service';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {RouterModule} from '@angular/router';
 import {MatIconModule} from '@angular/material/icon';
@@ -23,6 +23,8 @@ import {LoginComponent} from './components/login.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { AddEventComponent } from './components/add-event/add-event.component';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import { EventInfoComponent } from './components/add-event/event-info/event-info.component';
+import { EventDateComponent } from './components/add-event/event-date/event-date.component';
 
 
 @NgModule({
@@ -35,6 +37,8 @@ import {MatFormFieldModule} from '@angular/material/form-field';
     EventDetailComponent,
     ProfileComponent,
     AddEventComponent,
+    EventInfoComponent,
+    EventDateComponent,
   ],
   imports: [
     BrowserModule,
@@ -60,7 +64,11 @@ import {MatFormFieldModule} from '@angular/material/form-field';
         allowedList: [
            '/*',
           {
-            uri: '/event/add-event',
+            uri: '/search',
+            allowAnonymous: true,
+          },
+          {
+            uri: '/add-event',
             tokenOptions: {
               audience: 'https://jevents.be',
               scope: 'office',

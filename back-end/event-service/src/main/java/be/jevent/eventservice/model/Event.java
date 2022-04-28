@@ -45,6 +45,10 @@ public class Event implements Serializable {
 
     private boolean accepted;
 
+    private String thumbnail;
+
+    private String banner;
+
     public Event(){
         //Empty constructor
     }
@@ -135,5 +139,21 @@ public class Event implements Serializable {
 
     public void setAccepted(boolean accepted) {
         this.accepted = accepted;
+    }
+
+    public String getThumbnail() {
+        return thumbnail;
+    }
+
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
+    }
+
+    public String getBanner() {
+        return banner;
+    }
+
+    public void setBanner(String banner) {
+        this.banner = banner;
     }
 }

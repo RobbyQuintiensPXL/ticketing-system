@@ -1,4 +1,5 @@
 import {Component, Input, Output, EventEmitter, OnInit} from '@angular/core';
+import {EventTypeService} from '../../services/event-type/event-type.service';
 
 @Component({
   selector: 'app-filter-type',
@@ -7,18 +8,24 @@ import {Component, Input, Output, EventEmitter, OnInit} from '@angular/core';
 })
 export class FilterTypeComponent implements OnInit {
   @Output() typeOutput = new EventEmitter<any>();
-  typeInput = '';
+  eventTypes: string[];
+  eventType: string;
 
+  constructor(private eventTypeService: EventTypeService) {
+  }
 
-  constructor() {
+  listAllEventTypes(): void {
+    this.eventTypeService.getEventTypes().subscribe(eventType => {
+      this.eventTypes = eventType;
+    });
   }
 
   msgType(type: string) {
-    this.typeOutput.emit(this.typeInput = type);
+    this.typeOutput.emit(type = this.eventType);
   }
 
   ngOnInit(): void {
-
+    this.listAllEventTypes();
   }
 
 }

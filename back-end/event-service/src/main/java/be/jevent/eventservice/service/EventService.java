@@ -11,14 +11,19 @@ import be.jevent.eventservice.model.Location;
 import be.jevent.eventservice.repository.EventRepository;
 import be.jevent.eventservice.repository.LocationRepository;
 import be.jevent.eventservice.service.client.TicketFeignClient;
+import be.jevent.eventservice.util.FileUploadUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -74,7 +79,8 @@ public class EventService {
         return eventDTO.get();
     }
 
-    public String createEvent(CreateEventResource eventResource, Locale locale){
+    public String createEvent(CreateEventResource eventResource, Locale locale,
+                              MultipartFile banner, MultipartFile thumb) throws IOException {
         String responseMessage;
 
         if(EventType.forName(eventResource.getEventType()) == null){
@@ -86,11 +92,8 @@ public class EventService {
             throw new LocationException("Location not found");
         }
 
-        responseMessage = String.format(messageSource.getMessage(
-                "event.create.message", null, locale),
-                eventResource.toString());
-
-
+        String bannerFile = StringUtils.cleanPath(Objects.requireNonNull(banner.getOriginalFilename()));
+        String thumbFile = StringUtils.cleanPath(Objects.requireNonNull(thumb.getOriginalFilename()));
 
         Event event = new Event();
         event.setEventName(eventResource.getEventName());
@@ -100,9 +103,22 @@ public class EventService {
         event.setEventDate(eventResource.getEventDate());
         event.setEventTime(eventResource.getEventTime());
         event.setLocation(location.get());
+        event.setTicketsLeft(eventResource.getAmountOfTickets());
+        event.setPrice(eventResource.getPrice());
+        event.setBanner(bannerFile);
+        event.setThumbnail(thumbFile);
 
         eventRepository.save(event);
 
+        String uploadBanner = "events/banner-" + event.getId();
+        String uploadThumb = "events/thumb-" + event.getId();
+
+        FileUploadUtil.saveFile(uploadBanner, bannerFile, banner);
+        FileUploadUtil.saveFile(uploadThumb, thumbFile, thumb);
+
+        responseMessage = String.format(messageSource.getMessage(
+                        "event.create.message", null, locale),
+                eventResource.toString());
         return responseMessage;
     }
 
