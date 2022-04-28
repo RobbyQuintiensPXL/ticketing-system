@@ -11,10 +11,14 @@
   }
 }
 
+.container{
+  margin-top: -3rem;
+}
+
 .content{
-  margin-top: -7rem;
-  background-color: #fafafa;
-  padding: 3rem 4rem 2rem 5rem;
+  width: 55%;
+  min-width: 400px;
+  margin: 0 auto;
   overflow: auto;
 }
 

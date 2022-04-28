@@ -1,60 +1,92 @@
-<div class="content">
-  <div class="title"><h4>Add Event</h4></div>
-  <form [formGroup]="eventInfoForm" class="flex-container" (ngSubmit)="onSubmit(eventInfoForm)">
-    <div class="content-info">
+<div class="container">
+  <div class="content">
+    <mat-horizontal-stepper [linear]="isLinear" #stepper>
+      <mat-step [stepControl]="firstFormGroup">
+        <form [formGroup]="firstFormGroup">
+          <ng-template matStepLabel>Event Info</ng-template>
+          <div class="content-info">
+            <label for="event-name">Event name: </label>
+            <input id="event-name" type="text" formControlName="nameEvent">
 
-      <label for="event-name">Event name: </label>
-      <input id="event-name" type="text" formControlName="nameEvent">
+            <label for="banner-image">Banner: </label>
+            <label class="btn-image">
+              <i class="fa fa-image"></i>Add Banner Image
+              <input id="banner-image" type="file" style="display: none;" name="banner" formControlName="bannerImage">
+            </label>
 
-      <label for="short-description">Short description: </label>
+            <label for="banner-image">Thumbnail: </label>
+            <label class="btn-image" for="thumb-image">
+              <i class="fa fa-image"></i>Add Thumbnail Image
+              <input id="thumb-image" type="file" style="display: none;" name="thumbnail" formControlName="thumbImage">
+            </label>
 
-      <textarea rows="7" id="short-description" type="text" formControlName="shortDescription"></textarea>
+            <label for="event-type">Event Type: </label>
+            <select id="event-type" formControlName="eventType" [ngModel]="eventType">
+              <option value="" disabled selected>Event Type..</option>
+              <option *ngFor="let eventType of eventTypes" [value]="eventType">{{eventType}}</option>
+            </select>
 
-      <label for="full-description">Full description: </label>
+            <label for="full-description">Location: </label>
+            <select id="location" formControlName="location" [ngModel]="location">
+              <option value="" disabled selected>Location..</option>
+              <option *ngFor="let location of locations"
+                      [value]="location.id">{{location.buildingName}} {{location.city}}</option>
+            </select>
 
-      <textarea rows="15" id="full-description" type="text" formControlName="fullDescription"></textarea>
-    </div>
-    <div class="content-location">
-      <label for="banner-image">Images: </label>
-      <label class="btn-image">
-        <i class="fa fa-image"></i>Add Banner Image
-        <input id="banner-image" type="file" style="display: none;" name="banner" formControlName="bannerImage">
-      </label>
+            <div class="or-text">OR</div>
 
-      <label class="btn-image" for="thumb-image">
-        <i class="fa fa-image"></i>Add Thumbnail Image
-        <input id="thumb-image" type="file" style="display: none;" name="thumbnail" formControlName="thumbImage">
-      </label>
+            <label class="btn-image">
+              <i class="fa fa-image"></i>Add New Location
+              <input id="new-location" type="file" style="display: none;" name="banner">
+            </label>
 
-      <label for="full-description">Location: </label>
-      <select id="location" formControlName="location" [ngModel]="location" >
-        <option value="" disabled selected>Location..</option>
-        <option *ngFor="let location of locations" [value]="location.id">{{location.buildingName}} {{location.city}}</option>
-      </select>
+            <!--            <label for="total-tickets">Total # of Tickets: </label>-->
+            <!--            <input id="total-tickets" type="text" formControlName="amountOfTickets">-->
 
-      <div class="or-text">OR</div>
+            <!--            <label for="max-tickets">Max Order: </label>-->
+            <!--            <input id="max-tickets" type="text" formControlName="maxOrderTickets">-->
 
-      <label class="btn-image">
-        <i class="fa fa-image"></i>Add New Location<input id="new-location" type="file" style="display: none;"
-                                                          name="banner">
-      </label>
+            <!--            <div class="form-buttons">-->
+            <!--              <input type="submit" value="Cancel">-->
+            <!--              <input type="submit" value="Next" class="button-next" (click)="addEvent()">-->
+            <!--            </div>-->
+          </div>
+          <div>
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button matStepperNext>Next</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step [stepControl]="secondFormGroup">
+        <form [formGroup]="secondFormGroup">
+          <ng-template matStepLabel>Description</ng-template>
+          <label for="short-description">Short description: </label>
+          <textarea rows="7" id="short-description" type="text" formControlName="shortDescription"></textarea>
 
-      <label for="event-type">Event Type: </label>
-      <select id="event-type" formControlName="eventType" [ngModel]="eventType">
-        <option value="" disabled selected>Event Type..</option>
-        <option *ngFor="let eventType of eventTypes" [value]="eventType">{{eventType}}</option>
-      </select>
-
-      <label for="total-tickets">Total # of Tickets: </label>
-      <input id="total-tickets" type="text" formControlName="amountOfTickets">
-
-      <label for="max-tickets">Max Order: </label>
-      <input id="max-tickets" type="text" formControlName="maxOrderTickets">
-
-      <div class="form-buttons">
-        <input type="submit" value="Cancel">
-        <input type="submit" value="Next" class="button-next" (click)="addEvent()">
-      </div>
-    </div>
-  </form>
+          <label for="full-description">Full description: </label>
+          <textarea rows="15" id="full-description" type="text" formControlName="fullDescription"></textarea>
+        </form>
+      </mat-step>
+      <mat-step [stepControl]="thirdFormGroup">
+        <form [formGroup]="thirdFormGroup">
+          <ng-template matStepLabel>Tickets</ng-template>
+        </form>
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel>Done</ng-template>
+        <p>You are now done.</p>
+        <mat-list>
+          <mat-list-item><strong>Name:</strong> {{ this.firstFormGroup.value.name }}</mat-list-item>
+          <mat-list-item><strong>Description:</strong> {{ this.firstFormGroup.value.description }}</mat-list-item>
+          <mat-list-item><strong>Amount:</strong> {{ this.secondFormGroup.value.amount }}</mat-list-item>
+          <mat-list-item><strong>Stock:</strong> {{ this.secondFormGroup.value.stock }}</mat-list-item>
+        </mat-list>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button (click)="stepper.reset()">Reset</button>
+          <button mat-button (click)="submit()">Submit</button>
+        </div>
+      </mat-step>
+    </mat-horizontal-stepper>
+  </div>
 </div>

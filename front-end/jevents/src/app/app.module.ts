@@ -23,8 +23,10 @@ import {LoginComponent} from './components/login.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { AddEventComponent } from './components/add-event/add-event.component';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import { EventInfoComponent } from './components/add-event/event-info/event-info.component';
-import { EventDateComponent } from './components/add-event/event-date/event-date.component';
+import {MatListModule} from '@angular/material/list';
+import {MatButtonModule} from '@angular/material/button';
+import {MatInputModule} from '@angular/material/input';
+import {MatStepperModule} from '@angular/material/stepper';
 
 
 @NgModule({
@@ -37,8 +39,6 @@ import { EventDateComponent } from './components/add-event/event-date/event-date
     EventDetailComponent,
     ProfileComponent,
     AddEventComponent,
-    EventInfoComponent,
-    EventDateComponent,
   ],
   imports: [
     BrowserModule,
@@ -50,6 +50,9 @@ import { EventDateComponent } from './components/add-event/event-date/event-date
     RouterModule,
     ReactiveFormsModule,
     MatIconModule,
+    MatInputModule,
+    MatButtonModule,
+    MatListModule,
     FontAwesomeModule,
     MatGridListModule,
     RouterModule,
@@ -62,7 +65,7 @@ import { EventDateComponent } from './components/add-event/event-date/event-date
       scope: 'openid profile email user office admin',
       httpInterceptor: {
         allowedList: [
-           '/*',
+          '/*',
           {
             uri: '/search',
             allowAnonymous: true,
@@ -78,6 +81,7 @@ import { EventDateComponent } from './components/add-event/event-date/event-date
       },
     }),
     MatFormFieldModule,
+    MatStepperModule,
   ],
   providers: [
     {
