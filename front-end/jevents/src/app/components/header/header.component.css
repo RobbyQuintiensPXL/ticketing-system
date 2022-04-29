@@ -45,3 +45,7 @@ a {
   text-decoration: none;
   color: #fff;
 }
+
+input{
+  padding-left: 2rem;
+}

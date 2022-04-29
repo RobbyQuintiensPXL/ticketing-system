@@ -31,6 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
         http
                 .authorizeExchange(exchange -> exchange
+                        .pathMatchers("/actuator/**").permitAll()
                         .pathMatchers(HttpMethod.GET, "/event/events/**").permitAll()
                         .pathMatchers("/event/office/**").hasAuthority("SCOPE_office")
                         .pathMatchers("/event/ticketoffices/whoami").hasAuthority("SCOPE_office")

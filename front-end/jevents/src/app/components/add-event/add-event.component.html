@@ -1,8 +1,8 @@
 <div class="container">
   <div class="content">
     <mat-horizontal-stepper [linear]="isLinear" #stepper>
-      <mat-step [stepControl]="firstFormGroup">
-        <form [formGroup]="firstFormGroup">
+      <mat-step [stepControl]="eventInfoGroup">
+        <form [formGroup]="eventInfoGroup">
           <ng-template matStepLabel>Event Info</ng-template>
           <div class="content-info">
             <label for="event-name">Event name: </label>
@@ -11,13 +11,15 @@
             <label for="banner-image">Banner: </label>
             <label class="btn-image">
               <i class="fa fa-image"></i>Add Banner Image
-              <input id="banner-image" type="file" style="display: none;" name="banner" formControlName="bannerImage">
+              <input id="banner-image" type="file" style="display: none;"
+                     name="banner" formControlName="bannerImage" (change)="onFileChange($event)">
             </label>
 
             <label for="banner-image">Thumbnail: </label>
             <label class="btn-image" for="thumb-image">
               <i class="fa fa-image"></i>Add Thumbnail Image
-              <input id="thumb-image" type="file" style="display: none;" name="thumbnail" formControlName="thumbImage">
+              <input id="thumb-image" type="file" style="display: none;"
+                     name="thumbnail" formControlName="thumbImage" (change)="onFileChange($event)">
             </label>
 
             <label for="event-type">Event Type: </label>
@@ -39,51 +41,74 @@
               <i class="fa fa-image"></i>Add New Location
               <input id="new-location" type="file" style="display: none;" name="banner">
             </label>
-
-            <!--            <label for="total-tickets">Total # of Tickets: </label>-->
-            <!--            <input id="total-tickets" type="text" formControlName="amountOfTickets">-->
-
-            <!--            <label for="max-tickets">Max Order: </label>-->
-            <!--            <input id="max-tickets" type="text" formControlName="maxOrderTickets">-->
-
-            <!--            <div class="form-buttons">-->
-            <!--              <input type="submit" value="Cancel">-->
-            <!--              <input type="submit" value="Next" class="button-next" (click)="addEvent()">-->
-            <!--            </div>-->
           </div>
-          <div>
-            <button mat-button matStepperPrevious>Back</button>
-            <button mat-button matStepperNext>Next</button>
+          <div class="form-buttons">
+            <button class="button-next" mat-button matStepperNext>Next</button>
           </div>
         </form>
       </mat-step>
-      <mat-step [stepControl]="secondFormGroup">
-        <form [formGroup]="secondFormGroup">
-          <ng-template matStepLabel>Description</ng-template>
-          <label for="short-description">Short description: </label>
-          <textarea rows="7" id="short-description" type="text" formControlName="shortDescription"></textarea>
+      <mat-step [stepControl]="eventDescriptionGroup">
+        <form [formGroup]="eventDescriptionGroup">
+          <div class="content-info">
+            <ng-template matStepLabel>Description</ng-template>
+            <label for="short-description">Short description: </label>
+            <textarea rows="7" id="short-description" type="text" formControlName="shortDescription"></textarea>
 
-          <label for="full-description">Full description: </label>
-          <textarea rows="15" id="full-description" type="text" formControlName="fullDescription"></textarea>
+            <label for="full-description">Full description: </label>
+            <textarea rows="15" id="full-description" type="text" formControlName="fullDescription"></textarea>
+          </div>
+          <div class="form-buttons">
+            <button class="button-back" mat-button matStepperPrevious>Back</button>
+            <button class="button-next" mat-button matStepperNext>Next</button>
+          </div>
         </form>
       </mat-step>
-      <mat-step [stepControl]="thirdFormGroup">
-        <form [formGroup]="thirdFormGroup">
+      <mat-step [stepControl]="eventTicketGroup">
+        <form [formGroup]="eventTicketGroup">
           <ng-template matStepLabel>Tickets</ng-template>
+          <div class="content-info">
+            <label for="total-tickets">Total # of Tickets: </label>
+            <input id="total-tickets" type="text" formControlName="amountOfTickets">
+
+            <label for="max-tickets">Max Order: </label>
+            <input id="max-tickets" type="text" formControlName="maxOrderTickets">
+
+            <label for="price-event">Price: </label>
+            <input id="price-event" type="number" formControlName="price">
+
+            <label for="date-event">Date Event: </label>
+            <input id="date-event" type="date" formControlName="date">
+
+            <label for="time-event">Time Event: </label>
+            <input id="time-event" type="time" formControlName="time">
+
+            <label class="optional">Optional</label>
+
+            <label for="early-bird-date-event">Early Bird Date: </label>
+            <input id="early-bird-date-event" type="date" formControlName="earlyBirdDate">
+
+            <label for="early-bird-price-event">Early Bird Price: </label>
+            <input id="early-bird-price-event" type="number" formControlName="earlyBirdprice">
+          </div>
+          <div class="form-buttons">
+            <button class="button-back" mat-button matStepperPrevious>Back</button>
+            <button class="button-next" mat-button matStepperNext>Next</button>
+          </div>
         </form>
       </mat-step>
       <mat-step>
         <ng-template matStepLabel>Done</ng-template>
         <p>You are now done.</p>
         <mat-list>
-          <mat-list-item><strong>Name:</strong> {{ this.firstFormGroup.value.name }}</mat-list-item>
-          <mat-list-item><strong>Description:</strong> {{ this.firstFormGroup.value.description }}</mat-list-item>
-          <mat-list-item><strong>Amount:</strong> {{ this.secondFormGroup.value.amount }}</mat-list-item>
-          <mat-list-item><strong>Stock:</strong> {{ this.secondFormGroup.value.stock }}</mat-list-item>
+          <mat-list-item><strong>Event: </strong> {{ this.eventInfoGroup.value.nameEvent }}</mat-list-item>
+          <mat-list-item><strong>Event Type: </strong> {{ this.eventInfoGroup.value.eventType }}</mat-list-item>
+          <mat-list-item><strong>Banner Name: </strong> {{ this.eventInfoGroup.value.bannerImage }}</mat-list-item>
+          <mat-list-item><strong>Full Description: </strong> {{ this.eventDescriptionGroup.value.fullDescription }}</mat-list-item>
+          <mat-list-item><strong>Short Description: </strong> {{ this.eventDescriptionGroup.value.shortDescription }}</mat-list-item>
         </mat-list>
         <div>
           <button mat-button matStepperPrevious>Back</button>
-          <button mat-button (click)="stepper.reset()">Reset</button>
+          <button mat-button>Preview</button>
           <button mat-button (click)="submit()">Submit</button>
         </div>
       </mat-step>

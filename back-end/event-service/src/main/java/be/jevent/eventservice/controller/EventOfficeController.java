@@ -2,7 +2,7 @@ package be.jevent.eventservice.controller;
 
 import be.jevent.eventservice.createresource.CreateEventResource;
 import be.jevent.eventservice.service.EventService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.commons.fileupload.FileUploadException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,14 +16,17 @@ import java.util.Locale;
 @RequestMapping(value = "office")
 public class EventOfficeController {
 
-    @Autowired
-    private EventService eventService;
+    private final EventService eventService;
 
-    @PostMapping(value = "/event/post", consumes = { "multipart/form-data" })
-    public ResponseEntity<String> createEvent(@RequestBody @Valid CreateEventResource eventResource,
+    public EventOfficeController(EventService eventService){
+        this.eventService = eventService;
+    }
+
+    @PostMapping(value = "/event/post", consumes = {"*/*"})
+    public ResponseEntity<String> createEvent(@RequestPart @Valid CreateEventResource eventResource,
                                               @RequestHeader(value = "Accept-Language", required = false) Locale locale,
-                                              @RequestParam("banner") MultipartFile banner,
-                                              @RequestParam("thumb") MultipartFile thumb) throws IOException {
+                                              @RequestPart(value = "banner") MultipartFile banner,
+                                              @RequestPart(value = "thumb") MultipartFile thumb) throws IOException, FileUploadException {
         return new ResponseEntity<>(eventService.createEvent(eventResource, locale, banner, thumb), HttpStatus.CREATED);
     }
 

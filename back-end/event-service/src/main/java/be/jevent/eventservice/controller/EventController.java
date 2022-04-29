@@ -21,16 +21,19 @@ import java.util.Locale;
 @RequestMapping(value = "events")
 public class EventController {
 
-    @Autowired
-    private KafkaTemplate<String, EventDTO> kafkaTemplate;
-
     private static final String TOPIC = "events";
 
-    @Autowired
-    private EventService eventService;
+    private final KafkaTemplate<String, EventDTO> kafkaTemplate;
+    private final EventService eventService;
+    private final EventTypeService eventTypeService;
 
-    @Autowired
-    private EventTypeService eventTypeService;
+    public EventController(final KafkaTemplate<String, EventDTO> kafkaTemplate,
+                           final EventService eventService,
+                           final EventTypeService eventTypeService) {
+        this.kafkaTemplate = kafkaTemplate;
+        this.eventService = eventService;
+        this.eventTypeService = eventTypeService;
+    }
 
     @GetMapping("/types")
     public ResponseEntity<List<String>> getAllEventTypes(){

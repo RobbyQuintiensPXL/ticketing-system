@@ -11,7 +11,7 @@ import be.jevent.eventservice.model.Location;
 import be.jevent.eventservice.repository.EventRepository;
 import be.jevent.eventservice.repository.LocationRepository;
 import be.jevent.eventservice.service.client.TicketFeignClient;
-import be.jevent.eventservice.util.FileUploadUtil;
+import org.apache.commons.fileupload.FileUploadException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,17 +33,21 @@ public class EventService {
     private final static Logger LOGGER = LoggerFactory.getLogger(EventService.class);
     private static final String TOPIC = "test";
 
-    @Autowired
-    private TicketFeignClient ticketFeignClient;
+    private final TicketFeignClient ticketFeignClient;
+    private final EventRepository eventRepository;
+    private final LocationRepository locationRepository;
+    private final MessageSource messageSource;
+    private final FileStorageService storageService;
 
-    @Autowired
-    private EventRepository eventRepository;
-
-    @Autowired
-    private LocationRepository locationRepository;
-
-    @Autowired
-    private MessageSource messageSource;
+    public EventService(TicketFeignClient ticketFeignClient, EventRepository eventRepository,
+                        LocationRepository locationRepository, MessageSource messageSource,
+                        FileStorageService storageService) {
+        this.ticketFeignClient = ticketFeignClient;
+        this.eventRepository = eventRepository;
+        this.locationRepository = locationRepository;
+        this.messageSource = messageSource;
+        this.storageService = storageService;
+    }
 
     public List<EventDTO> getAllEvents(){
         List<EventDTO> eventDTOList = eventRepository.findAll().stream().map(EventDTO::new).collect(Collectors.toList());
@@ -80,7 +84,7 @@ public class EventService {
     }
 
     public String createEvent(CreateEventResource eventResource, Locale locale,
-                              MultipartFile banner, MultipartFile thumb) throws IOException {
+                              MultipartFile banner, MultipartFile thumb) throws IOException, FileUploadException {
         String responseMessage;
 
         if(EventType.forName(eventResource.getEventType()) == null){
@@ -92,9 +96,6 @@ public class EventService {
             throw new LocationException("Location not found");
         }
 
-        String bannerFile = StringUtils.cleanPath(Objects.requireNonNull(banner.getOriginalFilename()));
-        String thumbFile = StringUtils.cleanPath(Objects.requireNonNull(thumb.getOriginalFilename()));
-
         Event event = new Event();
         event.setEventName(eventResource.getEventName());
         event.setEventType(EventType.valueOf(eventResource.getEventType()));
@@ -105,16 +106,13 @@ public class EventService {
         event.setLocation(location.get());
         event.setTicketsLeft(eventResource.getAmountOfTickets());
         event.setPrice(eventResource.getPrice());
-        event.setBanner(bannerFile);
-        event.setThumbnail(thumbFile);
+        event.setBanner(banner.getOriginalFilename());
+        event.setThumbnail(thumb.getOriginalFilename());
+
+        storageService.save(thumb);
+        storageService.save(banner);
 
         eventRepository.save(event);
-
-        String uploadBanner = "events/banner-" + event.getId();
-        String uploadThumb = "events/thumb-" + event.getId();
-
-        FileUploadUtil.saveFile(uploadBanner, bannerFile, banner);
-        FileUploadUtil.saveFile(uploadThumb, thumbFile, thumb);
 
         responseMessage = String.format(messageSource.getMessage(
                         "event.create.message", null, locale),

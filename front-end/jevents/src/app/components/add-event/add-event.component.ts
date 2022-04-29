@@ -1,98 +1,10 @@
-// import {Component, OnInit} from '@angular/core';
-// import {FormGroup, FormControl, FormBuilder} from '@angular/forms';
-// import {EventService} from '../../services/event-service/event.service';
-// import {Event} from '../../entities/event/event';
-// import {LocationService} from '../../services/location-service/location.service';
-// import {Location} from '../../entities/location/location';
-// import {EventTypeService} from '../../services/event-type/event-type.service';
-// import {AuthService, User} from '@auth0/auth0-angular';
-// import {Observable} from 'rxjs';
-//
-//
-// @Component({
-//   selector: 'app-add-event',
-//   templateUrl: './add-event.component.html',
-//   styleUrls: ['./add-event.component.css']
-// })
-//
-
-// export class AddEventComponent implements OnInit {
-//
-//   event: Event;
-//   locations: Location[];
-//   location: Location;
-//   eventTypes: string[];
-//   eventType: string;
-//   email: string;
-//   user?: any;
-//   profileJson?: string;
-//
-//   eventInfoForm = new FormGroup({
-//       nameEvent: new FormControl(''),
-//       shortDescription: new FormControl(''),
-//       fullDescription: new FormControl(''),
-//       bannerImage: new FormControl(''),
-//       thumbImage: new FormControl(''),
-//       location: new FormControl(''),
-//       eventType: new FormControl(''),
-//       amountOfTickets: new FormControl(''),
-//       maxOrderTickets: new FormControl(''),
-//     // price
-//     // date
-//     // time
-//     }
-//   );
-//
-//   constructor(private eventService: EventService,
-//               private formBuilder: FormBuilder,
-//               private locationService: LocationService,
-//               private eventTypeService: EventTypeService
-//               ) {
-//   }
-//
-//   listLocation(): void {
-//     this.locationService.getLocations().subscribe(location => {
-//       this.locations = location;
-//     });
-//   }
-//
-//   listEventTypes(): void {
-//     this.eventTypeService.getEventTypes().subscribe(eventType => {
-//       this.eventTypes = eventType;
-//     });
-//   }
-//
-//   addEvent() {
-//     this.event.eventName = this.eventInfoForm.value.nameEvent;
-//     this.event.shortDescription = this.eventInfoForm.value.shortDescription;
-//     this.event.description = this.eventInfoForm.value.fullDescription;
-//     this.eventService.createEvent(this.event).subscribe(() => {
-//     });
-//   }
-//
-//   onSubmit(form: FormGroup) {
-//   }
-//
-//   ngOnInit(): void {
-//     this.listLocation();
-//     this.listEventTypes();
-//     this.eventInfoForm = this.formBuilder.group({
-//       nameEvent: [''],
-//       shortDescription: [''],
-//       fullDescription: [''],
-//       amountOfTickets: [''],
-//       maxOrderTickets: ['']
-//     });
-//   }
-//
-// }
-
-
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {EventTypeService} from '../../services/event-type/event-type.service';
 import {LocationService} from '../../services/location-service/location.service';
 import {Location} from '../../entities/location/location';
+import {EventService} from '../../services/event-service/event.service';
+import {Event} from '../../entities/event/event';
 
 @Component({
   selector: 'app-add-event',
@@ -102,19 +14,34 @@ import {Location} from '../../entities/location/location';
 export class AddEventComponent implements OnInit {
 
   isLinear = true;
-  firstFormGroup: FormGroup;
-  secondFormGroup: FormGroup;
-  thirdFormGroup: FormGroup;
+  // myForm: FormGroup = new FormGroup({
+  //   firstFormGroup: new FormGroup({
+  //     nameEvent: new FormControl([null, Validators.required]),
+  //     bannerImage: new FormControl([null, Validators.required]),
+  //     thumbImage: new FormControl([null, Validators.required]),
+  //     eventType: new FormControl([null, Validators.required]),
+  //     location: new FormControl([null, Validators.required]),
+  //   }),
+  //   secondFormGroup: new FormGroup({
+  //     shortDescription: new FormControl([null, Validators.required]),
+  //     fullDescription: new FormControl([null, Validators.required]),
+  //   }),
+  //   thirdFormGroup: new FormGroup({})
+  // });
   event: Event;
   locations: Location[];
   location: Location;
   eventTypes: string[];
   eventType: string;
   email: string;
+  eventInfoGroup: FormGroup;
+  eventDescriptionGroup: FormGroup;
+  eventTicketGroup: FormGroup;
 
   constructor(private formBuilder: FormBuilder,
               private eventTypeService: EventTypeService,
-              private locationService: LocationService) {
+              private locationService: LocationService,
+              private eventService: EventService) {
   }
 
   listEventTypes(): void {
@@ -129,24 +56,60 @@ export class AddEventComponent implements OnInit {
     });
   }
 
+  createEvent(): void {
+    this.event.eventName = this.eventInfoGroup.value.nameEvent;
+    this.event.eventType = this.eventInfoGroup.value.eventType;
+    this.event.banner = this.eventInfoGroup.value.bannerImage;
+    this.event.thumb = this.eventInfoGroup.value.thumbImage;
+    this.event.location = this.eventInfoGroup.value.locations;
+    this.event.shortDescription = this.eventDescriptionGroup.value.shortDescription;
+    this.event.description = this.eventDescriptionGroup.value.fullDescription;
+    this.event.price = this.eventTicketGroup.value.price;
+    this.event.eventDate = this.eventTicketGroup.value.date;
+    this.event.eventTime = this.eventTicketGroup.value.time;
+  }
+
   ngOnInit() {
+    this.eventInfoGroup = this.formBuilder.group({
+      nameEvent: [null, Validators.required],
+      bannerImage: [null, Validators.required],
+      thumbImage: [null, Validators.required],
+      eventType: [null, Validators.required],
+      location: [null, Validators.required],
+    });
+    this.eventDescriptionGroup = this.formBuilder.group({
+      shortDescription: [null, Validators.required],
+      fullDescription: [null, Validators.required],
+    });
+    this.eventTicketGroup = this.formBuilder.group({
+      amountOfTickets: [null, Validators.required],
+      maxOrderTickets: [null, Validators.required],
+      price: [null, Validators.required],
+      date: [null, Validators.required],
+      time: [null, Validators.required],
+      earlyBirdDate: [null],
+      earlyBirdPrice: [null],
+    });
     this.listEventTypes();
     this.listLocation();
-    this.firstFormGroup = this.formBuilder.group({
-      nameEvent: ['', Validators.required],
-      bannerImage: ['', Validators.required],
-      thumbImage: ['', Validators.required],
-      eventType: ['', Validators.required],
-      location: ['', Validators.required],
-    });
-    this.secondFormGroup = this.formBuilder.group({
-      shortDescription: ['', Validators.required],
-      fullDescription: ['', Validators.required],
-    });
   }
 
   submit() {
-    console.log(this.firstFormGroup.value);
-    console.log(this.secondFormGroup.value);
+    this.createEvent();
+    console.log(this.event);
+    this.eventService.createEvent(this.event);
+  }
+
+  onFileChange(event) {
+    const reader = new FileReader();
+    if (event.target.files && event.target.files.length) {
+      const [file] = event.target.files;
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        this.eventInfoGroup.patchValue({
+          fileSource: reader.result
+        });
+      };
+    }
   }
 }
