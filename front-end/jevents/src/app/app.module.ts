@@ -75,6 +75,7 @@ import {MatStepperModule} from '@angular/material/stepper';
             tokenOptions: {
               audience: 'https://jevents.be',
               scope: 'office',
+              redirect_uri: '/search'
             },
           },
         ],
