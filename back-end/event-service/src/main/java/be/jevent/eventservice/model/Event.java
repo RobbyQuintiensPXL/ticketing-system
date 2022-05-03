@@ -49,6 +49,14 @@ public class Event implements Serializable {
 
     private String banner;
 
+    @ManyToOne
+    @JoinColumn(name = "ticket_office_id")
+    private TicketOffice ticketOffice;
+
+    public TicketOffice getTicketOffice() {
+        return ticketOffice;
+    }
+
     public Event(){
         //Empty constructor
     }
@@ -155,5 +163,9 @@ public class Event implements Serializable {
 
     public void setBanner(String banner) {
         this.banner = banner;
+    }
+
+    public void setTicketOffice(TicketOffice ticketOffice) {
+        this.ticketOffice = ticketOffice;
     }
 }

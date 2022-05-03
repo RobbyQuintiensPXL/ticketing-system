@@ -1,8 +1,9 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {AuthService} from '@auth0/auth0-angular';
 import {DOCUMENT} from '@angular/common';
+import {KeycloakProfile} from 'keycloak-js';
+import {KeycloakService} from 'keycloak-angular';
 
 @Component({
   selector: 'app-header',
@@ -10,24 +11,26 @@ import {DOCUMENT} from '@angular/common';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  publicString: Observable<string>;
 
-  constructor(public auth: AuthService, private http: HttpClient, @Inject(DOCUMENT) private doc: Document) {
+  public isLoggedIn = false;
+  public userProfile: KeycloakProfile | null = null;
+
+  constructor(private readonly keycloak: KeycloakService) {}
+
+  public async ngOnInit() {
+    this.isLoggedIn = await this.keycloak.isLoggedIn();
+
+    if (this.isLoggedIn) {
+      this.userProfile = await this.keycloak.loadUserProfile();
+    }
   }
 
-  loginWithRedirect(): void {
-    this.auth.loginWithRedirect();
+  public login() {
+    this.keycloak.login();
   }
 
-  logout() {
-    this.auth.logout({ returnTo: this.doc.location.origin });
-  }
-
-  request(): void {
-    this.publicString = this.http.get<string>('http://localhost:9080/test');
-  }
-
-  ngOnInit(): void {
+  public logout() {
+    this.keycloak.logout(window.location.origin);
   }
 
 }

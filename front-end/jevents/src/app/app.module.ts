@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-
+import {APP_INITIALIZER, NgModule} from '@angular/core';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -18,8 +17,6 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import { FilterTypeComponent } from './components/filter-type/filter-type.component';
 import { EventDetailComponent } from './components/event-detail/event-detail.component';
 import {AppRoutes} from './app.routes';
-import {AuthHttpInterceptor, AuthModule} from '@auth0/auth0-angular';
-import {LoginComponent} from './components/login.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { AddEventComponent } from './components/add-event/add-event.component';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -27,7 +24,8 @@ import {MatListModule} from '@angular/material/list';
 import {MatButtonModule} from '@angular/material/button';
 import {MatInputModule} from '@angular/material/input';
 import {MatStepperModule} from '@angular/material/stepper';
-
+import {KeycloakAngularModule, KeycloakService} from 'keycloak-angular';
+import {KeycloakInitService} from './services/keycloak-service/keycloak-init.service';
 
 @NgModule({
   declarations: [
@@ -58,37 +56,16 @@ import {MatStepperModule} from '@angular/material/stepper';
     RouterModule,
     AppRoutes,
     ReactiveFormsModule,
-    AuthModule.forRoot({
-      domain: 'dev-7mgwq79y.eu.auth0.com',
-      clientId: 'Ny5lpiTnQWBa7OKC3GHEquZdupRm4pjt',
-      audience: 'https://jevents.be',
-      scope: 'openid profile email user office admin',
-      httpInterceptor: {
-        allowedList: [
-          '/*',
-          {
-            uri: '/search',
-            allowAnonymous: true,
-          },
-          {
-            uri: '/add-event',
-            tokenOptions: {
-              audience: 'https://jevents.be',
-              scope: 'office',
-              redirect_uri: '/search'
-            },
-          },
-        ],
-      },
-    }),
+    KeycloakAngularModule,
     MatFormFieldModule,
     MatStepperModule,
   ],
   providers: [
     {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthHttpInterceptor,
+      provide: APP_INITIALIZER,
+      useFactory: KeycloakInitService,
       multi: true,
+      deps: [KeycloakService]
     },
     EventService],
   bootstrap: [AppComponent]

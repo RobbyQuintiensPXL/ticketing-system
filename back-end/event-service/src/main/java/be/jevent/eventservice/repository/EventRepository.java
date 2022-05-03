@@ -15,6 +15,7 @@ public interface EventRepository extends JpaRepository<Event, Long> {
     List<Event> findAllByEventName_AndLocation_City(String name, String city);
     List<Event> findAllByEventType(EventType type);
     List<Event> findAllByEventType_AndLocation_City(EventType type, String city);
+    List<Event> findAllByTicketOffice_Email(String email);
 
 //    @Query("SELECT e FROM Event e WHERE e.location.city LIKE %?1%")
 //    List<Event> findByCity(String city);

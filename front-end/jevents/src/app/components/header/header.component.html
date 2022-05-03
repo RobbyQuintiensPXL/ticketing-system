@@ -3,10 +3,9 @@
   <input type="text" placeholder="Search...">
   <div class="user-links">
     <h2><a href="#">Customer Service</a></h2>
-    <ng-template #loggedOut><h2><a (click)="loginWithRedirect()">Login</a></h2></ng-template>
-    <ng-container *ngIf="auth.isAuthenticated$ | async; else loggedOut">
-      <h2><a (click)="logout()">Log out</a></h2>
-    </ng-container>
+    <h2><a *ngIf="!isLoggedIn" (click)="login()">Login</a></h2>
+    <h2><a *ngIf="isLoggedIn" (click)="logout()">Logout</a></h2>
+
     <h2><a [routerLink]="['/profile']">Account</a></h2>
   </div>
 </mat-toolbar>

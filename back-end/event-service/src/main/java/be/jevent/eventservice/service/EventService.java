@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -51,6 +52,14 @@ public class EventService {
 
     public List<EventDTO> getAllEvents(){
         List<EventDTO> eventDTOList = eventRepository.findAll().stream().map(EventDTO::new).collect(Collectors.toList());
+        if(eventDTOList.isEmpty()){
+            throw new EventException("No events found");
+        }
+        return eventDTOList;
+    }
+
+    public List<EventDTO> getAllEventsFromTicketOffice(String username){
+        List<EventDTO> eventDTOList = eventRepository.findAllByTicketOffice_Email(username).stream().map(EventDTO::new).collect(Collectors.toList());
         if(eventDTOList.isEmpty()){
             throw new EventException("No events found");
         }
@@ -136,4 +145,5 @@ public class EventService {
     public int retrieveTicketsSold(Long eventId){
         return ticketFeignClient.getTicketsSold(eventId);
     }
+
 }
