@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Location} from '../../entities/location/location';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
 import {Event} from '../../entities/event/event';
 import {catchError, map} from 'rxjs/operators';
@@ -19,6 +19,10 @@ export class LocationService {
     this.locationUrl = '/event/locations';
   }
 
+  httpOptions = {
+    headers: new HttpHeaders({'Content-Type': 'application/json'})
+  };
+
   public getLocations(): Observable<Location[]> {
     return this.http.get<Location[]>(this.locationUrl).pipe(
       map(locations => locations.map(eventJson => new Location(eventJson))),
@@ -28,8 +32,12 @@ export class LocationService {
     );
   }
 
-  public getLocationsByTicketOffice(email: string): Observable<Location[]> {
-    return this.http.get<Location[]>(this.locationUrl + '/' + email).pipe(
+  public addLocation(location: Location): Observable<Location> {
+    return this.http.post<Location>(this.locationUrl + '/add_location', location, this.httpOptions);
+  }
+
+  public getLocationsByTicketOffice(): Observable<Location[]> {
+    return this.http.get<Location[]>(this.locationUrl + '/office').pipe(
       map(locations => locations.map(eventJson => new Location(eventJson))),
       catchError(error => {
         return throwError('No Locations Found');

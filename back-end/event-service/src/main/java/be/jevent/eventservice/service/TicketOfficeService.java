@@ -62,12 +62,12 @@ public class TicketOfficeService {
         return responseMessage;
     }
 
-    public TicketOfficeDTO getTicketOfficeByEmail(String email) {
-        Optional<TicketOfficeDTO> ticketOfficeDTO = ticketOfficeRepository.findByEmail(email).map(TicketOfficeDTO::new);
-        if (ticketOfficeDTO.isEmpty()) {
+    public TicketOffice getTicketOfficeByUsername(String user) {
+        Optional<TicketOffice> ticketOffice = ticketOfficeRepository.findByEmail(user);
+        if (ticketOffice.isEmpty()) {
             throw new TicketOfficeException("No Ticket Office found.");
         }
-        return ticketOfficeDTO.get();
+        return ticketOffice.get();
     }
 
 

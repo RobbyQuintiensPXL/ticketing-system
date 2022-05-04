@@ -23,6 +23,7 @@ spring:
             - Path=/event/**
           filters:
             - RewritePath=/event/(?<path>.*), /$\{path}
+            - RemoveRequestHeader= Cookie,Set-Cookie
         - id: ticket-service
           uri: lb://ticket-service
           predicates:

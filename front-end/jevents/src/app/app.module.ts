@@ -26,6 +26,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatStepperModule} from '@angular/material/stepper';
 import {KeycloakAngularModule, KeycloakService} from 'keycloak-angular';
 import {KeycloakInitService} from './services/keycloak-service/keycloak-init.service';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import {KeycloakInitService} from './services/keycloak-service/keycloak-init.ser
     KeycloakAngularModule,
     MatFormFieldModule,
     MatStepperModule,
+    NgbModule,
   ],
   providers: [
     {

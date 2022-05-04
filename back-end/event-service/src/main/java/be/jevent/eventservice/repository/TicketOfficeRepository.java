@@ -10,5 +10,5 @@ public interface TicketOfficeRepository extends JpaRepository<TicketOffice, Long
 
     Optional<TicketOffice> findByOrganisation(String organisation);
 
-    Optional<TicketOffice> findByEmail(String email);
+    Optional<TicketOffice> findByEmail(String user);
 }

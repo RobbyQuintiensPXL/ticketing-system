@@ -11,15 +11,21 @@
             <label for="banner-image">Banner: </label>
             <label class="btn-image">
               <i class="fa fa-image"></i>Add Banner Image
-              <input id="banner-image" type="file" style="display: none;"
-                     name="banner" formControlName="bannerImage" (change)="onFileChange($event)">
+              <input id="banner-image" type="file" accept="image/*" style="display: none;"
+                     name="banner" formControlName="bannerImage" (change)="imagePreview($event, 'bannergroup')">
+              <div *ngIf="filePathBanner && filePathBanner !== ''">
+                <img class="banner-preview" [src]="filePathBanner" [alt]="eventInfoGroup.value.name">
+              </div>
             </label>
 
-            <label for="banner-image">Thumbnail: </label>
+            <label for="thumb-image">Thumbnail: </label>
             <label class="btn-image" for="thumb-image">
               <i class="fa fa-image"></i>Add Thumbnail Image
-              <input id="thumb-image" type="file" style="display: none;"
-                     name="thumbnail" formControlName="thumbImage" (change)="onFileChange($event)">
+              <input id="thumb-image" type="file" accept="image/*" style="display: none;"
+                     name="thumbnail" formControlName="thumbImage" (change)="imagePreview($event, 'thumbgroup')">
+              <div *ngIf="filePathThumb && filePathThumb !== ''">
+                <img class="banner-preview" [src]="filePathThumb" [alt]="eventInfoGroup.value.name">
+              </div>
             </label>
 
             <label for="event-type">Event Type: </label>
@@ -39,7 +45,8 @@
 
             <label class="btn-image">
               <i class="fa fa-image"></i>Add New Location
-              <input id="new-location" type="file" style="display: none;" name="banner">
+              <input id="new-location" (click)="openModalAddLocation(modalForm)" style="display: none;"
+                     name="locationsModal">
             </label>
           </div>
           <div class="form-buttons">
@@ -103,8 +110,10 @@
           <mat-list-item><strong>Event: </strong> {{ this.eventInfoGroup.value.nameEvent }}</mat-list-item>
           <mat-list-item><strong>Event Type: </strong> {{ this.eventInfoGroup.value.eventType }}</mat-list-item>
           <mat-list-item><strong>Banner Name: </strong> {{ this.eventInfoGroup.value.bannerImage }}</mat-list-item>
-          <mat-list-item><strong>Full Description: </strong> {{ this.eventDescriptionGroup.value.fullDescription }}</mat-list-item>
-          <mat-list-item><strong>Short Description: </strong> {{ this.eventDescriptionGroup.value.shortDescription }}</mat-list-item>
+          <mat-list-item><strong>Full Description: </strong> {{ this.eventDescriptionGroup.value.fullDescription }}
+          </mat-list-item>
+          <mat-list-item><strong>Short Description: </strong> {{ this.eventDescriptionGroup.value.shortDescription }}
+          </mat-list-item>
         </mat-list>
         <div>
           <button mat-button matStepperPrevious>Back</button>
@@ -115,3 +124,41 @@
     </mat-horizontal-stepper>
   </div>
 </div>
+
+
+<!--MODAL-->
+<ng-template #modalForm let-modal class="modal-form">
+  <div class="modal-header">
+    <h2 class="modal-title" id="modal-addModel-title">Add Location</h2>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="locationModalForm">
+      <div class="content-info">
+        <label for="building-name">Building: </label>
+        <input id="building-name" type="text" formControlName="buildingName">
+
+        <label for="location-street">Street and Number: </label>
+        <input id="location-street" type="text" formControlName="locationStreet">
+
+        <div class="small-input">
+          <label for="location-zip">ZIP code: </label>
+          <input id="location-zip" type="text" formControlName="locationZip">
+        </div>
+        <div class="city-input">
+          <label for="location-city">City: </label>
+          <input id="location-city" type="text" formControlName="locationCity">
+        </div>
+
+        <label for="location-country">Country: </label>
+        <input id="location-country" type="text" formControlName="locationCountry">
+      </div>
+      <div class="form-buttons">
+        <button class="button-back" (click)="modal.close('Save click')">Cancel</button>
+        <button class="button-next" (click)="addLocation()">Save</button>
+      </div>
+    </form>
+  </div>
+</ng-template>

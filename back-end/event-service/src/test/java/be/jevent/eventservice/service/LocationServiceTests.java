@@ -86,7 +86,7 @@ public class LocationServiceTests {
                 new CreateLocationResource(location.getBuildingName(), location.getZipCode(),
                         location.getCity(), location.getAddress(), location.getCountry());
 
-        locationService.createLocation(locationResource, locale, ticketOffice.getId());
+        locationService.createLocation(locationResource, locale, ticketOffice.getEmail());
     }
 
     @Test

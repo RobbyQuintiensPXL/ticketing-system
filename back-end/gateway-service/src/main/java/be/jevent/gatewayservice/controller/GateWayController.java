@@ -26,6 +26,6 @@ public class GateWayController {
 
     @GetMapping("/whoami")
     public String index(@AuthenticationPrincipal Jwt principal) {
-        return "email " +  principal.getClaims().get(EMAIL_CLAIM) + " " + principal.getClaims().get("scope").toString();
+        return "email " +  principal.getClaims().get("preferred_username") + " " + principal.getClaims().get("scope").toString();
     }
 }

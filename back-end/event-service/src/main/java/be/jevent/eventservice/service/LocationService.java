@@ -21,14 +21,26 @@ import java.util.stream.Collectors;
 @Service
 public class LocationService {
 
-    @Autowired
-    private LocationRepository locationRepository;
+    private final LocationRepository locationRepository;
+    private final TicketOfficeRepository ticketOfficeRepository;
+    private final MessageSource messageSource;
+    private final TicketOfficeService ticketOfficeService;
 
-    @Autowired
-    private TicketOfficeRepository ticketOfficeRepository;
+    public LocationService(LocationRepository locationRepository, TicketOfficeRepository ticketOfficeRepository,
+                           MessageSource messageSource, TicketOfficeService ticketOfficeService) {
+        this.locationRepository = locationRepository;
+        this.ticketOfficeRepository = ticketOfficeRepository;
+        this.messageSource = messageSource;
+        this.ticketOfficeService = ticketOfficeService;
+    }
 
-    @Autowired
-    private MessageSource messageSource;
+    public Location getLocationById(Long id){
+        Optional<Location> location = locationRepository.findById(id);
+        if(location.isEmpty()){
+            throw new LocationException("Location not found");
+        }
+        return location.get();
+    }
 
     public List<LocationDTO> getAllLocations(){
         List<LocationDTO> locationDTOList = locationRepository.findAll().stream().map(LocationDTO::new).collect(Collectors.toList());
@@ -54,11 +66,8 @@ public class LocationService {
         return locationDTOList;
     }
 
-    public String createLocation(CreateLocationResource locationResource, Locale locale, Long id){
-        Optional<TicketOffice> ticketOffice = ticketOfficeRepository.findById(id);
-        if(ticketOffice.isEmpty()){
-            throw new TicketOfficeException("Ticket office not found");
-        }
+    public String createLocation(CreateLocationResource locationResource, Locale locale, String user){
+        TicketOffice ticketOffice = ticketOfficeService.getTicketOfficeByUsername(user);
 
         String responseMessage;
         responseMessage = String.format(messageSource.getMessage(
@@ -70,7 +79,7 @@ public class LocationService {
         location.setCity(locationResource.getCity());
         location.setAddress(locationResource.getAddress());
         location.setCountry(locationResource.getCountry());
-        location.setTicketOffice(ticketOffice.get());
+        location.setTicketOffice(ticketOffice);
 
         locationRepository.save(location);
 
