@@ -27,6 +27,7 @@ import {MatStepperModule} from '@angular/material/stepper';
 import {KeycloakAngularModule, KeycloakService} from 'keycloak-angular';
 import {KeycloakInitService} from './services/keycloak-service/keycloak-init.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FlexLayoutModule} from '@angular/flex-layout';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     MatFormFieldModule,
     MatStepperModule,
     NgbModule,
+    FlexLayoutModule,
   ],
   providers: [
     {

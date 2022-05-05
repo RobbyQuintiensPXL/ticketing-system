@@ -3,7 +3,6 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable, Subscription, throwError} from 'rxjs';
 import {Event} from '../../entities/event/event';
 import {catchError, map} from 'rxjs/operators';
-import {AuthService} from '@auth0/auth0-angular';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +10,7 @@ import {AuthService} from '@auth0/auth0-angular';
 export class EventService {
 
   private readonly eventUrl: string;
+  private readonly eventPost: string;
   events: Event[];
   event: Event;
 
@@ -20,6 +20,7 @@ export class EventService {
 
   constructor(private http: HttpClient) {
     this.eventUrl = '/event/events';
+    this.eventPost = '/event/office/event/post';
   }
 
   public getEventById(id: number): Observable<Event> {
@@ -34,7 +35,6 @@ export class EventService {
 
   public getEvents(): Observable<Event[]> {
     return this.http.get<Event[]>(this.eventUrl).pipe(
-      map(events => events.map(eventJson => new Event(eventJson))),
       catchError(error => {
         return throwError('No Events Found');
       })
@@ -42,7 +42,7 @@ export class EventService {
   }
 
   public createEvent(event: Event): Observable<Event>{
-    const endpoint = this.eventUrl + '/post';
+    const endpoint = this.eventPost;
     const body = JSON.stringify(event);
     return this.http.post<Event>(endpoint, body, this.httpOptions);
   }

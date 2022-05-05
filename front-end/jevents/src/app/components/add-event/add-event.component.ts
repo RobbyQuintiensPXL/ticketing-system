@@ -34,6 +34,7 @@ export class AddEventComponent implements OnInit {
   event: Event;
   locations: Location[];
   location: Location;
+  newLocation: Location;
   eventTypes: string[];
   eventType: string;
   email: string;
@@ -88,11 +89,12 @@ export class AddEventComponent implements OnInit {
   }
 
   createEvent(): void {
+    this.event = new Event();
     this.event.eventName = this.eventInfoGroup.value.nameEvent;
-    this.event.eventType = this.eventInfoGroup.value.eventType;
+    this.event.eventType = this.eventType;
     this.event.banner = this.eventInfoGroup.value.bannerImage;
     this.event.thumb = this.eventInfoGroup.value.thumbImage;
-    this.event.location = this.eventInfoGroup.value.locations;
+    this.event.location = this.location;
     this.event.shortDescription = this.eventDescriptionGroup.value.shortDescription;
     this.event.description = this.eventDescriptionGroup.value.fullDescription;
     this.event.price = this.eventTicketGroup.value.price;
@@ -101,14 +103,19 @@ export class AddEventComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.eventInfoGroup = this.formBuilder.group({
-      nameEvent: [null, Validators.required],
-      bannerImage: [null, Validators.required],
-      thumbImage: [null, Validators.required],
-      eventType: [null, Validators.required],
-      location: [null, Validators.required],
-      img: [null],
-    });
+    this.locationModalForm = this.formBuilder.group({
+      buildingName: [null],
+      locationStreet: [null],
+      locationZip: [null],
+      locationCity: [null],
+      locationCountry: [null],
+    }),
+      this.eventInfoGroup = this.formBuilder.group({
+        nameEvent: [null, Validators.required],
+        bannerImage: [null],
+        thumbImage: [null],
+        img: [null],
+      });
     this.eventDescriptionGroup = this.formBuilder.group({
       shortDescription: [null, Validators.required],
       fullDescription: [null, Validators.required],
@@ -127,12 +134,13 @@ export class AddEventComponent implements OnInit {
   }
 
   addLocation() {
-    this.location.buildingName = this.locationModalForm.value.buildingName;
-    this.location.address = this.locationModalForm.value.address;
-    this.location.zipCode = this.locationModalForm.value.zipCode;
-    this.location.city = this.locationModalForm.value.city;
-    this.location.country = this.locationModalForm.value.country;
-    this.locationService.addLocation(this.location).subscribe(() => {
+    this.newLocation = new Location();
+    this.newLocation.buildingName = this.locationModalForm.value.buildingName;
+    this.newLocation.address = this.locationModalForm.value.locationStreet;
+    this.newLocation.zipCode = this.locationModalForm.value.locationZip;
+    this.newLocation.city = this.locationModalForm.value.locationCity;
+    this.newLocation.country = this.locationModalForm.value.locationCountry;
+    this.locationService.addLocation(this.newLocation).subscribe(() => {
       this.listLocation();
       this.modalService.dismissAll();
     });

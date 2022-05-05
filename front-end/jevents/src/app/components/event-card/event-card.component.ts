@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, ViewChild} from '@angular/core';
 import {Event} from '../../entities/event/event';
 import {EventService} from '../../services/event-service/event.service';
 import {faSearchLocation} from '@fortawesome/free-solid-svg-icons';
@@ -6,12 +6,14 @@ import {faCalendarAlt} from '@fortawesome/free-regular-svg-icons';
 import {Observable} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
 
+
 @Component({
   selector: 'app-event-card',
   templateUrl: './event-card.component.html',
   styleUrls: ['./event-card.component.css']
 })
 export class EventCardComponent implements OnChanges {
+
   event: Event;
   events: Event[];
   faSearchLocation = faSearchLocation;
@@ -35,14 +37,14 @@ export class EventCardComponent implements OnChanges {
   }
 
   getEventsByType(type: string): void {
-    this.eventService.getEventsByType(type).subscribe( event => {
+    this.eventService.getEventsByType(type).subscribe(event => {
       this.events = event;
     });
   }
 
   ngOnChanges(): void {
     this.typeString = this.activatedRoute.snapshot.queryParamMap.get('type');
-    if (this.typeString === 'all'){
+    if (this.typeString === 'all') {
       this.getEvents();
     } else {
       this.getEventsByType(this.typeString);
