@@ -16,6 +16,8 @@
     <properties>
         <java.version>11</java.version>
         <docker.image.prefix>jevent</docker.image.prefix>
+        <sonar.organization>robbyquintienspxl</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     </properties>
     <dependencies>
         <dependency>
