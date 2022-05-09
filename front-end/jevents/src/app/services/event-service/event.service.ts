@@ -15,7 +15,9 @@ export class EventService {
   event: Event;
 
   httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    headers: new HttpHeaders()
+      .set('Content-Type', 'multipart/form-data')
+      .set('Access-Control-Allow-Origin', '*')
   };
 
   constructor(private http: HttpClient) {
@@ -41,9 +43,16 @@ export class EventService {
     );
   }
 
-  public createEvent(event: Event): Observable<Event>{
+  public createEvent(eventFormData: any, bannerImage: File, thumbImage: File){
     const endpoint = this.eventPost;
-    const body = JSON.stringify(event);
-    return this.http.post<Event>(endpoint, body, this.httpOptions);
+    const body = JSON.stringify(eventFormData);
+    const formData = new FormData();
+    formData.append('banner', bannerImage);
+    formData.append('thumb', thumbImage);
+    formData.append('eventResource', new Blob([body], { type: 'application/json'}));
+    return this.http.post<Event>(endpoint, formData).subscribe(
+      (res) => console.log(res),
+      (error) => console.log(error)
+    );
   }
 }

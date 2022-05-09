@@ -22,7 +22,9 @@ export class LocationService {
   }
 
   httpOptions = {
-    headers: new HttpHeaders({'Content-Type': 'application/json'})
+    headers: new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Access-Control-Allow-Origin', '*')
   };
 
   public getLocations(): Observable<Location[]> {
@@ -37,7 +39,6 @@ export class LocationService {
   public addLocation(location: Location): Observable<Location> {
     const body = JSON.stringify(location);
     console.log(body);
-    console.log(location);
     return this.http.post<Location>(this.locationPost, body, this.httpOptions).pipe(
       catchError(error => {
         return throwError('Something wrong');
@@ -48,6 +49,4 @@ export class LocationService {
   public getLocationsByTicketOffice(): Observable<Location[]> {
     return this.http.get<Location[]>(this.locationUrl + '/office');
   }
-
-
 }

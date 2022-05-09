@@ -14,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
-import java.util.Locale;
 
 @RestController
 @RequestMapping(value = "office")
@@ -27,18 +26,15 @@ public class EventOfficeController {
     }
 
     @PostMapping(value = "/event/post", consumes = {"*/*"})
-    public ResponseEntity<String> createEvent(@RequestHeader HttpHeaders token,
-                                              @RequestPart @Valid CreateEventResource eventResource,
-                                              @RequestHeader(value = "Accept-Language", required = false) Locale locale,
-                                              @RequestPart(value = "banner") MultipartFile banner,
-                                              @RequestPart(value = "thumb") MultipartFile thumb) throws IOException, FileUploadException {
+    public ResponseEntity<Void> createEvent(@RequestHeader HttpHeaders token,
+                                            @RequestPart @Valid CreateEventResource eventResource,
+                                            @RequestPart MultipartFile banner,
+                                            @RequestPart MultipartFile thumb) throws IOException, FileUploadException {
         UserNameFilter filter = new UserNameFilter();
         String user = filter.getUsername(token);
-        return new ResponseEntity<>(eventService.createEvent(eventResource, locale, banner, thumb, user), HttpStatus.CREATED);
+        eventService.createEvent(eventResource, banner, thumb, user);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
-
-    /*@GetMapping("/events")*/
-
 
     @GetMapping("/events")
     public ResponseEntity<List<EventDTO>> getAllEvents(@RequestHeader HttpHeaders token) {
@@ -47,7 +43,6 @@ public class EventOfficeController {
 
         return new ResponseEntity<>(eventService.getAllEventsFromTicketOffice(user), HttpStatus.OK);
     }
-
 
     @DeleteMapping("/event/{id}")
     public ResponseEntity<String> deleteEvent(@PathVariable("id") Long id) {
