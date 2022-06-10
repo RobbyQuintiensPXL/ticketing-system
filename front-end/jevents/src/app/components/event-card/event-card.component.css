@@ -1,7 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Oxygen&display=swap');
 
+@media screen and (max-width: 768px) {
+
+}
+
+#cardViews > mat-card {
+  width: 200px;
+}
+
 #cardViews{
-  padding-top: 20px;
+  padding: 1rem;
+  width: 100%;
 }
 
 fa-icon{
@@ -9,22 +18,10 @@ fa-icon{
   margin-right: 0.7rem;
 }
 
-mat-grid-tile{
-  min-width: 170px;
-  overflow: visible;
-}
-
-mat-grid-list{
-  column-rule-style: inherit;
-}
-
-
-.example-card {
-  min-width: 170px;
-  max-width: 170px;
-  min-height: 200px;
+.event-card{
   box-shadow: none;
   border-radius: 20px;
+  min-width: 150px;
 }
 
 .content {
@@ -63,9 +60,6 @@ mat-grid-list{
   border-radius: 20px 20px;
   overflow: hidden;
   height: 170px;
+  object-fit: cover;
 }
 
-.example-header-image {
-  background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
-  background-size: auto;
-}

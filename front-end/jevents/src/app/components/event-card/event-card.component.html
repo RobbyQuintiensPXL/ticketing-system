@@ -1,10 +1,11 @@
 <div id="cardViews">
-  <mat-grid-list cols="4" rowHeight="1:1.2">
-    <mat-grid-tile *ngFor="let event of events" class="test">
+  <div fxLayout="row wrap" fxLayoutGap="25px grid">
+    <div fxFlex.xs="100%" fxFlex.sm="25%" fxFlex.md="20%" fxFlex.lg="20%" fxFlex.xl="20%"
+         *ngFor="let event of events">
       <div class="cardContainer">
-        <mat-card class="example-card">
+        <mat-card class="event-card">
           <img mat-card-image class="eventThumb" src="event/files/{{event.thumbnail}}"
-               alt="{{event.thumbnail}}" [routerLink]="['../events',event.id]">
+               alt="{{event.thumbnail.toString()}}" [routerLink]="['../events',event.id]">
           <div class="tag">{{event.eventType}}</div>
           <mat-card-content class="content">
             <h2>{{event.eventName}}</h2>
@@ -15,6 +16,14 @@
           </mat-card-content>
         </mat-card>
       </div>
-    </mat-grid-tile>
-  </mat-grid-list>
+    </div>
+  </div>
 </div>
+<mat-paginator
+  *ngIf="events" [length]="events.length"
+  [pageSize]="pageSize"
+  [pageSizeOptions]="pageSizeOptions"
+  [pageIndex]="currentPage"
+  aria-label="Select page"
+  (page)="handlePage($event)">
+</mat-paginator>

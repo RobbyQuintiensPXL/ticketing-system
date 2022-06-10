@@ -1,10 +1,10 @@
-import {Component, Input, OnChanges, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnChanges, ViewChild} from '@angular/core';
 import {Event} from '../../entities/event/event';
 import {EventService} from '../../services/event-service/event.service';
 import {faSearchLocation} from '@fortawesome/free-solid-svg-icons';
 import {faCalendarAlt} from '@fortawesome/free-regular-svg-icons';
-import {Observable} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
+import {MatPaginator} from '@angular/material/paginator';
 
 
 @Component({
@@ -15,40 +15,66 @@ import {ActivatedRoute, Router} from '@angular/router';
 export class EventCardComponent implements OnChanges {
 
   event: Event;
-  events: Event[];
+  events: any;
   faSearchLocation = faSearchLocation;
   faCalenderAlt = faCalendarAlt;
   @Input() type!: string;
-  typeString: string;
+  @Input() location!: string;
+  @Input() search!: string;
+  @Input() eventName!: string;
+  pageSize = 10;
+  pageSizeOptions = [3, 5, 10];
+  currentPage = 0;
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(private activatedRoute: ActivatedRoute,
               private eventService: EventService,
               public router: Router) {
-    this.typeString = this.activatedRoute.snapshot.queryParamMap.get('type');
-    this.router.routeReuseStrategy.shouldReuseRoute = function() {
-      return false;
-    };
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+  }
+
+  handlePage(event: any) {
+    this.currentPage = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.getEventsByTypeAndOrCity();
   }
 
   getEvents(): void {
-    this.eventService.getEvents().subscribe(event => {
-      this.events = event;
-    });
+    const params = this.getParamsTypeCity(this.currentPage, this.pageSize);
+    this.eventService.getEvents(params).subscribe(event =>
+      this.events = event.content);
   }
 
-  getEventsByType(type: string): void {
-    this.eventService.getEventsByType(type).subscribe(event => {
-      this.events = event;
-    });
+  getParamsTypeCity(page: number, size?: number, locationCity?: string, eventType?: string, eventName?: string) {
+    const params: any = {};
+    if (locationCity) {
+      params.location_city = locationCity;
+    }
+    if (eventType) {
+      params.eventType = eventType.toUpperCase();
+    }
+    if (eventName) {
+      params.eventName = eventName;
+    }
+    if (page) {
+      params.page = page;
+    }
+    if (size) {
+      params.size = size;
+    }
+    return params;
+  }
+
+  getEventsByTypeAndOrCity(eventType?: string, city?: string, search?: string): void {
+    const params = this.getParamsTypeCity(this.currentPage, this.pageSize, city, eventType, search);
+    this.eventService.getEventsByTypeAndOrCityAndOrEventName(params).subscribe(event =>
+      this.events = event.content,
+      err => this.events = null
+    );
   }
 
   ngOnChanges(): void {
-    this.typeString = this.activatedRoute.snapshot.queryParamMap.get('type');
-    if (this.typeString === 'all') {
-      this.getEvents();
-    } else {
-      this.getEventsByType(this.typeString);
-    }
+    this.getEventsByTypeAndOrCity(this.type, this.location, this.search);
   }
-
 }

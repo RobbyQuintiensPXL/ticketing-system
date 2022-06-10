@@ -26,20 +26,30 @@ public class LocationController {
         return new ResponseEntity<>(locationService.getAllLocations(), HttpStatus.OK);
     }
 
+    @GetMapping("/city")
+    public ResponseEntity<List<String>> getAllCities() {
+        return new ResponseEntity<>(locationService.getAllLocationCities(), HttpStatus.OK);
+    }
+
     @PostMapping(value = "/add_location")
     public ResponseEntity<Void> createLocation(@RequestHeader HttpHeaders token,
                                                @RequestBody @Valid CreateLocationResource locationResource) {
         UserNameFilter filter = new UserNameFilter();
-        String user = filter.getUsername(token);
-        locationService.createLocation(locationResource, user);
+        String ticketOffice = filter.getTicketOffice(token);
+        locationService.createLocation(locationResource, ticketOffice);
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @GetMapping(value = "{id}")
+    public ResponseEntity<Location> getLocationById(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(locationService.getLocationById(id), HttpStatus.OK);
     }
 
     @GetMapping(value = "office")
     public ResponseEntity<List<LocationDTO>> getLocationsByTicketOffice(@RequestHeader HttpHeaders token) {
         UserNameFilter filter = new UserNameFilter();
-        String user = filter.getUsername(token);
+        String ticketOffice = filter.getTicketOffice(token);
 
-        return new ResponseEntity<>(locationService.getLocationsByTicketOfficeEmail(user), HttpStatus.OK);
+        return new ResponseEntity<>(locationService.getLocationsByTicketOffice(ticketOffice), HttpStatus.OK);
     }
 }

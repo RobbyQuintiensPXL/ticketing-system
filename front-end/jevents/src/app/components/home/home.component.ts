@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-home',
@@ -7,13 +7,30 @@ import {Component, Input, OnInit} from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  currentMsgFromChild1ToChild2: any;
+  msgType: any;
+  msgLocation: any;
+  msgSearch: any;
 
-  constructor() { }
-
-  fwdMsgToSib2($event) { this.currentMsgFromChild1ToChild2 = $event; }
+  constructor() {
+  }
 
   ngOnInit(): void {
   }
 
+  addSearch(search: string) {
+    this.msgSearch = search;
+    console.log(this.msgType);
+  }
+
+  addType(type: string) {
+    this.msgType = type;
+    console.log(this.msgType);
+  }
+
+  addLocation(location: string) {
+    this.msgLocation = location;
+    console.log(this.msgLocation);
+  }
+
 }
+

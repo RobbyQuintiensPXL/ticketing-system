@@ -1,0 +1,211 @@
+@media screen and (max-width: 768px) {
+  .container{
+    width: 75% !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+  }
+
+  .ticket-payment{
+    display: none !important;
+  }
+
+  .ticket-info{
+    width: 75% !important;
+    flex: none !important;
+  }
+
+  .button-next{
+    min-width: 30px !important;
+    width: 7rem !important;
+  }
+
+  .button-back{
+    min-width: 30px !important;
+    width: 7rem !important;
+  }
+}
+
+.container{
+  width: 100%;
+  margin-left: 0;
+  padding-left: 5rem;
+}
+
+.content{
+  width: 100%;
+  min-width: 400px;
+  display: flex;
+}
+
+.title{
+  padding-top: 2rem;
+}
+
+.content h4{
+  color: #250BCE;
+  font-weight: bold;
+  font-size: 18px;
+  margin-bottom: 1rem;
+}
+
+.ticket-info{
+  width: 100%;
+  flex: 55%;
+}
+
+.ticket-payment{
+  width: 100%;
+  flex: 45%;
+  padding-left: 3rem;
+}
+
+label{
+  display: inline-block;
+  padding-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+input{
+  width: 100%;
+  padding: 0.2rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  display: inline-block;
+  box-sizing: border-box;
+}
+
+select{
+  padding: 0.5rem;
+  width: 100%;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  resize: vertical;
+  display: inline-block;
+}
+
+.form-buttons{
+  display: flex;
+  justify-content: space-between;
+  padding-top: 1.5rem;
+}
+
+.form-buttons input{
+  width: 40%;
+  cursor: pointer;
+}
+
+.button-next{
+  background-color: #250BCE;
+  width: 10rem;
+  min-width: 75px;
+  color: #fff;
+  border-radius: 5px;
+  border: none;
+  min-height: 35px;
+}
+
+.button-back{
+  background-color: #cecece;
+  width: 10rem;
+  color: #000;
+  min-width: 75px;
+  border-radius: 5px;
+  border: none;
+  min-height: 35px;
+}
+
+.optional{
+  display: block;
+  font-style: italic;
+  color: #949494;
+  border-bottom: 1px #949494 solid;
+  margin-top: 2rem;
+  padding-bottom: -1rem;
+}
+
+.city-and-zip{
+  display: inline-block;
+  position: relative;
+  width: 100%;
+}
+
+.small-input{
+  width: 30%;
+  float: left;
+}
+
+.right-input{
+  width: 60%;
+  float: right;
+  right: 0;
+}
+
+button:disabled{
+  background-color: #cecece;
+}
+
+.payments {
+  padding-top: 0.5rem;
+}
+
+.paymentButtonContainer {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 0.3rem;
+  margin: 1rem 1rem 1rem 0;
+  border: 1px solid #ccc;
+  width: 100%;
+}
+
+.paymentButton {
+  display: block;
+  position: relative;
+  padding-left: 4rem;
+  cursor: pointer;
+  font-size: 15px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.paymentButton input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  margin-top: 7px;
+  margin-left: 1rem;
+  background-color: #ffffff;
+  border-radius: 50%;
+}
+
+.paymentButton:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the radio button is checked, add a blue background */
+.paymentButton input:checked ~ .checkmark {
+  background-color: #2196F3;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.paymentButton input:checked ~ .checkmark:after {
+  display: block;
+}
+

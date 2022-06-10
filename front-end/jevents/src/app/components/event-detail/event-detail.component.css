@@ -1,72 +1,56 @@
-#header-image{
-  background-color: black;
-  height: 14rem;
-  color: #fff;
-  position: relative;
-  top: -7rem;
-  z-index: -1;
+@media screen and (min-width: 1700px) {
+  .containerValue{
+    width: 70% !important;
+    margin: 0 auto !important;
+  }
 }
 
-#tag{
-  background-color: #EF991B;
-  border-radius: 10px;
-  position: absolute;
-  width: 75px;
-  margin: 3.5rem 0 0 5rem;
-  text-align: center;
-  padding: 0.15rem 0 0.15rem 0 ;
-  color: #fff;
-}
+@media screen and (max-width: 767px) {
+  .content-container{
+    width: 90% !important;
+    float: none !important;
+    padding-left: 1.5rem !important;
+  }
 
-#header-image img{
-  overflow: hidden;
-  object-fit: none;
-  height: inherit;
-  width: 100%;
-}
+  #content-description{
+    margin-bottom: 1rem !important;
+  }
 
-#header-info{
-  position: absolute;
-  margin-left: 5rem;
-  bottom: 0;
-  float: left;
-  padding-bottom: 1rem;
-}
+  #content-date{
+    display: none !important;
+  }
 
-#header-date{
-  position: absolute;
-  bottom: 0;
-  right: 5rem;
-  float: right;
-  padding-bottom: 1rem;
-}
+  #content-tickets, #content-location{
+    width: 90% !important;
+    float: none !important;
+    padding-left: 1.5rem !important;
+  }
 
-h2{
-  font-size: 30px;
-}
+  .tickets-price{
+    margin: 0 auto !important;
+    width: 100% !important;
+    text-align: center !important;
+  }
 
-h3 {
-  font-size: 20px;
-}
-
-#header-image h3, h4{
-  margin: 0;
+  .tickets-buy, .tickets-left, .tickets-buy-admin{
+    margin: 0 auto;
+    padding: 0 !important;
+    text-align: center !important;
+  }
 }
 
 #content{
-  padding-left: 5rem;
   padding-top: 2rem;
-  margin-top: -7rem;
-  background-color: #F3F3F3;
+  margin-top: -8rem;
   padding-bottom: 2rem;
-  height: fit-content;
+  background-color: #F3F3F3;
+
   overflow: auto;
 }
 
 #content-description, #content-date{
   margin-bottom: 3rem;
 }
-
 
 #content h4{
   color: #250BCE;
@@ -88,6 +72,12 @@ h3 {
 .content-container{
   width: 55%;
   float: left;
+  padding-left: 5rem;
+}
+
+.ticket-container{
+  width: 100%;
+  padding-left: -2rem;
 }
 
 .tickets-left{
@@ -103,6 +93,8 @@ h3 {
   font-size: 10pt;
   font-weight: bold;
   padding: 0.25rem;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .tickets-buy{
@@ -112,11 +104,24 @@ h3 {
   max-width: 200px;
   text-align: center;
   color: #fff;
+  cursor: pointer;
 }
 
-.tickets-buy p{
+.tickets-buy-admin{
+  background-color: #ce0b0b;
+  position: relative;
+  border-radius: 15px;
+  max-width: 200px;
+  text-align: center;
+  color: #fff;
+  cursor: pointer;
+}
+
+.tickets-buy p, .tickets-buy-admin p{
   font-weight: bold;
   padding: 0.5rem;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .tickets-price{

@@ -3,11 +3,10 @@ package be.jevent.eventservice.service;
 import be.jevent.eventservice.createresource.CreateLocationResource;
 import be.jevent.eventservice.dto.LocationDTO;
 import be.jevent.eventservice.exception.LocationException;
+import be.jevent.eventservice.model.Event;
 import be.jevent.eventservice.model.Location;
-import be.jevent.eventservice.model.TicketOffice;
+import be.jevent.eventservice.repository.EventRepository;
 import be.jevent.eventservice.repository.LocationRepository;
-import be.jevent.eventservice.repository.TicketOfficeRepository;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,16 +17,12 @@ import java.util.stream.Collectors;
 public class LocationService {
 
     private final LocationRepository locationRepository;
-    private final TicketOfficeRepository ticketOfficeRepository;
-    private final MessageSource messageSource;
-    private final TicketOfficeService ticketOfficeService;
+    private final EventRepository eventRepository;
 
-    public LocationService(LocationRepository locationRepository, TicketOfficeRepository ticketOfficeRepository,
-                           MessageSource messageSource, TicketOfficeService ticketOfficeService) {
+    public LocationService(LocationRepository locationRepository,
+                           EventRepository eventRepository) {
         this.locationRepository = locationRepository;
-        this.ticketOfficeRepository = ticketOfficeRepository;
-        this.messageSource = messageSource;
-        this.ticketOfficeService = ticketOfficeService;
+        this.eventRepository = eventRepository;
     }
 
     public Location getLocationById(Long id) {
@@ -46,25 +41,23 @@ public class LocationService {
         return locationDTOList;
     }
 
-    public List<LocationDTO> getLocationsByTicketOffice(Long id) {
-        List<LocationDTO> locationDTOList = locationRepository.findAllByTicketOffice_Id(id).stream().map(LocationDTO::new).collect(Collectors.toList());
-        if (locationDTOList.isEmpty()) {
-            throw new LocationException("No locations found for id " + id);
+    public List<String> getAllLocationCities() {
+        List<String> cityList = eventRepository.findAll().stream().map(Event::getLocation).map(Location::getCity).distinct().collect(Collectors.toList());
+        if (cityList.isEmpty()) {
+            throw new LocationException("No cities found");
         }
-        return locationDTOList;
+        return cityList;
     }
 
-    public List<LocationDTO> getLocationsByTicketOfficeEmail(String email) {
-        List<LocationDTO> locationDTOList = locationRepository.findAllByTicketOffice_Email(email).stream().map(LocationDTO::new).collect(Collectors.toList());
+    public List<LocationDTO> getLocationsByTicketOffice(String ticketOffice) {
+        List<LocationDTO> locationDTOList = locationRepository.findAllByTicketOffice(ticketOffice).stream().map(LocationDTO::new).collect(Collectors.toList());
         if (locationDTOList.isEmpty()) {
             throw new LocationException("No locations found");
         }
         return locationDTOList;
     }
 
-    public void createLocation(CreateLocationResource locationResource, String user) {
-        TicketOffice ticketOffice = ticketOfficeService.getTicketOfficeByUsername(user);
-
+    public void createLocation(CreateLocationResource locationResource, String ticketOffice) {
         Location location = new Location();
         location.setBuildingName(locationResource.getBuildingName());
         location.setZipCode(locationResource.getZipCode());

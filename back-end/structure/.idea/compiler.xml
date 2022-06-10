@@ -10,18 +10,21 @@
         <module name="event-service" />
         <module name="gateway-service" />
         <module name="ticket-service" />
+        <module name="Mailservice" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="config-service" target="11" />
       <module name="event-service" target="11" />
       <module name="gateway-service" target="11" />
+      <module name="Mailservice" target="11" />
       <module name="resource-server" target="11" />
       <module name="ticket-service" target="11" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="Mailservice" options="-parameters" />
       <module name="config-service" options="-parameters" />
       <module name="event-service" options="-parameters" />
       <module name="gateway-service" options="-parameters" />

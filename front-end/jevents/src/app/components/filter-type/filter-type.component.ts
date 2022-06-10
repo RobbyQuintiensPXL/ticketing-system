@@ -1,5 +1,6 @@
-import {Component, Input, Output, EventEmitter, OnInit} from '@angular/core';
+import {Component, Input, Output, EventEmitter, OnInit, ViewChild, ElementRef} from '@angular/core';
 import {EventTypeService} from '../../services/event-type/event-type.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-filter-type',
@@ -7,11 +8,13 @@ import {EventTypeService} from '../../services/event-type/event-type.service';
   styleUrls: ['./filter-type.component.css']
 })
 export class FilterTypeComponent implements OnInit {
-  @Output() typeOutput = new EventEmitter<any>();
+  @Output() typeOutputEvent = new EventEmitter<any>();
   eventTypes: string[];
   eventType: string;
+  selectedType: any;
 
-  constructor(private eventTypeService: EventTypeService) {
+  constructor(private eventTypeService: EventTypeService,
+              private router: Router) {
   }
 
   listAllEventTypes(): void {
@@ -20,8 +23,10 @@ export class FilterTypeComponent implements OnInit {
     });
   }
 
-  msgType(type: string) {
-    this.typeOutput.emit(type = this.eventType);
+  getType(event: any){
+    // this.selectedType = event.target.value;
+    // this.router.navigate(['../search'], {queryParams: {type: this.selectedType}});
+    this.typeOutputEvent.emit(event.target.value);
   }
 
   ngOnInit(): void {

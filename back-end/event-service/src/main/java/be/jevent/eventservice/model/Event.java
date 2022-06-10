@@ -1,13 +1,9 @@
 package be.jevent.eventservice.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Date;
 
 @Table(name = "events")
 @Entity
@@ -49,15 +45,9 @@ public class Event implements Serializable {
 
     private String banner;
 
-    @ManyToOne
-    @JoinColumn(name = "ticket_office_id")
-    private TicketOffice ticketOffice;
+    private String ticketOffice;
 
-    public TicketOffice getTicketOffice() {
-        return ticketOffice;
-    }
-
-    public Event(){
+    public Event() {
         //Empty constructor
     }
 
@@ -165,7 +155,11 @@ public class Event implements Serializable {
         this.banner = banner;
     }
 
-    public void setTicketOffice(TicketOffice ticketOffice) {
+    public String getTicketOffice() {
+        return ticketOffice;
+    }
+
+    public void setTicketOffice(String ticketOffice) {
         this.ticketOffice = ticketOffice;
     }
 }

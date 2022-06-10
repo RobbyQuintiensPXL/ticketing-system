@@ -3,19 +3,24 @@ package be.jevent.eventservice.service;
 import be.jevent.eventservice.createresource.CreateEventResource;
 import be.jevent.eventservice.dto.EventDTO;
 import be.jevent.eventservice.exception.EventException;
+import be.jevent.eventservice.filter.EventPredicates;
 import be.jevent.eventservice.model.Event;
 import be.jevent.eventservice.model.EventType;
 import be.jevent.eventservice.model.Location;
-import be.jevent.eventservice.model.TicketOffice;
+import be.jevent.eventservice.repository.EventPageRepository;
 import be.jevent.eventservice.repository.EventRepository;
 import be.jevent.eventservice.service.client.TicketFeignClient;
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.Predicate;
 import org.apache.commons.fileupload.FileUploadException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.context.MessageSource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -24,58 +29,48 @@ import java.util.stream.Collectors;
 @Service
 public class EventService {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(EventService.class);
-    private static final String TOPIC = "test";
-
     private final TicketFeignClient ticketFeignClient;
     private final EventRepository eventRepository;
+    private final EventPageRepository eventPageRepository;
     private final LocationService locationService;
-    private final MessageSource messageSource;
     private final FileStorageService storageService;
-    private final TicketOfficeService ticketOfficeService;
 
     public EventService(TicketFeignClient ticketFeignClient, EventRepository eventRepository,
-                        LocationService locationService, MessageSource messageSource,
-                        FileStorageService storageService, TicketOfficeService ticketOfficeService) {
+                        LocationService locationService,
+                        FileStorageService storageService, EventPageRepository eventPageRepository) {
         this.ticketFeignClient = ticketFeignClient;
         this.eventRepository = eventRepository;
         this.locationService = locationService;
-        this.messageSource = messageSource;
         this.storageService = storageService;
-        this.ticketOfficeService = ticketOfficeService;
+        this.eventPageRepository = eventPageRepository;
     }
 
-    public List<EventDTO> getAllEvents() {
-        List<EventDTO> eventDTOList = eventRepository.findAll().stream().map(EventDTO::new).collect(Collectors.toList());
+    public Page<EventDTO> getAllEventsImpl(int page, int size) {
+        Pageable paging = PageRequest.of(page, size);
+        List<EventDTO> list = eventRepository.findAll().stream().map(EventDTO::new).collect(Collectors.toList());
+        return new PageImpl<>(list, paging, list.size());
+    }
+
+    public Page<EventDTO> findByTypeCity(Predicate predicate, int page, int size) {
+        Pageable paging = PageRequest.of(page, size);
+        BooleanBuilder builder = new BooleanBuilder();
+        Page<EventDTO> eventDTOList = eventPageRepository.findAll(builder.and(predicate), paging).map(EventDTO::new);
         if (eventDTOList.isEmpty()) {
             throw new EventException("No events found");
         }
         return eventDTOList;
     }
 
-    public List<EventDTO> getAllEventsFromTicketOffice(String username) {
-        List<EventDTO> eventDTOList = eventRepository.findAllByTicketOffice_Email(username).stream().map(EventDTO::new).collect(Collectors.toList());
+    public Page<EventDTO> getAllEventsFromTicketOffice(Predicate predicate, String ticketOffice, int page, int size) {
+        Pageable paging = PageRequest.of(page, size);
+        BooleanBuilder builder = new BooleanBuilder();
+        Predicate predicate1 = EventPredicates.eventsByTicketOffice(ticketOffice);
+
+        List<EventDTO> eventDTOList = eventPageRepository.findAll(builder.and(predicate).and(predicate1), paging).stream().map(EventDTO::new).collect(Collectors.toList());
         if (eventDTOList.isEmpty()) {
             throw new EventException("No events found");
         }
-        return eventDTOList;
-    }
-
-    public List<EventDTO> getAllEventsByType(EventType type) {
-        List<EventDTO> eventDTOList = eventRepository.findAllByEventType(type).stream().map(EventDTO::new).collect(Collectors.toList());
-        if (eventDTOList.isEmpty()) {
-            throw new EventException("No events found for " + type.getType());
-        }
-        return eventDTOList;
-    }
-
-    public List<EventDTO> getAllEventsByTypeAndCity(EventType type, String city) {
-        List<EventDTO> eventDTOList = eventRepository.findAllByEventType_AndLocation_City(type, city)
-                .stream().map(EventDTO::new).collect(Collectors.toList());
-        if (eventDTOList.isEmpty()) {
-            throw new EventException("No events found for " + type.getType() + " in " + city);
-        }
-        return eventDTOList;
+        return new PageImpl<>(eventDTOList, paging, eventDTOList.size());
     }
 
     public EventDTO getEventById(Long id) {
@@ -88,14 +83,12 @@ public class EventService {
     }
 
     public void createEvent(CreateEventResource eventResource,
-                            MultipartFile banner, MultipartFile thumb, String user) throws IOException, FileUploadException {
+                            MultipartFile banner, MultipartFile thumb, String ticketOffice) throws IOException, FileUploadException {
         if (EventType.forName(eventResource.getEventType()) == null) {
             throw new EventException("Event type " + eventResource.getEventType() + " not found");
         }
 
         Location location = locationService.getLocationById(Long.parseLong(eventResource.getLocation()));
-
-        TicketOffice ticketOffice = ticketOfficeService.getTicketOfficeByUsername(user);
 
         Event event = new Event();
         event.setEventName(eventResource.getEventName());
@@ -117,17 +110,14 @@ public class EventService {
         eventRepository.save(event);
     }
 
-    public String deleteEvent(Long id) {
-        String responseMessage;
-
-        eventRepository.deleteById(id);
-
+    @Transactional
+    public String deleteEvent(Long id, String ticketOffice) {
+        eventRepository.deleteByIdAndTicketOffice(id, ticketOffice);
         return "event deleted";
     }
 
     public void updateEvent(Event event) {
         eventRepository.save(event);
-
     }
 
     public int retrieveTicketsSold(Long eventId) {

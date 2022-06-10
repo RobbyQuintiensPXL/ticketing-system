@@ -1,0 +1,20 @@
+<!--<div class="filter">
+  <div class="filterByLocation">
+    <ul [ngModel]="location">
+      <div>
+        <li [routerLink]="['../search']" [queryParams]="{type: 'all'}">
+          <input type="checkbox" id="cb">
+          <label for="cb">All</label>
+        </li>
+      </div>
+      <li *ngFor="let location of locations" [routerLink]="['../search']"
+          [queryParams]="{city: location}">{{location}}</li>
+    </ul>
+  </div>
+</div>-->
+<div class="filter-mobile">
+  <select id="locationType" (change)="getLocation($event)">
+    <option value="">All Locations</option>
+    <option *ngFor="let location of locations">{{location}}</option>
+  </select>
+</div>

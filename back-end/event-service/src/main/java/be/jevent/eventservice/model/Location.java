@@ -1,14 +1,11 @@
 package be.jevent.eventservice.model;
 
-import org.hibernate.validator.constraints.Length;
-import org.springframework.beans.factory.annotation.Value;
-
 import javax.persistence.*;
-import javax.validation.constraints.Size;
+import java.io.Serializable;
 
 @Table(name = "locations")
 @Entity
-public class Location {
+public class Location implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,10 +21,9 @@ public class Location {
 
     private String address;
 
-    private String country;
+    private String ticketOffice;
 
-    @ManyToOne
-    private TicketOffice ticketOffice;
+    private String country;
 
     public Location() {
         //Empty Contstructor
@@ -81,11 +77,12 @@ public class Location {
         this.country = country;
     }
 
-    public TicketOffice getTicketOffice() {
+    public String getTicketOffice() {
         return ticketOffice;
     }
 
-    public void setTicketOffice(TicketOffice ticketOffice) {
+    public void setTicketOffice(String ticketOffice) {
         this.ticketOffice = ticketOffice;
     }
+
 }

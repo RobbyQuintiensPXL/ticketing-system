@@ -1,36 +1,58 @@
-.filterByType{
+/*@media screen and (max-width: 992px) {
+  .filterByType {
+    visibility: hidden;
+    display: none !important;
+  }
+
+  .filter-mobile {
+    visibility: visible !important;
+  }
+}*/
+
+.filter-mobile {
+
+}
+
+#eventtype {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.filterByType {
   position: relative;
 }
 
-.filterByType li{
+.filterByType li {
   cursor: default;
   user-select: none;
 }
 
-.filterByType ul li{
+.filterByType ul li {
   font-size: 17px;
   display: inline-block;
   float: left;
-  padding: 0.5rem 2rem 0.5rem 2rem;
+  padding: 0.5rem 1rem 0.5rem 1rem;
 }
 
-.filterByType li:hover{
+.filterByType li:hover {
   background-color: rgba(37, 11, 206, 0.7);
   border-radius: 20px;
   width: auto;
   color: #fff;
 }
 
-a{
+a {
   text-decoration: none;
   color: #000;
 }
 
-input{
+input {
   display: none;
 }
 
-input:checked  test{
+input:checked {
   background-color: rgba(37, 11, 206, 0.7);
   border-radius: 20px;
   width: auto;

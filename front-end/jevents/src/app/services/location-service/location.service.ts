@@ -29,16 +29,22 @@ export class LocationService {
 
   public getLocations(): Observable<Location[]> {
     return this.http.get<Location[]>(this.locationUrl).pipe(
-      map(locations => locations.map(eventJson => new Location())),
       catchError(error => {
         return throwError('No Locations Found');
       })
     );
   }
 
+  public getCities(param?: any): Observable<string[]> {
+    return this.http.get<string[]>(this.locationUrl + '/city', {params: param}).pipe(
+      catchError(error => {
+        return throwError('No Cities Found');
+      })
+    );
+  }
+
   public addLocation(location: Location): Observable<Location> {
     const body = JSON.stringify(location);
-    console.log(body);
     return this.http.post<Location>(this.locationPost, body, this.httpOptions).pipe(
       catchError(error => {
         return throwError('Something wrong');
@@ -47,6 +53,12 @@ export class LocationService {
   }
 
   public getLocationsByTicketOffice(): Observable<Location[]> {
-    return this.http.get<Location[]>(this.locationUrl + '/office');
+    return this.http.get<Location[]>(this.locationUrl + '/office').pipe(
+      catchError(error => {
+        return throwError('No Locations Found');
+      })
+    );
   }
+
+
 }

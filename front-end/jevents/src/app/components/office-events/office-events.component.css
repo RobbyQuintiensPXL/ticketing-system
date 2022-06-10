@@ -1,0 +1,150 @@
+@import url('https://fonts.googleapis.com/css2?family=Oxygen&display=swap');
+
+#events-table {
+  padding-bottom: 2rem;
+}
+
+mat-table{
+  border-radius: 10px;
+}
+
+mat-table button{
+  margin-left: 0;
+  padding-left: 0;
+}
+
+.mat-column-Event{
+  flex: 0 0 25%;
+}
+
+.mat-column-Type{
+  flex: 0 0 13%;
+}
+
+.mat-column-Date{
+  flex: 0 0 14%;
+}
+
+.mat-column-Time{
+  flex: 0 0 10%;
+}
+
+.center {
+  justify-content: center;
+}
+
+.button-container{
+  margin: 0 auto;
+}
+
+.actionButtons button{
+  color: #fff;
+  border-radius: 10px;
+  border: none;
+  min-height: 35px;
+  margin: .2rem;
+  padding: 0;
+  text-align: center;
+  font-size: 10pt;
+}
+
+.preview{
+  background: #93b9dc;
+  margin: 0 auto;
+}
+
+.preview:hover{
+  background: #6ea8de;
+}
+
+.edit{
+  background: #bdcc72;
+  margin: 0 auto;
+}
+
+.edit:hover{
+  background: #bece64;
+  margin: 0 auto;
+}
+
+.delete{
+  background: #f68fa0;
+  margin: 0 auto;
+}
+
+.delete:hover{
+
+}
+
+.content-info{
+  width: 100%;
+  flex-grow: 2;
+}
+
+.form-buttons{
+  display: flex;
+  justify-content: space-between;
+  padding-top: 1.5rem;
+}
+
+.form-buttons input{
+  width: 40%;
+  cursor: pointer;
+}
+
+.modal-header{
+  background-color: #250BCE;
+  color: #fff;
+}
+
+.modal-buttons{
+  display: flex;
+  justify-content: space-between;
+  padding-top: 1.5rem;
+}
+
+.modal-buttons input{
+  width: 40%;
+  cursor: pointer;
+}
+
+.button-delete{
+  background-color: #f68fa0;
+  width: 10rem;
+  color: #fff;
+  border-radius: 10px;
+  border: none;
+  min-height: 35px;
+}
+
+.button-delete:hover{
+  background: #f57084;
+}
+
+.button-back{
+  background-color: #cecece;
+  width: 10rem;
+  color: #000;
+  border-radius: 10px;
+  border: none;
+  min-height: 35px;
+}
+
+.accepted {
+  border-radius: 10px;
+  color: #ffffff;
+  border: none;
+  min-height: 35px;
+  width: 5rem;
+  padding-top: 0.5rem;
+  text-align: center;
+  font-size: 10pt;
+}
+
+.true{
+  background: #bece64;
+}
+
+.false{
+  background: #f57084;
+}

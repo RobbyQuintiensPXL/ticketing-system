@@ -3,8 +3,12 @@ package be.jevent.eventservice.controller;
 import be.jevent.eventservice.createresource.CreateEventResource;
 import be.jevent.eventservice.dto.EventDTO;
 import be.jevent.eventservice.filter.UserNameFilter;
+import be.jevent.eventservice.model.Event;
 import be.jevent.eventservice.service.EventService;
+import com.querydsl.core.types.Predicate;
 import org.apache.commons.fileupload.FileUploadException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.List;
 
 @RestController
 @RequestMapping(value = "office")
@@ -30,22 +33,26 @@ public class EventOfficeController {
                                             @RequestPart @Valid CreateEventResource eventResource,
                                             @RequestPart MultipartFile banner,
                                             @RequestPart MultipartFile thumb) throws IOException, FileUploadException {
-        UserNameFilter filter = new UserNameFilter();
-        String user = filter.getUsername(token);
-        eventService.createEvent(eventResource, banner, thumb, user);
+        eventService.createEvent(eventResource, banner, thumb, getTicketOffice(token));
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping("/events")
-    public ResponseEntity<List<EventDTO>> getAllEvents(@RequestHeader HttpHeaders token) {
-        UserNameFilter filter = new UserNameFilter();
-        String user = filter.getUsername(token);
-
-        return new ResponseEntity<>(eventService.getAllEventsFromTicketOffice(user), HttpStatus.OK);
+    public ResponseEntity<Page<EventDTO>> getAllEvents(@RequestParam(defaultValue = "0") int page,
+                                                       @RequestParam(defaultValue = "5") int size,
+                                                       @QuerydslPredicate(root = Event.class) Predicate predicate,
+                                                       @RequestHeader HttpHeaders token) {
+        return new ResponseEntity<>(eventService.getAllEventsFromTicketOffice(predicate, getTicketOffice(token), page, size), HttpStatus.OK);
     }
 
     @DeleteMapping("/event/{id}")
-    public ResponseEntity<String> deleteEvent(@PathVariable("id") Long id) {
-        return new ResponseEntity<>(eventService.deleteEvent(id), HttpStatus.OK);
+    public ResponseEntity<String> deleteEvent(@PathVariable("id") Long id,
+                                              @RequestHeader HttpHeaders token) {
+        return new ResponseEntity<>(eventService.deleteEvent(id, getTicketOffice(token)), HttpStatus.OK);
+    }
+
+    private String getTicketOffice(HttpHeaders token) {
+        UserNameFilter filter = new UserNameFilter();
+        return filter.getTicketOffice(token);
     }
 }
